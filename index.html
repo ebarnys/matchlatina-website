@@ -38,7 +38,7 @@
 
     /* ── RESET ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; overflow-x: hidden; }
     body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
     img  { max-width: 100%; display: block; }
     a    { text-decoration: none; color: inherit; }
@@ -150,7 +150,7 @@
     .nav__logo {
       font-family: var(--serif); font-size: 22px; font-weight: 700; letter-spacing: 0.08em;
       background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      transition: filter 0.4s;
+      transition: filter 0.4s; white-space: nowrap; flex-shrink: 0;
     }
 
     .nav__links { display: flex; align-items: center; gap: 28px; list-style: none; }
@@ -188,7 +188,8 @@
     .nav__burger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: all var(--t); }
 
     .nav-overlay {
-      position: fixed; inset: 0; background: rgba(28,26,23,0.97); z-index: 999;
+      position: fixed; top: 80px; left: 0; right: 0; bottom: 0;
+      background: rgba(28,26,23,0.97); z-index: 998;
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;
       opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
       backdrop-filter: blur(8px);
@@ -238,6 +239,91 @@
     .hero h1 { font-family: var(--serif); font-size: clamp(36px, 6vw, 68px); font-weight: 700; color: var(--white); line-height: 1.15; margin-bottom: 24px; }
     .hero__sub { font-family: var(--sans); font-size: clamp(16px, 2vw, 19px); color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 40px; }
     .hero__btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .hero__social {
+      display: flex; align-items: center; gap: 28px; margin-top: 44px;
+      padding-top: 36px; border-top: 1px solid rgba(255,255,255,0.13);
+      flex-wrap: wrap; justify-content: center;
+    }
+    .hero__stars { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .hero__stars-row { display: flex; gap: 3px; }
+    .hero__stars-row svg { width: 16px; height: 16px; fill: #E8AE68; }
+    .hero__stars-label { font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.65); letter-spacing: 0.04em; }
+    .hero__stars-num { font-family: var(--sans); font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.9); }
+    .hero__divider { width: 1px; height: 40px; background: rgba(255,255,255,0.15); }
+    .hero__stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .hero__stat-num { font-family: var(--serif); font-size: 26px; font-weight: 700; color: var(--gold-h); line-height: 1; }
+    .hero__stat-label { font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.60); letter-spacing: 0.04em; }
+    .hero__avatars { display: flex; align-items: center; gap: 6px; }
+    .hero__avatars-stack { display: flex; }
+    .hero__avatars-stack img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(20,17,11,0.8); margin-left: -10px; }
+    .hero__avatars-stack img:first-child { margin-left: 0; }
+    .hero__avatars-text { font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.4; }
+    .hero__avatars-text strong { color: rgba(255,255,255,0.9); font-weight: 600; display: block; }
+
+    /* ── TRUST & GUARANTEE ── */
+    .trust { background: #18160F; padding: 100px 24px; }
+    .trust__inner {
+      max-width: 1160px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+    }
+    /* Left — Trust & Safety */
+    .trust__left {}
+    .trust__label { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-h); margin-bottom: 16px; }
+    .trust__title { font-family: var(--serif); font-size: clamp(26px, 3.5vw, 40px); font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 18px; }
+    .trust__desc { font-family: var(--sans); font-size: 15px; color: rgba(255,255,255,0.58); line-height: 1.75; margin-bottom: 36px; }
+    .trust__stats { display: flex; gap: 32px; }
+    .trust__stat-num { font-family: var(--serif); font-size: 28px; font-weight: 700; background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+    .trust__stat-lbl { font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 4px; }
+    .trust__items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+    .trust__item {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; padding: 18px 20px;
+    }
+    .trust__item-icon {
+      width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+      background: rgba(196,154,85,0.12); display: flex; align-items: center; justify-content: center;
+    }
+    .trust__item-icon svg { width: 20px; height: 20px; stroke: var(--gold-h); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .trust__item-title { font-family: var(--sans); font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .trust__item-desc { font-family: var(--sans); font-size: 13px; color: rgba(255,255,255,0.50); line-height: 1.5; }
+    /* Right — Guarantee card */
+    .trust__right {}
+    .trust__card {
+      background: linear-gradient(145deg, #252015 0%, #1A1709 100%);
+      border: 1px solid rgba(196,154,85,0.25); border-radius: 24px;
+      padding: 44px 40px; box-shadow: 0 16px 56px rgba(0,0,0,0.35);
+    }
+    .trust__badge {
+      width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 32px;
+      background: conic-gradient(from 0deg, #E8AE68, #A57F60, #E8AE68);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 5px rgba(196,154,85,0.10), 0 0 32px rgba(196,154,85,0.18);
+      position: relative;
+    }
+    .trust__badge::before {
+      content: ''; position: absolute; inset: 4px; border-radius: 50%;
+      background: #1E1A10; border: 2px dashed rgba(196,154,85,0.4);
+    }
+    .trust__badge-inner { position: relative; z-index: 1; text-align: center; line-height: 1; }
+    .trust__badge-stars { display: flex; gap: 2px; justify-content: center; margin-bottom: 3px; }
+    .trust__badge-stars svg { width: 9px; height: 9px; fill: #E8AE68; }
+    .trust__badge-pct { font-family: var(--serif); font-size: 24px; font-weight: 700; color: #E8AE68; }
+    .trust__badge-word { font-family: var(--sans); font-size: 8px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,174,104,0.75); }
+    .trust__card-label { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-h); text-align: center; margin-bottom: 12px; }
+    .trust__card-title { font-family: var(--serif); font-size: clamp(20px, 2.5vw, 26px); font-weight: 700; color: #fff; text-align: center; margin-bottom: 16px; line-height: 1.3; }
+    .trust__card-text { font-family: var(--sans); font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.75; text-align: center; margin-bottom: 28px; }
+    .trust__card-divider { height: 1px; background: rgba(255,255,255,0.07); margin-bottom: 24px; }
+    .trust__card-checks { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .trust__card-check { display: flex; align-items: center; gap: 10px; font-family: var(--sans); font-size: 13px; color: rgba(255,255,255,0.70); }
+    .trust__card-check svg { width: 16px; height: 16px; flex-shrink: 0; stroke: var(--gold-h); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .trust__card-cta { display: block; text-align: center; padding: 15px 28px; background: var(--gold-grad); color: var(--dark); font-family: var(--sans); font-size: 14px; font-weight: 700; border-radius: 10px; transition: opacity var(--t); }
+    .trust__card-cta:hover { opacity: 0.88; }
+    @media (max-width: 860px) {
+      .trust__inner { grid-template-columns: 1fr; }
+      .trust__right { order: -1; }
+      .trust__card { padding: 36px 28px; }
+    }
     .hero__scroll {
       position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -672,6 +758,17 @@
       .form-row { grid-template-columns: 1fr; }
       .modal { padding: 36px 22px; }
       .hero__btns { flex-direction: column; align-items: center; }
+      .hero__scroll { display: none; }
+      .hero__content { padding-top: 100px; padding-bottom: 32px; }
+      .hero__divider { display: none; }
+      .hero__social {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px 12px;
+        margin-top: 32px;
+        padding-top: 28px;
+      }
+      .hero__avatars { grid-column: 1 / -1; justify-content: center; }
     }
   </style>
 </head>
@@ -736,6 +833,46 @@
     <div class="hero__btns">
       <a href="#tours" class="btn-gold open-modal">Join the Next Tour →</a>
       <a href="#women" class="btn-outline-white">Meet the Women →</a>
+    </div>
+    <div class="hero__social">
+      <!-- Stars rating -->
+      <div class="hero__stars">
+        <div class="hero__stars-row">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div class="hero__stars-num">4.9 / 5.0</div>
+        <div class="hero__stars-label">from 340+ reviews</div>
+      </div>
+      <div class="hero__divider"></div>
+      <!-- Stat: men -->
+      <div class="hero__stat">
+        <span class="hero__stat-num">1,200+</span>
+        <span class="hero__stat-label">men joined tours</span>
+      </div>
+      <div class="hero__divider"></div>
+      <!-- Stat: success -->
+      <div class="hero__stat">
+        <span class="hero__stat-num">94%</span>
+        <span class="hero__stat-label">go on a date within 7 days</span>
+      </div>
+      <div class="hero__divider"></div>
+      <!-- Avatars -->
+      <div class="hero__avatars">
+        <div class="hero__avatars-stack">
+          <img src="images/pipe-gil-cZKRzB3b4BY-unsplash.jpg" alt="">
+          <img src="images/garin-chadwick-1SKjtoZqwBo-unsplash.jpg" alt="">
+          <img src="images/david-gabric-SRJIMp_UKUQ-unsplash.jpg" alt="">
+          <img src="images/joshua-rawson-harris-6PROVhY2Yq4-unsplash.jpg" alt="">
+        </div>
+        <div class="hero__avatars-text">
+          <strong>600+ verified women</strong>
+          ready to meet you
+        </div>
+      </div>
     </div>
   </div>
   <div class="hero__scroll">
@@ -1265,6 +1402,107 @@
 </section>
 
 <!-- ════════════════════════════════════════
+     SECTION — TRUST & GUARANTEE
+════════════════════════════════════════ -->
+<section class="trust">
+  <div class="trust__inner">
+
+    <!-- LEFT: Trust & Safety -->
+    <div class="trust__left" data-aos="fade-right">
+      <div class="trust__label">Trust &amp; Safety</div>
+      <h2 class="trust__title">Your safety comes first —<br>always.</h2>
+      <p class="trust__desc">We've built MatchLatina to protect both hearts and wallets. Every member is verified, every tour is supervised, and our team is here whenever you need us.</p>
+
+      <div class="trust__items">
+        <div class="trust__item">
+          <div class="trust__item-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="trust__item-title">Identity verification</div>
+            <div class="trust__item-desc">Every woman confirms her identity before her profile goes live.</div>
+          </div>
+        </div>
+        <div class="trust__item">
+          <div class="trust__item-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          </div>
+          <div>
+            <div class="trust__item-title">Anti-scam protection</div>
+            <div class="trust__item-desc">Active monitoring flags and removes suspicious behavior fast.</div>
+          </div>
+        </div>
+        <div class="trust__item">
+          <div class="trust__item-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div>
+            <div class="trust__item-title">Private &amp; secure messaging</div>
+            <div class="trust__item-desc">Your details stay private until you choose to share them.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trust__stats">
+        <div>
+          <div class="trust__stat-num">100%</div>
+          <div class="trust__stat-lbl">ID-verified</div>
+        </div>
+        <div>
+          <div class="trust__stat-num">24/7</div>
+          <div class="trust__stat-lbl">Member support</div>
+        </div>
+        <div>
+          <div class="trust__stat-num">15 yrs</div>
+          <div class="trust__stat-lbl">Of trusted matches</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Guarantee card -->
+    <div class="trust__right" data-aos="fade-up" data-aos-delay="80">
+      <div class="trust__card">
+        <div class="trust__badge">
+          <div class="trust__badge-inner">
+            <div class="trust__badge-stars">
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div class="trust__badge-pct">100%</div>
+            <div class="trust__badge-word">Guaranteed</div>
+          </div>
+        </div>
+        <div class="trust__card-label">Our Promise to You</div>
+        <h3 class="trust__card-title">You will get a date —<br>guaranteed.</h3>
+        <p class="trust__card-text">Join any MatchLatina tour and attend our social events. If you don't go on a single date during your trip, we refund your tour fee in full — no questions asked.</p>
+        <div class="trust__card-divider"></div>
+        <div class="trust__card-checks">
+          <div class="trust__card-check">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Full refund if you don't get a single date
+          </div>
+          <div class="trust__card-check">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Every woman is verified before the event
+          </div>
+          <div class="trust__card-check">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Dedicated tour coordinator with you on-site
+          </div>
+          <div class="trust__card-check">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            No hidden fees, no subscription traps
+          </div>
+        </div>
+        <a href="#tours" class="trust__card-cta">Start risk-free →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
      SECTION 8 — FAQ
 ════════════════════════════════════════ -->
 <section class="faq" id="faq">
@@ -1450,9 +1688,10 @@
   const burger  = document.getElementById('navBurger');
   const overlay = document.getElementById('navOverlay');
   const ovClose = document.getElementById('ovClose');
-  const openOv  = () => { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; };
-  const closeOv = () => { overlay.classList.remove('open'); document.body.style.overflow = ''; };
-  burger.addEventListener('click', openOv);
+  let menuOpen = false;
+  const openOv  = () => { menuOpen = true;  overlay.classList.add('open');    document.body.style.overflow = 'hidden'; };
+  const closeOv = () => { menuOpen = false; overlay.classList.remove('open'); document.body.style.overflow = ''; };
+  burger.addEventListener('click', () => menuOpen ? closeOv() : openOv());
   ovClose.addEventListener('click', closeOv);
   overlay.addEventListener('click', e => { if (e.target === overlay) closeOv(); });
 
