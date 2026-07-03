@@ -475,6 +475,8 @@
     }
 
     .women__cta { text-align: center; }
+    .women__more { font-family: var(--sans); font-size: 15px; color: var(--muted); }
+    .women__more strong { font-family: var(--serif); font-size: 20px; font-weight: 700; background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
     @media (max-width: 1024px) { .women__grid { grid-template-columns: repeat(4, 1fr); } }
     @media (max-width: 700px)  { .women__grid { grid-template-columns: repeat(3, 1fr); gap: 8px; } }
@@ -628,9 +630,12 @@
     .tours__cal { max-width: 880px; margin: 40px auto 0; }
     .tcal__month { margin-bottom: 28px; }
     .tcal__month-h { font-family: var(--serif); font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--bg-alt); }
-    .tcal__row { display: grid; grid-template-columns: 1.1fr 1.2fr 1fr auto; gap: 16px; align-items: center; background: var(--white); border: 1px solid rgba(28,26,23,0.07); border-radius: 14px; padding: 16px 20px; margin-bottom: 10px; }
-    .tcal__city { display: flex; align-items: center; gap: 10px; font-family: var(--serif); font-size: 17px; font-weight: 700; color: var(--dark); }
-    .tcal__city span { width: 34px; height: 34px; border-radius: 8px; background-size: cover; background-position: center; flex-shrink: 0; }
+    .tcal__city-group { margin-bottom: 18px; }
+    .tcal__city-head { display: flex; align-items: center; gap: 10px; font-family: var(--serif); font-size: 17px; font-weight: 700; color: var(--dark); margin: 4px 0 10px 2px; }
+    .tcal__city-head span { width: 30px; height: 30px; border-radius: 8px; background-size: cover; background-position: center; flex-shrink: 0; }
+    .tcal__row { display: grid; grid-template-columns: 1.2fr 1.1fr 1fr auto; gap: 16px; align-items: center; background: var(--white); border: 1px solid rgba(28,26,23,0.07); border-radius: 14px; padding: 14px 20px; margin-bottom: 8px; }
+    .tcal__type { font-family: var(--sans); font-size: 14px; font-weight: 700; color: var(--dark); }
+    .tcal__type small { display: block; font-size: 11px; font-weight: 500; color: var(--gold); margin-top: 2px; }
     .tcal__dates { font-family: var(--sans); font-size: 14px; color: var(--muted); }
     .tcal__dates small { display: block; font-size: 12px; color: var(--light); }
     .tcal__status { font-family: var(--sans); font-size: 12px; font-weight: 700; }
@@ -772,6 +777,25 @@
 
     @media (max-width: 900px) { .test__grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 560px) { .test__grid { grid-template-columns: 1fr; max-width: 480px; margin-inline: auto; } }
+
+    /* ── TALK TO A MEMBER ── */
+    .talk { max-width: var(--max); margin: 40px auto 0; background: linear-gradient(145deg, #1E1B12 0%, #14110B 100%); border: 1px solid rgba(196,154,85,0.22); border-radius: 24px; padding: 44px 48px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 44px; align-items: center; box-shadow: 0 12px 48px rgba(0,0,0,0.16); }
+    .talk__label { display: inline-flex; align-items: center; gap: 8px; font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #25D366; background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.3); padding: 6px 13px; border-radius: 20px; margin-bottom: 16px; }
+    .talk__label svg { width: 14px; height: 14px; fill: #25D366; }
+    .talk h3 { font-family: var(--serif); font-size: clamp(24px, 3vw, 32px); font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 14px; }
+    .talk p { font-family: var(--sans); font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.75; margin-bottom: 26px; }
+    .talk__cta { display: inline-flex; align-items: center; gap: 10px; padding: 15px 28px; background: #25D366; color: #0A2E1A; font-family: var(--sans); font-size: 14px; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; transition: opacity var(--t); }
+    .talk__cta:hover { opacity: 0.9; }
+    .talk__cta svg { width: 18px; height: 18px; fill: currentColor; }
+    .talk__members { display: flex; flex-direction: column; gap: 12px; }
+    .talk__member { display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 12px 16px; }
+    .talk__member img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .talk__member-info { flex: 1; }
+    .talk__member-name { font-family: var(--sans); font-size: 14px; font-weight: 700; color: #fff; }
+    .talk__member-meta { font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.5); }
+    .talk__online { display: inline-flex; align-items: center; gap: 6px; font-family: var(--sans); font-size: 11px; font-weight: 600; color: #25D366; }
+    .talk__online::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #25D366; box-shadow: 0 0 0 3px rgba(37,211,102,0.2); }
+    @media (max-width: 800px) { .talk { grid-template-columns: 1fr; gap: 28px; padding: 36px 28px; } }
 
     /* ── FAQ ── */
     .faq { background: var(--bg); padding: 110px 24px; }
@@ -1223,7 +1247,7 @@
 
   </div>
   <div class="women__cta" data-aos="fade-up">
-    <a href="#" class="btn-outline-gold">Browse All Women →</a>
+    <p class="women__more"><strong>+ 1,800</strong> more verified women waiting to meet you</p>
   </div>
 </section>
 
@@ -1399,6 +1423,42 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- Talk to a real member -->
+  <div class="talk" data-aos="fade-up">
+    <div>
+      <div class="talk__label"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.6 4.7-1.2A10 10 0 1 0 12 2z"/></svg>100% Transparency</div>
+      <h3>Still not sure? Talk to a real member.</h3>
+      <p>Don't just take our word for it. If you're serious, we'll personally connect you with past clients who've already been on a MatchLatina tour — call them directly and ask anything about their experience. No scripts, no filters.</p>
+      <button class="talk__cta open-modal"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.6 4.7-1.2A10 10 0 1 0 12 2z"/></svg>Request a call with a member →</button>
+    </div>
+    <div class="talk__members">
+      <div class="talk__member">
+        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=88&q=80" alt="">
+        <div class="talk__member-info">
+          <div class="talk__member-name">David, 52</div>
+          <div class="talk__member-meta">Medellín Tour · Texas, USA</div>
+        </div>
+        <span class="talk__online">Available</span>
+      </div>
+      <div class="talk__member">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=88&q=80" alt="">
+        <div class="talk__member-info">
+          <div class="talk__member-name">James, 47</div>
+          <div class="talk__member-meta">Cali Tour · London, UK</div>
+        </div>
+        <span class="talk__online">Available</span>
+      </div>
+      <div class="talk__member">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=88&q=80" alt="">
+        <div class="talk__member-info">
+          <div class="talk__member-name">Thomas, 39</div>
+          <div class="talk__member-meta">Medellín Tour · Toronto, CA</div>
+        </div>
+        <span class="talk__online">Available</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1808,7 +1868,7 @@
   const BENEFITS = {
     '7': ['4-star hotel — 7 nights included', '4 exclusive social events', 'Personal translator', 'Curated introductions', 'Airport transfers'],
     '3': ['2 exclusive social events', 'Personal translator', 'Curated introductions', 'Hotel not included'],
-    '1': ['Entry to 1 exclusive social event', 'Personal translator', 'Group introductions', 'Hotel not included']
+    '1': ['~100 single women attending', 'Casual dates to partner for life', 'Personal translator', 'Hotel not included']
   };
   // unified pricing across both cities
   const PRICES = { '7': 3499, '3': 1499, '1': 299 };
@@ -1833,11 +1893,11 @@
   const scheduleText = (m, start, dur) => {
     if (dur === '7') return dateRange(m, start, 7);
     if (dur === '3') return `${fmtDate(m, start + 1)}–${fmtDate(m, start + 3)}  or  ${fmtDate(m, start + 4)}–${fmtDate(m, start + 6)}`;
-    return `${fmtDate(m, start + 1)}  or  ${fmtDate(m, start + 3)}`; // 1-day: day 2 or day 4
+    return `${fmtDate(m, start + 1)}  or  ${fmtDate(m, start + 4)}`; // 1-day: day 2 or day 5
   };
   const noteText = dur => {
     if (dur === '3') return 'A 3-day part of the 7-day tour — join days 2–4 or days 5–7. Hotel not included.';
-    if (dur === '1') return 'A single social event (day 2 or day 4 of the tour) — not a full tour.';
+    if (dur === '1') return 'A single evening social event (day 2 or day 5) with ~100 single women looking for a casual date, a relationship or a partner for life.';
     return '';
   };
   const money = n => '$' + n.toLocaleString('en-US');
@@ -1919,28 +1979,44 @@
     gridEl.querySelectorAll('.open-modal').forEach(el => el.addEventListener('click', e => { e.preventDefault(); openModal(); }));
   }
 
-  // calendar / list view — all 7-day tour dates across every month
+  // calendar / list view — every event (7-day, 3-day ×2, 1-day ×2) per city per month
+  function cityEvents(t, c) {
+    const s = t.start, m = t.m;
+    // 7-day tour uses the real sold-out / spots status; add-ons stay open
+    const sevenStatus = c.soldOut
+      ? `<div class="tcal__status sold">Sold out</div>`
+      : (c.spots <= 8
+          ? `<div class="tcal__status low">Only ${c.spots} spots left</div>`
+          : `<div class="tcal__status ok">${c.spots} spots available</div>`);
+    const sevenBtn = c.soldOut
+      ? `<button class="tcal__btn sold" disabled>Sold out</button>`
+      : `<button class="tcal__btn open-modal">More details →</button>`;
+    const openStatus = `<div class="tcal__status ok">Open</div>`;
+    const moreBtn = `<button class="tcal__btn open-modal">More details →</button>`;
+    return [
+      { type: '7-Day Tour', tag: 'Full experience · Hotel included', dates: dateRange(m, s, 7), status: sevenStatus, btn: sevenBtn },
+      { type: '3-Day Tour', tag: 'Days 2–4 · Hotel not included', dates: `${fmtDate(m, s+1)} – ${fmtDate(m, s+3)}, 2026`, status: openStatus, btn: moreBtn },
+      { type: '3-Day Tour', tag: 'Days 5–7 · Hotel not included', dates: `${fmtDate(m, s+4)} – ${fmtDate(m, s+6)}, 2026`, status: openStatus, btn: moreBtn },
+      { type: '1-Day Social Event', tag: 'Day 2 · ~100 single women', dates: `${fmtDate(m, s+1)}, 2026`, status: openStatus, btn: moreBtn },
+      { type: '1-Day Social Event', tag: 'Day 5 · ~100 single women', dates: `${fmtDate(m, s+4)}, 2026`, status: openStatus, btn: moreBtn }
+    ];
+  }
+
   function renderCalendar() {
     calEl.innerHTML = TOURS.map(t => `
       <div class="tcal__month">
         <div class="tcal__month-h">${t.month} 2026</div>
-        ${t.cities.map(c => {
-          const status = c.soldOut
-            ? `<div class="tcal__status sold">Sold out</div>`
-            : (c.spots <= 8
-                ? `<div class="tcal__status low">Only ${c.spots} spots left</div>`
-                : `<div class="tcal__status ok">${c.spots} spots available</div>`);
-          const btn = c.soldOut
-            ? `<button class="tcal__btn sold" disabled>Sold out</button>`
-            : `<button class="tcal__btn open-modal">More details →</button>`;
-          return `
-          <div class="tcal__row">
-            <div class="tcal__city"><span style="background-image:url('${CITY_IMG[c.name]}')"></span>${c.name}</div>
-            <div class="tcal__dates">${dateRange(t.m, t.start, 7)}<small>7-day tour · 3-day &amp; 1-day options available</small></div>
-            ${status}
-            ${btn}
-          </div>`;
-        }).join('')}
+        ${t.cities.map(c => `
+          <div class="tcal__city-group">
+            <div class="tcal__city-head"><span style="background-image:url('${CITY_IMG[c.name]}')"></span>${c.name}</div>
+            ${cityEvents(t, c).map(ev => `
+              <div class="tcal__row">
+                <div class="tcal__type">${ev.type}<small>${ev.tag}</small></div>
+                <div class="tcal__dates">${ev.dates}</div>
+                ${ev.status}
+                ${ev.btn}
+              </div>`).join('')}
+          </div>`).join('')}
       </div>`).join('');
     calEl.querySelectorAll('.open-modal').forEach(el => el.addEventListener('click', e => { e.preventDefault(); openModal(); }));
   }

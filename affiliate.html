@@ -117,6 +117,38 @@
     .comm-card.featured .comm-card__desc { color: rgba(255,255,255,0.6); }
     .comm-card__badge { display: inline-block; font-family: var(--sans); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dark); background: var(--gold-grad); padding: 4px 12px; border-radius: 12px; margin-bottom: 16px; }
 
+    /* ── CALCULATOR ── */
+    .calc { background: #18160F; }
+    .calc .section__title { color: #fff; }
+    .calc .section__sub { color: rgba(255,255,255,0.55); }
+    .calc__box { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: 24px; overflow: hidden; border: 1px solid rgba(196,154,85,0.22); box-shadow: 0 16px 56px rgba(0,0,0,0.35); }
+    .calc__form { background: linear-gradient(145deg, #252015 0%, #1A1709 100%); padding: 40px 38px; }
+    .calc__field { margin-bottom: 20px; }
+    .calc__field label { display: flex; align-items: center; gap: 8px; font-family: var(--sans); font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 8px; }
+    .calc__field label svg { width: 16px; height: 16px; }
+    .calc__field input { width: 100%; padding: 13px 15px; border-radius: 10px; border: 1.5px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #fff; font-family: var(--sans); font-size: 15px; outline: none; transition: border-color var(--t); }
+    .calc__field input::placeholder { color: rgba(255,255,255,0.35); }
+    .calc__field input:focus { border-color: var(--gold); }
+    .calc__btn { width: 100%; padding: 16px; background: var(--gold-grad); color: var(--dark); font-family: var(--sans); font-size: 15px; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; transition: opacity var(--t); }
+    .calc__btn:hover { opacity: 0.9; }
+    .calc__err { color: #F0946A; font-family: var(--sans); font-size: 12px; margin-top: 10px; text-align: center; min-height: 14px; }
+    /* result side */
+    .calc__result { background: #14110B; padding: 40px 38px; display: flex; flex-direction: column; justify-content: center; text-align: center; position: relative; }
+    .calc__result-locked { color: rgba(255,255,255,0.4); }
+    .calc__result-locked svg { width: 40px; height: 40px; stroke: rgba(255,255,255,0.3); fill: none; stroke-width: 1.6; margin: 0 auto 16px; }
+    .calc__result-locked p { font-family: var(--sans); font-size: 14px; line-height: 1.7; }
+    .calc__reveal { display: none; }
+    .calc__reveal.show { display: block; }
+    .calc__reveal-label { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-h); margin-bottom: 8px; }
+    .calc__month { font-family: var(--serif); font-size: 52px; font-weight: 700; background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+    .calc__month-u { font-family: var(--sans); font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 6px; }
+    .calc__divider { height: 1px; background: rgba(255,255,255,0.1); margin: 24px 0; }
+    .calc__year { font-family: var(--serif); font-size: 30px; font-weight: 700; color: #fff; line-height: 1; }
+    .calc__year-u { font-family: var(--sans); font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 5px; }
+    .calc__reach { font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 22px; }
+    .calc__apply { display: inline-block; margin-top: 20px; padding: 12px 24px; background: rgba(196,154,85,0.15); border: 1px solid rgba(196,154,85,0.4); color: var(--gold-h); font-family: var(--sans); font-size: 13px; font-weight: 700; border-radius: 8px; transition: all var(--t); }
+    .calc__apply:hover { background: rgba(196,154,85,0.25); }
+
     /* ── HOW TO PROMOTE ── */
     .promote { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px 56px; }
     .promote__col h3 { font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--dark); margin-bottom: 22px; display: flex; align-items: center; gap: 10px; }
@@ -168,6 +200,7 @@
       .steps, .comm-grid { grid-template-columns: 1fr; }
       .comm-card.featured { transform: none; }
       .promote { grid-template-columns: 1fr; gap: 32px; }
+      .calc__box { grid-template-columns: 1fr; }
     }
     @media (max-width: 600px) {
       .nav__link { display: none; }
@@ -279,6 +312,49 @@
   </div>
 </section>
 
+<!-- EARNINGS CALCULATOR -->
+<section class="section calc">
+  <div class="section__head">
+    <div class="section__label">Earnings Calculator</div>
+    <h2 class="section__title">How much could you earn?</h2>
+    <p class="section__sub">Enter your following and see your estimated income as a MatchLatina partner.</p>
+  </div>
+  <div class="calc__box">
+    <div class="calc__form">
+      <div class="calc__field">
+        <label><svg viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="#E1306C" stroke="none"/></svg>Instagram followers</label>
+        <input type="number" id="calcInsta" placeholder="e.g. 50000" min="0">
+      </div>
+      <div class="calc__field">
+        <label><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>TikTok followers</label>
+        <input type="number" id="calcTikTok" placeholder="e.g. 50000" min="0">
+      </div>
+      <div class="calc__field">
+        <label><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-h)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>Email address</label>
+        <input type="email" id="calcEmail" placeholder="you@email.com">
+      </div>
+      <button class="calc__btn" id="calcBtn">Calculate my earnings →</button>
+      <div class="calc__err" id="calcErr"></div>
+    </div>
+    <div class="calc__result">
+      <div class="calc__result-locked" id="calcLocked">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <p>Enter your followers and email<br>to reveal your estimated earnings.</p>
+      </div>
+      <div class="calc__reveal" id="calcReveal">
+        <div class="calc__reveal-label">Estimated monthly income</div>
+        <div class="calc__month" id="calcMonth">$0</div>
+        <div class="calc__month-u">per month</div>
+        <div class="calc__divider"></div>
+        <div class="calc__year" id="calcYear">$0</div>
+        <div class="calc__year-u">per year</div>
+        <div class="calc__reach" id="calcReach"></div>
+        <a href="#" class="calc__apply open-login">Apply to become a partner →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- HOW TO PROMOTE -->
 <section class="section">
   <div class="section__head">
@@ -350,6 +426,46 @@
   loginModal.addEventListener('click', e => { if (e.target === loginModal) closeLogin(); });
   document.getElementById('loginSubmit').addEventListener('click', () => {
     window.location.href = 'affiliate-dashboard.html';
+  });
+
+  /* ── EARNINGS CALCULATOR ── */
+  // rates per follower per month: 50k Insta -> $3,500 ; 50k TikTok -> $2,200
+  const INSTA_RATE = 3500 / 50000;   // 0.07
+  const TIKTOK_RATE = 2200 / 50000;  // 0.044
+  const money = n => '$' + Math.round(n).toLocaleString('en-US');
+
+  function animateNumber(el, target, prefix) {
+    const dur = 900, start = Date.now();
+    const setFinal = () => { el.textContent = prefix + Math.round(target).toLocaleString('en-US'); };
+    function step() {
+      const p = Math.min((Date.now() - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = prefix + Math.round(target * eased).toLocaleString('en-US');
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+    setTimeout(setFinal, dur + 60); // guarantee final value even if rAF is throttled
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', () => {
+    const insta = parseInt(document.getElementById('calcInsta').value, 10) || 0;
+    const tiktok = parseInt(document.getElementById('calcTikTok').value, 10) || 0;
+    const email = document.getElementById('calcEmail').value.trim();
+    const err = document.getElementById('calcErr');
+
+    if (insta + tiktok <= 0) { err.textContent = 'Please enter your Instagram or TikTok followers.'; return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { err.textContent = 'Please enter a valid email to see your results.'; return; }
+    err.textContent = '';
+
+    const monthly = insta * INSTA_RATE + tiktok * TIKTOK_RATE;
+    const yearly = monthly * 12;
+
+    document.getElementById('calcLocked').style.display = 'none';
+    document.getElementById('calcReveal').classList.add('show');
+    animateNumber(document.getElementById('calcMonth'), monthly, '$');
+    animateNumber(document.getElementById('calcYear'), yearly, '$');
+    document.getElementById('calcReach').textContent =
+      `Based on your combined reach of ${(insta + tiktok).toLocaleString('en-US')} followers`;
   });
 </script>
 </body>
