@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — MatchLatina</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='serif' fill='%23B8922A'>M</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #FAFAF8;
+      --bg-alt:    #F3F1EC;
+      --dark:      #1C1A17;
+      --text:      #1C1A17;
+      --muted:     #4A4640;
+      --light:     #8A8480;
+      --gold:      #C49A55;
+      --gold-h:    #E8AE68;
+      --gold-grad: linear-gradient(135deg, #E8AE68 0%, #A57F60 100%);
+      --white:     #FFFFFF;
+      --serif:     'Playfair Display', Georgia, serif;
+      --sans:      'Inter', -apple-system, sans-serif;
+      --t:         0.3s ease;
+      --max:       1200px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+    img  { max-width: 100%; display: block; }
+    a    { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: 72px; display: flex; align-items: center; padding: 0 24px;
+      background: rgba(20,17,11,0.80);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .nav__inner { max-width: var(--max); margin: 0 auto; width: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .nav__logo { font-family: var(--serif); font-size: 20px; font-weight: 700; letter-spacing: 0.08em; background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; white-space: nowrap; }
+    .nav__back { display: flex; align-items: center; gap: 8px; font-family: var(--sans); font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.70); transition: color var(--t); }
+    .nav__back:hover { color: var(--gold-h); }
+    .nav__back svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .btn-gold { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; background: var(--gold-grad); color: var(--dark); font-family: var(--sans); font-size: 13px; font-weight: 700; border-radius: 8px; transition: opacity var(--t); white-space: nowrap; }
+    .btn-gold:hover { opacity: 0.88; }
+
+    /* ── HERO ── */
+    .prof-hero {
+      margin-top: 72px; position: relative;
+      height: 520px; overflow: hidden;
+    }
+    .prof-hero__img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center 20%;
+      filter: brightness(0.6);
+    }
+    .prof-hero__overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(20,17,11,0.92) 0%, rgba(20,17,11,0.3) 50%, transparent 100%);
+    }
+    .prof-hero__content {
+      position: absolute; bottom: 48px; left: 0; right: 0;
+      max-width: var(--max); margin: 0 auto; padding: 0 40px;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+    }
+    .prof-hero__badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: #1D9BF0; background: rgba(29,155,240,0.15); border: 1px solid rgba(29,155,240,0.3);
+      padding: 4px 10px; border-radius: 20px; margin-bottom: 12px;
+    }
+    .prof-hero__badge svg { width: 12px; height: 12px; fill: #1D9BF0; }
+    .prof-hero__name { font-family: var(--serif); font-size: clamp(36px, 5vw, 56px); font-weight: 700; color: #fff; line-height: 1.1; }
+    .prof-hero__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 12px; }
+    .prof-hero__meta-item { display: flex; align-items: center; gap: 6px; font-family: var(--sans); font-size: 14px; color: rgba(255,255,255,0.75); }
+    .prof-hero__meta-item svg { width: 15px; height: 15px; stroke: var(--gold-h); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .prof-hero__cta { flex-shrink: 0; }
+    .prof-hero__cta .btn-gold { font-size: 14px; padding: 14px 28px; }
+
+    /* ── GALLERY ── */
+    .gallery { background: #18160F; padding: 28px 40px; }
+    .gallery__inner { max-width: var(--max); margin: 0 auto; display: flex; gap: 12px; }
+    .gallery__thumb {
+      width: 120px; height: 160px; border-radius: 10px; overflow: hidden; cursor: pointer;
+      border: 2px solid transparent; transition: border-color var(--t), transform var(--t);
+      flex-shrink: 0;
+    }
+    .gallery__thumb.active { border-color: var(--gold-h); }
+    .gallery__thumb:hover { transform: translateY(-2px); }
+    .gallery__thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── MAIN CONTENT ── */
+    .prof-body { max-width: var(--max); margin: 0 auto; padding: 56px 40px 80px; display: grid; grid-template-columns: 1fr 340px; gap: 48px; align-items: start; }
+
+    /* LEFT */
+    .prof-main {}
+    .prof-section { margin-bottom: 44px; }
+    .prof-section__title {
+      font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--dark);
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 2px solid var(--bg-alt);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .prof-section__title svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    .prof-bio { font-family: var(--sans); font-size: 16px; color: var(--muted); line-height: 1.85; }
+
+    .prof-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .prof-stat {
+      background: var(--bg-alt); border-radius: 14px; padding: 20px 18px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .prof-stat__label { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); }
+    .prof-stat__value { font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--dark); }
+
+    .prof-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .prof-tag {
+      font-family: var(--sans); font-size: 13px; font-weight: 500;
+      padding: 7px 16px; border-radius: 20px;
+      background: var(--bg-alt); color: var(--muted);
+      border: 1px solid rgba(28,26,23,0.08);
+    }
+
+    .prof-langs { display: flex; flex-wrap: wrap; gap: 12px; }
+    .prof-lang {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--bg-alt); border-radius: 10px; padding: 10px 16px;
+      border: 1px solid rgba(28,26,23,0.06);
+    }
+    .prof-lang__flag { font-size: 20px; line-height: 1; }
+    .prof-lang__name { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--dark); }
+    .prof-lang__level { font-family: var(--sans); font-size: 11px; color: var(--light); }
+
+    /* RIGHT — Sticky sidebar */
+    .prof-sidebar { position: sticky; top: 92px; }
+    .prof-card {
+      background: #18160F; border-radius: 20px;
+      border: 1px solid rgba(196,154,85,0.2);
+      overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    .prof-card__top { padding: 32px 28px 24px; }
+    .prof-card__label { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-h); margin-bottom: 10px; }
+    .prof-card__title { font-family: var(--serif); font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px; line-height: 1.3; }
+    .prof-card__sub { font-family: var(--sans); font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.65; }
+    .prof-card__divider { height: 1px; background: rgba(255,255,255,0.07); }
+    .prof-card__checks { padding: 20px 28px; display: flex; flex-direction: column; gap: 10px; }
+    .prof-card__check { display: flex; align-items: center; gap: 10px; font-family: var(--sans); font-size: 13px; color: rgba(255,255,255,0.65); }
+    .prof-card__check svg { width: 15px; height: 15px; flex-shrink: 0; stroke: var(--gold-h); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .prof-card__bottom { padding: 20px 28px 28px; }
+    .prof-card__cta { display: block; width: 100%; text-align: center; padding: 16px; background: var(--gold-grad); color: var(--dark); font-family: var(--sans); font-size: 14px; font-weight: 700; border-radius: 10px; transition: opacity var(--t); cursor: pointer; border: none; }
+    .prof-card__cta:hover { opacity: 0.88; }
+    .prof-card__note { text-align: center; font-family: var(--sans); font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 10px; }
+
+    .prof-other { margin-top: 20px; }
+    .prof-other__title { font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); margin-bottom: 12px; }
+    .prof-other__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .prof-other__card { border-radius: 12px; overflow: hidden; cursor: pointer; position: relative; }
+    .prof-other__card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; transition: transform 0.4s; }
+    .prof-other__card:hover img { transform: scale(1.05); }
+    .prof-other__card__label { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 10px 10px; background: linear-gradient(to top, rgba(14,11,6,0.88), transparent); font-family: var(--serif); font-size: 13px; font-weight: 700; color: #fff; }
+
+    /* ── MODAL ── */
+    .modal-ov { position: fixed; inset: 0; background: rgba(28,26,23,0.75); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(6px); }
+    .modal-ov.open { opacity: 1; pointer-events: all; }
+    .modal { background: var(--white); border-radius: 20px; padding: 44px 40px; max-width: 520px; width: 100%; position: relative; box-shadow: 0 24px 80px rgba(0,0,0,0.18); max-height: 90vh; overflow-y: auto; }
+    .modal__close { position: absolute; top: 18px; right: 20px; font-size: 24px; color: var(--light); background: none; border: none; cursor: pointer; line-height: 1; transition: color var(--t); }
+    .modal__close:hover { color: var(--dark); }
+    .modal__label { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .modal__title { font-family: var(--serif); font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+    .modal__sub { font-family: var(--sans); font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-family: var(--sans); font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 6px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border: 1.5px solid rgba(28,26,23,0.12); border-radius: 8px; font-family: var(--sans); font-size: 14px; color: var(--dark); background: var(--bg); transition: border-color var(--t); outline: none; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-submit { width: 100%; padding: 15px; background: var(--gold-grad); color: var(--dark); font-family: var(--sans); font-size: 15px; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; margin-top: 8px; transition: opacity var(--t); }
+    .form-submit:hover { opacity: 0.88; }
+    .modal-success { display: none; text-align: center; padding: 20px 0; }
+    .modal-success.show { display: block; }
+    .modal-success__icon { font-size: 48px; margin-bottom: 16px; }
+    .modal-success h3 { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .modal-success p { font-family: var(--sans); font-size: 15px; color: var(--muted); line-height: 1.75; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .prof-body { grid-template-columns: 1fr; padding: 40px 24px 60px; }
+      .prof-sidebar { position: static; }
+      .prof-other { display: none; }
+    }
+    @media (max-width: 640px) {
+      .prof-hero { height: 420px; }
+      .prof-hero__content { padding: 0 20px; bottom: 32px; flex-direction: column; align-items: flex-start; gap: 16px; }
+      .prof-hero__cta { width: 100%; }
+      .prof-hero__cta .btn-gold { width: 100%; justify-content: center; }
+      .gallery { padding: 20px; }
+      .prof-stats { grid-template-columns: 1fr 1fr; }
+      .modal { padding: 36px 22px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">MATCHLATINA</a>
+    <a href="index.html#women" class="nav__back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to profiles
+    </a>
+    <button class="btn-gold open-modal">Message her →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="prof-hero" id="profHero">
+  <img class="prof-hero__img" id="heroImg" src="" alt="">
+  <div class="prof-hero__overlay"></div>
+  <div class="prof-hero__content">
+    <div>
+      <div class="prof-hero__badge">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 2.5l3.9 3.3 5.1-.7 1.8 4.8 4.5 2.6-.7 5.1 3.3 3.9-3.3 3.9.7 5.1-4.5 2.6-1.8 4.8-5.1-.7-3.9 3.3-3.9-3.3-5.1.7-1.8-4.8-4.5-2.6.7-5.1L2.5 20l3.3-3.9-.7-5.1 4.5-2.6 1.8-4.8 5.1.7z"/><path d="M13 20.5l4.5 4.5 9.5-9.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        Verified Profile
+      </div>
+      <h1 class="prof-hero__name" id="heroName"></h1>
+      <div class="prof-hero__meta" id="heroMeta"></div>
+    </div>
+    <div class="prof-hero__cta">
+      <button class="btn-gold open-modal" style="font-size:15px;padding:15px 32px;">Meet her in person →</button>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery">
+  <div class="gallery__inner" id="galleryStrip"></div>
+</div>
+
+<!-- BODY -->
+<div class="prof-body">
+  <div class="prof-main">
+
+    <!-- Bio -->
+    <div class="prof-section">
+      <h2 class="prof-section__title">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        About
+      </h2>
+      <p class="prof-bio" id="bio"></p>
+    </div>
+
+    <!-- Stats -->
+    <div class="prof-section">
+      <h2 class="prof-section__title">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Details
+      </h2>
+      <div class="prof-stats" id="statsGrid"></div>
+    </div>
+
+    <!-- Languages -->
+    <div class="prof-section">
+      <h2 class="prof-section__title">
+        <svg viewBox="0 0 24 24"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg>
+        Languages
+      </h2>
+      <div class="prof-langs" id="langsGrid"></div>
+    </div>
+
+    <!-- Interests -->
+    <div class="prof-section">
+      <h2 class="prof-section__title">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Interests & Hobbies
+      </h2>
+      <div class="prof-tags" id="tagsGrid"></div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="prof-sidebar">
+    <div class="prof-card">
+      <div class="prof-card__top">
+        <div class="prof-card__label">Interested?</div>
+        <div class="prof-card__title" id="sidebarTitle"></div>
+        <div class="prof-card__sub">Send her a message through our team and we'll arrange an introduction on your next tour.</div>
+      </div>
+      <div class="prof-card__divider"></div>
+      <div class="prof-card__checks">
+        <div class="prof-card__check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Personal introduction by our team</div>
+        <div class="prof-card__check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Meet in person on the next tour</div>
+        <div class="prof-card__check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>100% verified profile</div>
+        <div class="prof-card__check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>No subscription required</div>
+      </div>
+      <div class="prof-card__bottom">
+        <button class="prof-card__cta open-modal">Send an introduction request →</button>
+        <div class="prof-card__note">Free to send · No commitment</div>
+      </div>
+    </div>
+
+    <div class="prof-other">
+      <div class="prof-other__title">More profiles</div>
+      <div class="prof-other__grid" id="otherProfiles"></div>
+    </div>
+  </aside>
+</div>
+
+<!-- MODAL -->
+<div class="modal-ov" id="modalOv">
+  <div class="modal">
+    <button class="modal__close" id="modalClose">×</button>
+    <div id="modalForm">
+      <div class="modal__label">Get in touch</div>
+      <h2 class="modal__title">Request an Introduction</h2>
+      <p class="modal__sub">Fill in your details and our team will reach out within 24 hours.</p>
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" placeholder="John"></div>
+        <div class="form-group"><label>Age</label><input type="number" placeholder="35"></div>
+      </div>
+      <div class="form-group"><label>Email Address</label><input type="email" placeholder="john@email.com"></div>
+      <div class="form-group"><label>Phone (optional)</label><input type="tel" placeholder="+1 555 000 0000"></div>
+      <div class="form-group">
+        <label>Which tour are you interested in?</label>
+        <select>
+          <option value="">Select a city...</option>
+          <option>Medellín — Aug 2025</option>
+          <option>Barranquilla — Sep 2025</option>
+          <option>Cartagena — Oct 2025</option>
+          <option>Santa Marta — Nov 2025</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Message (optional)</label><textarea placeholder="Tell us a bit about yourself..."></textarea></div>
+      <button class="form-submit" id="formSubmit">Send My Request →</button>
+    </div>
+    <div class="modal-success" id="modalSuccess">
+      <div class="modal-success__icon">🎉</div>
+      <h3>Request Sent!</h3>
+      <p>Our team will reach out within 24 hours to discuss the next steps.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ── PROFILE DATA ── */
+  const PROFILES = {
+    sofia: {
+      name: 'Sofia', age: 24, city: 'Medellín', height: '5\'6"',
+      education: 'Business Administration', occupation: 'Marketing Manager',
+      image: 'images/pipe-gil-cZKRzB3b4BY-unsplash.jpg',
+      bio: 'Sofia is a warm, ambitious young woman from Medellín with a big love for life. She works in marketing and spends her weekends hiking in the mountains around the city or trying new restaurants with friends. She\'s fluent in English and eager to connect with someone who shares her values of family, adventure, and genuine connection. She\'s not in a rush — she believes the right relationship is worth waiting for.',
+      stats: { Age: '24 years', City: 'Medellín', Height: '5\'6"', Education: 'Bachelor\'s degree', Occupation: 'Marketing Manager', Children: 'No children' },
+      languages: [{ flag: '🇨🇴', name: 'Spanish', level: 'Native' }, { flag: '🇺🇸', name: 'English', level: 'Fluent' }],
+      interests: ['Hiking', 'Cooking', 'Salsa dancing', 'Travel', 'Photography', 'Yoga', 'Coffee culture', 'Art galleries']
+    },
+    valentina: {
+      name: 'Valentina', age: 26, city: 'Cartagena', height: '5\'5"',
+      education: 'Graphic Design', occupation: 'Freelance Designer',
+      image: 'images/garin-chadwick-1SKjtoZqwBo-unsplash.jpg',
+      bio: 'Valentina grew up by the sea in Cartagena and carries the city\'s warmth and color in everything she does. As a freelance graphic designer, she\'s creative, independent, and passionate about beauty in all its forms. She loves early mornings at the beach, weekend markets, and long dinners with people she cares about. She\'s looking for a man who is confident, caring, and ready to build something real.',
+      stats: { Age: '26 years', City: 'Cartagena', Height: '5\'5"', Education: 'Design degree', Occupation: 'Freelance Designer', Children: 'No children' },
+      languages: [{ flag: '🇨🇴', name: 'Spanish', level: 'Native' }, { flag: '🇺🇸', name: 'English', level: 'Conversational' }],
+      interests: ['Graphic design', 'Beach volleyball', 'Reading', 'Cooking', 'Fashion', 'Music', 'Sunsets', 'Swimming']
+    },
+    camila: {
+      name: 'Camila', age: 29, city: 'Bogotá', height: '5\'7"',
+      education: 'Law', occupation: 'Attorney',
+      image: 'images/david-gabric-SRJIMp_UKUQ-unsplash.jpg',
+      bio: 'Camila is a practicing attorney in Bogotá with a sharp mind and an even sharper sense of humor. She works hard during the week but lives for her weekends — exploring Bogotá\'s food scene, catching live music, or escaping to the countryside. She\'s family-oriented, close to her parents and siblings, and hopes to find a partner who values those bonds as much as she does.',
+      stats: { Age: '29 years', City: 'Bogotá', Height: '5\'7"', Education: 'Law degree', Occupation: 'Attorney', Children: 'No children' },
+      languages: [{ flag: '🇨🇴', name: 'Spanish', level: 'Native' }, { flag: '🇺🇸', name: 'English', level: 'Fluent' }, { flag: '🇫🇷', name: 'French', level: 'Basic' }],
+      interests: ['Law & politics', 'Food & wine', 'Live music', 'Running', 'Reading', 'Theater', 'Weekend trips', 'Family time']
+    },
+    daniela: {
+      name: 'Daniela', age: 27, city: 'Medellín', height: '5\'4"',
+      education: 'Psychology', occupation: 'Therapist',
+      image: 'images/joshua-rawson-harris-6PROVhY2Yq4-unsplash.jpg',
+      bio: 'Daniela is a licensed therapist who brings deep empathy and genuine curiosity to everything she does. She has a calm, grounding presence and believes in open, honest communication above all else. Outside of work, she loves long walks, journaling, yoga, and nights in with a good film. She\'s looking for emotional depth — someone she can grow with, laugh with, and build a meaningful life alongside.',
+      stats: { Age: '27 years', City: 'Medellín', Height: '5\'4"', Education: 'Psychology degree', Occupation: 'Therapist', Children: 'No children' },
+      languages: [{ flag: '🇨🇴', name: 'Spanish', level: 'Native' }, { flag: '🇺🇸', name: 'English', level: 'Fluent' }],
+      interests: ['Psychology', 'Yoga', 'Journaling', 'Cinema', 'Nature walks', 'Meditation', 'Cooking', 'Book clubs']
+    },
+    mariana: {
+      name: 'Mariana', age: 31, city: 'Barranquilla', height: '5\'6"',
+      education: 'Architecture', occupation: 'Architect',
+      image: 'images/michael-fischer-Z-_pzonptuU-unsplash.jpg',
+      bio: 'Mariana is an architect from Barranquilla with a passion for beautiful spaces and meaningful experiences. She\'s lived and studied abroad, which gave her a broad worldview and a deep appreciation for different cultures. She\'s independent, grounded, and ready for a serious relationship with someone who has direction in life. She loves the Barranquilla carnival, traveling to new countries, and spending time with her large, loving family.',
+      stats: { Age: '31 years', City: 'Barranquilla', Height: '5\'6"', Education: 'Architecture degree', Occupation: 'Architect', Children: 'No children' },
+      languages: [{ flag: '🇨🇴', name: 'Spanish', level: 'Native' }, { flag: '🇺🇸', name: 'English', level: 'Fluent' }, { flag: '🇩🇪', name: 'German', level: 'Intermediate' }],
+      interests: ['Architecture', 'Travel', 'Carnival', 'Interior design', 'Cycling', 'Museums', 'Cooking', 'Photography']
+    },
+    isabella: {
+      name: 'Isabella', age: 25, city: 'Cartagena', height: '5\'5"',
+      education: 'Tourism & Hospitality', occupation: 'Hotel Manager',
+      image: 'images/darren-lawrence-VIpDxjeD6xM-unsplash.jpg',
+      bio: 'Isabella manages a boutique hotel in Cartagena\'s old city and lives for making people feel welcome. She\'s social, energetic, and lights up every room she walks into. Her job means she understands people from all walks of life, and she loves that about her work. Off the clock, she enjoys dancing, the beach, and long lazy brunches. She\'s looking for a confident, kind man who knows what he wants.',
+      stats: { Age: '25 years', City: 'Cartagena', Height: '5\'5"', Education: 'Hospitality degree', Occupation: 'Hotel Manager', Children: 'No children' },
+      languages: [{ flag: '🇨🇴', name: 'Spanish', level: 'Native' }, { flag: '🇺🇸', name: 'English', level: 'Fluent' }],
+      interests: ['Dancing', 'Hosting', 'Beach', 'Brunch', 'Travel', 'Fashion', 'Music festivals', 'Cooking']
+    },
+    lucia: {
+      name: 'Lucia', age: 28, city: 'Medellín', height: '5\'6"',
+      education: 'Nutrition & Dietetics', occupation: 'Nutritionist',
+      image: 'images/david-gabric-FG8xf4A_ybg-unsplash.jpg',
+      bio: 'Lucia is a nutritionist who genuinely believes food is love. She runs a small wellness practice and spends her free time at farmer\'s markets, testing recipes, or hiking with her friends. She\'s warm, playful, and deeply caring — the kind of person who remembers how you take your coffee. She\'s looking for someone adventurous enough to try new things, yet settled enough to build a home together.',
+      stats: { Age: '28 years', City: 'Medellín', Height: '5\'6"', Education: 'Nutrition degree', Occupation: 'Nutritionist', Children: 'No children' },
+      languages: [{ flag: '🇨🇴', name: 'Spanish', level: 'Native' }, { flag: '🇺🇸', name: 'English', level: 'Conversational' }],
+      interests: ['Cooking', 'Nutrition', 'Hiking', 'Farmer\'s markets', 'Yoga', 'Wellness', 'Baking', 'Nature']
+    },
+    andrea: {
+      name: 'Andrea', age: 30, city: 'Bogotá', height: '5\'7"',
+      education: 'International Relations', occupation: 'NGO Project Manager',
+      image: 'images/christophe-dusabe-x-0a7bB0Ees-unsplash.jpg',
+      bio: 'Andrea works for an international NGO and has a deep desire to make the world a better place. She\'s well-traveled, intellectually curious, and passionate about culture and human connection. She speaks three languages and has lived in two countries. She\'s looking for a partner who is equally open-minded, emotionally intelligent, and ready for a genuine partnership — someone who matches her ambition and her heart.',
+      stats: { Age: '30 years', City: 'Bogotá', Height: '5\'7"', Education: 'International Relations', Occupation: 'NGO Project Manager', Children: 'No children' },
+      languages: [{ flag: '🇨🇴', name: 'Spanish', level: 'Native' }, { flag: '🇺🇸', name: 'English', level: 'Fluent' }, { flag: '🇵🇹', name: 'Portuguese', level: 'Intermediate' }],
+      interests: ['Social impact', 'Travel', 'Literature', 'Documentary films', 'Volunteering', 'Coffee', 'Museums', 'Running']
+    },
+    paola: {
+      name: 'Paola', age: 23, city: 'Santa Marta', height: '5\'4"',
+      education: 'Marine Biology', occupation: 'Marine Biologist',
+      image: 'images/gabriel-porras-j_GgMDWiMJU-unsplash.jpg',
+      bio: 'Paola studies marine life along Colombia\'s Caribbean coast and has a deep love for the ocean and everything in it. She\'s adventurous, free-spirited, and happiest when she\'s outdoors. She\'s not interested in games — she\'s direct, passionate, and ready for something real when the right person comes along. She\'s looking for someone who can keep up with her energy and appreciates a life well-lived.',
+      stats: { Age: '23 years', City: 'Santa Marta', Height: '5\'4"', Education: 'Marine Biology', Occupation: 'Marine Biologist', Children: 'No children' },
+      languages: [{ flag: '🇨🇴', name: 'Spanish', level: 'Native' }, { flag: '🇺🇸', name: 'English', level: 'Fluent' }],
+      interests: ['Diving', 'Marine biology', 'Surfing', 'Hiking', 'Beach', 'Photography', 'Camping', 'Snorkeling']
+    },
+    natalia: {
+      name: 'Natalia', age: 32, city: 'Medellín', height: '5\'6"',
+      education: 'Medicine', occupation: 'Doctor',
+      image: 'images/carlos-andres-gomez-fEaI7uAYBtM-unsplash.jpg',
+      bio: 'Natalia is a physician who dedicated years of her life to helping others — and now she\'s ready to invest the same energy into a meaningful relationship. She\'s calm, wise, and deeply kind. She enjoys quiet evenings at home as much as she does dinner parties with friends. She\'s looking for stability, emotional maturity, and genuine affection from someone who understands the value of commitment.',
+      stats: { Age: '32 years', City: 'Medellín', Height: '5\'6"', Education: 'Medical degree', Occupation: 'Doctor', Children: 'No children' },
+      languages: [{ flag: '🇨🇴', name: 'Spanish', level: 'Native' }, { flag: '🇺🇸', name: 'English', level: 'Fluent' }],
+      interests: ['Medicine', 'Reading', 'Cooking', 'Travel', 'Classical music', 'Gardening', 'Pilates', 'Wine tasting']
+    }
+  };
+
+  /* ── RENDER ── */
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id') || 'sofia';
+  const p = PROFILES[id] || PROFILES['sofia'];
+
+  // Page title
+  document.title = `${p.name}, ${p.age} — MatchLatina`;
+
+  // Hero
+  document.getElementById('heroImg').src = p.image;
+  document.getElementById('heroImg').alt = p.name;
+  document.getElementById('heroName').textContent = `${p.name}, ${p.age}`;
+  document.getElementById('heroMeta').innerHTML = `
+    <div class="prof-hero__meta-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.city}</div>
+    <div class="prof-hero__meta-item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${p.age} years old</div>
+    <div class="prof-hero__meta-item"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>${p.education}</div>
+  `;
+
+  // Gallery (3x same photo for now)
+  const galleryStrip = document.getElementById('galleryStrip');
+  [p.image, p.image, p.image].forEach((src, i) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'gallery__thumb' + (i === 0 ? ' active' : '');
+    thumb.innerHTML = `<img src="${src}" alt="${p.name}">`;
+    thumb.addEventListener('click', () => {
+      document.querySelectorAll('.gallery__thumb').forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
+      document.getElementById('heroImg').src = src;
+    });
+    galleryStrip.appendChild(thumb);
+  });
+
+  // Bio
+  document.getElementById('bio').textContent = p.bio;
+
+  // Stats
+  const statsGrid = document.getElementById('statsGrid');
+  Object.entries(p.stats).forEach(([label, value]) => {
+    statsGrid.innerHTML += `<div class="prof-stat"><div class="prof-stat__label">${label}</div><div class="prof-stat__value">${value}</div></div>`;
+  });
+
+  // Languages
+  const langsGrid = document.getElementById('langsGrid');
+  p.languages.forEach(l => {
+    langsGrid.innerHTML += `<div class="prof-lang"><span class="prof-lang__flag">${l.flag}</span><div><div class="prof-lang__name">${l.name}</div><div class="prof-lang__level">${l.level}</div></div></div>`;
+  });
+
+  // Interests
+  const tagsGrid = document.getElementById('tagsGrid');
+  p.interests.forEach(tag => {
+    tagsGrid.innerHTML += `<span class="prof-tag">${tag}</span>`;
+  });
+
+  // Sidebar title
+  document.getElementById('sidebarTitle').textContent = `Meet ${p.name} on your next tour`;
+
+  // Other profiles
+  const otherGrid = document.getElementById('otherProfiles');
+  Object.entries(PROFILES).filter(([key]) => key !== id).slice(0, 4).forEach(([key, other]) => {
+    otherGrid.innerHTML += `<a href="profile.html?id=${key}" class="prof-other__card"><img src="${other.image}" alt="${other.name}"><div class="prof-other__card__label">${other.name}, ${other.age}</div></a>`;
+  });
+
+  /* ── MODAL ── */
+  const modalOv = document.getElementById('modalOv');
+  const modalClose = document.getElementById('modalClose');
+  const modalForm = document.getElementById('modalForm');
+  const modalSuccess = document.getElementById('modalSuccess');
+  const openModal = () => { modalOv.classList.add('open'); document.body.style.overflow = 'hidden'; };
+  const closeModal = () => { modalOv.classList.remove('open'); document.body.style.overflow = ''; };
+  document.querySelectorAll('.open-modal').forEach(el => el.addEventListener('click', openModal));
+  modalClose.addEventListener('click', closeModal);
+  modalOv.addEventListener('click', e => { if (e.target === modalOv) closeModal(); });
+  document.getElementById('formSubmit').addEventListener('click', () => {
+    modalForm.style.display = 'none';
+    modalSuccess.classList.add('show');
+  });
+</script>
+</body>
+</html>
