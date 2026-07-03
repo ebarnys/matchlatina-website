@@ -235,7 +235,8 @@
     }
     .hero__ov { position: absolute; inset: 0; background: rgba(0,0,0,0.45); }
     .hero__content { position: relative; z-index: 1; max-width: 780px; padding: 140px 24px 80px; }
-    .hero__label { font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-h); margin-bottom: 20px; }
+    .hero__label { display: inline-flex; align-items: center; gap: 8px; font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-h); background: rgba(196,154,85,0.12); border: 1px solid rgba(196,154,85,0.35); padding: 8px 16px; border-radius: 22px; margin-bottom: 24px; }
+    .hero__label svg { width: 14px; height: 14px; fill: var(--gold-h); }
     .hero h1 { font-family: var(--serif); font-size: clamp(36px, 6vw, 68px); font-weight: 700; color: var(--white); line-height: 1.15; margin-bottom: 24px; }
     .hero__sub { font-family: var(--sans); font-size: clamp(16px, 2vw, 19px); color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 40px; }
     .hero__btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
@@ -610,6 +611,41 @@
     }
     .tcard__dur button.active { background: var(--white); color: var(--dark); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
     .tcard__note { font-family: var(--sans); font-size: 11px; color: var(--light); margin: -8px 0 14px; font-style: italic; }
+    .tcard__dur button.active[data-dur="7"]::after { content: '★'; margin-left: 4px; color: var(--gold); font-size: 10px; }
+
+    /* view toggle (cards / calendar) */
+    .tours__viewtoggle { display: flex; justify-content: center; gap: 8px; margin-top: 8px; }
+    .tviewbtn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 18px; border-radius: 10px; border: 1px solid rgba(28,26,23,0.12); background: var(--white); font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all var(--t); }
+    .tviewbtn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .tviewbtn.active { background: var(--dark); color: #fff; border-color: var(--dark); }
+
+    /* sold out */
+    .tbadge.soldout { background: #C0392B; color: #fff; }
+    .tcard.is-sold .tcard__img img { filter: grayscale(0.6) brightness(0.7); }
+    .tcard__soldout { width: 100%; text-align: center; padding: 15px; border-radius: 8px; background: rgba(192,57,43,0.1); color: #C0392B; font-family: var(--sans); font-size: 14px; font-weight: 700; margin-top: auto; border: 1px solid rgba(192,57,43,0.25); }
+
+    /* calendar list view */
+    .tours__cal { max-width: 880px; margin: 40px auto 0; }
+    .tcal__month { margin-bottom: 28px; }
+    .tcal__month-h { font-family: var(--serif); font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--bg-alt); }
+    .tcal__row { display: grid; grid-template-columns: 1.1fr 1.2fr 1fr auto; gap: 16px; align-items: center; background: var(--white); border: 1px solid rgba(28,26,23,0.07); border-radius: 14px; padding: 16px 20px; margin-bottom: 10px; }
+    .tcal__city { display: flex; align-items: center; gap: 10px; font-family: var(--serif); font-size: 17px; font-weight: 700; color: var(--dark); }
+    .tcal__city span { width: 34px; height: 34px; border-radius: 8px; background-size: cover; background-position: center; flex-shrink: 0; }
+    .tcal__dates { font-family: var(--sans); font-size: 14px; color: var(--muted); }
+    .tcal__dates small { display: block; font-size: 12px; color: var(--light); }
+    .tcal__status { font-family: var(--sans); font-size: 12px; font-weight: 700; }
+    .tcal__status.ok { color: #27AE60; }
+    .tcal__status.low { color: #C0392B; }
+    .tcal__status.sold { color: #C0392B; }
+    .tcal__btn { padding: 10px 18px; border-radius: 8px; background: var(--gold-grad); color: var(--dark); font-family: var(--sans); font-size: 13px; font-weight: 700; border: none; cursor: pointer; white-space: nowrap; transition: opacity var(--t); }
+    .tcal__btn:hover { opacity: 0.88; }
+    .tcal__btn.sold { background: rgba(28,26,23,0.08); color: var(--light); cursor: not-allowed; }
+    @media (max-width: 640px) {
+      .tcal__row { grid-template-columns: 1fr auto; gap: 8px 12px; }
+      .tcal__dates { grid-column: 1 / -1; order: 3; }
+      .tcal__status { order: 4; }
+      .tcal__btn { grid-row: 1; grid-column: 2; }
+    }
 
     .tcard {
       border-radius: 20px; overflow: hidden;
@@ -908,7 +944,7 @@
   <div class="hero__bg"></div>
   <div class="hero__ov"></div>
   <div class="hero__content">
-    <div class="hero__label">MatchLatina</div>
+    <div class="hero__label"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.6 5.7 21l2.3-7.2-6-4.4h7.6z"/></svg>The Next Level of Online Dating — With Contact Guarantee</div>
     <h1>Meet Beautiful,<br>Verified Colombian Women.</h1>
     <p class="hero__sub">Real introductions. Verified profiles.<br>In-person romance tours in Colombia.</p>
     <div class="hero__btns">
@@ -937,8 +973,8 @@
       <div class="hero__divider"></div>
       <!-- Stat: success -->
       <div class="hero__stat">
-        <span class="hero__stat-num">94%</span>
-        <span class="hero__stat-label">go on a date within 7 days</span>
+        <span class="hero__stat-num">100%</span>
+        <span class="hero__stat-label">go on a date in 7 days</span>
       </div>
       <div class="hero__divider"></div>
       <!-- Avatars -->
@@ -950,7 +986,7 @@
           <img src="images/joshua-rawson-harris-6PROVhY2Yq4-unsplash.jpg" alt="">
         </div>
         <div class="hero__avatars-text">
-          <strong>600+ verified women</strong>
+          <strong>1,800+ verified women</strong>
           ready to meet you
         </div>
       </div>
@@ -1232,8 +1268,17 @@
     <h2>Join Our Next Romance Tour in Colombia</h2>
     <p>Two cities, every month. Pick the length that fits you — the 3-day and 1-day<br>tours are part of the full 7-day experience, starting the same day.</p>
   </div>
-  <div class="tours__months" id="toursMonths" data-aos="fade-up"></div>
-  <div class="tours__grid" id="toursGrid" data-aos="fade-up" data-aos-delay="80"></div>
+  <div class="tours__viewtoggle" data-aos="fade-up">
+    <button class="tviewbtn active" id="viewCards"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Card view</button>
+    <button class="tviewbtn" id="viewCal"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Calendar view</button>
+  </div>
+  <div id="toursCardView">
+    <div class="tours__months" id="toursMonths" data-aos="fade-up"></div>
+    <div class="tours__grid" id="toursGrid" data-aos="fade-up" data-aos-delay="80"></div>
+  </div>
+  <div id="toursCalView" style="display:none;">
+    <div class="tours__cal" id="toursCal"></div>
+  </div>
 </section>
 
 <!-- ════════════════════════════════════════
@@ -1754,29 +1799,28 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo(); });
 
   /* ── TOURS (data-driven) ── */
+  // 7-day is the main tour; 3-day and 1-day are part of it
   const DURATIONS = [
-    { key: '1',  label: '1 day',  days: 1 },
-    { key: '3',  label: '3 days', days: 3 },
-    { key: '7',  label: '7 days', days: 7 }
+    { key: '7', label: '7 days', days: 7 },
+    { key: '3', label: '3 days', days: 3 },
+    { key: '1', label: '1 day',  days: 1 }
   ];
-  // benefits per duration
   const BENEFITS = {
-    '1': ['1 exclusive social event', 'Personal translator', 'Group introductions', 'City welcome dinner'],
-    '3': ['Boutique hotel (3 nights)', '2 exclusive social events', 'Personal translator', 'Curated introductions'],
-    '7': ['4-star hotel (7 nights)', '4 exclusive social events', 'Personal translator', 'Curated introductions', 'Airport transfers']
+    '7': ['4-star hotel — 7 nights included', '4 exclusive social events', 'Personal translator', 'Curated introductions', 'Airport transfers'],
+    '3': ['2 exclusive social events', 'Personal translator', 'Curated introductions', 'Hotel not included'],
+    '1': ['Entry to 1 exclusive social event', 'Personal translator', 'Group introductions', 'Hotel not included']
   };
-  const PRICES = {
-    'Medellín': { '1': 690, '3': 1890, '7': 4290 },
-    'Cali':     { '1': 650, '3': 1790, '7': 3990 }
-  };
+  // unified pricing across both cities
+  const PRICES = { '7': 3499, '3': 1499, '1': 299 };
+  const HOTEL   = { '7': 'Hotel included', '3': 'Hotel not included', '1': 'Social event only' };
   const CITY_IMG = { 'Medellín': 'images/medelin.jpg', 'Cali': 'images/cali.jpg' };
   const MONTHS_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  // Each month: first Saturday start day (2026)
+  // Each month: first Saturday start day (2026). soldOut marks fully booked events.
   const TOURS = [
     { month: 'September', m: 8, start: 5,
-      cities: [ { name: 'Medellín', spots: 8,  cap: 20 }, { name: 'Cali', spots: 12, cap: 20 } ] },
+      cities: [ { name: 'Medellín', spots: 0,  cap: 20, soldOut: true }, { name: 'Cali', spots: 12, cap: 20 } ] },
     { month: 'October', m: 9, start: 3,
-      cities: [ { name: 'Medellín', spots: 5,  cap: 20 }, { name: 'Cali', spots: 14, cap: 20 } ] },
+      cities: [ { name: 'Medellín', spots: 0,  cap: 20, soldOut: true }, { name: 'Cali', spots: 14, cap: 20 } ] },
     { month: 'November', m: 10, start: 7,
       cities: [ { name: 'Medellín', spots: 11, cap: 20 }, { name: 'Cali', spots: 9,  cap: 20 } ] },
     { month: 'December', m: 11, start: 5,
@@ -1784,14 +1828,23 @@
   ];
 
   const fmtDate = (m, d) => `${MONTHS_ABBR[m]} ${d}`;
-  const dateRange = (m, start, days) => {
-    if (days === 1) return `${fmtDate(m, start)}, 2026`;
-    return `${fmtDate(m, start)} – ${fmtDate(m, start + days - 1)}, 2026`;
+  const dateRange = (m, start, days) => `${fmtDate(m, start)} – ${fmtDate(m, start + days - 1)}, 2026`;
+  // schedule text depends on duration (3 & 1-day are slices of the 7-day tour)
+  const scheduleText = (m, start, dur) => {
+    if (dur === '7') return dateRange(m, start, 7);
+    if (dur === '3') return `${fmtDate(m, start + 1)}–${fmtDate(m, start + 3)}  or  ${fmtDate(m, start + 4)}–${fmtDate(m, start + 6)}`;
+    return `${fmtDate(m, start + 1)}  or  ${fmtDate(m, start + 3)}`; // 1-day: day 2 or day 4
+  };
+  const noteText = dur => {
+    if (dur === '3') return 'A 3-day part of the 7-day tour — join days 2–4 or days 5–7. Hotel not included.';
+    if (dur === '1') return 'A single social event (day 2 or day 4 of the tour) — not a full tour.';
+    return '';
   };
   const money = n => '$' + n.toLocaleString('en-US');
 
   const monthsEl = document.getElementById('toursMonths');
   const gridEl = document.getElementById('toursGrid');
+  const calEl = document.getElementById('toursCal');
   let activeMonth = 0;
 
   const checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
@@ -1809,15 +1862,22 @@
 
   function renderGrid() {
     const t = TOURS[activeMonth];
-    gridEl.innerHTML = t.cities.map((c, idx) => {
+    gridEl.innerHTML = t.cities.map(c => {
       const dur = '7';
-      const pct = Math.round((1 - c.spots / c.cap) * 100);
-      const low = c.spots <= 8;
+      const pct = c.soldOut ? 100 : Math.round((1 - c.spots / c.cap) * 100);
+      const low = !c.soldOut && c.spots <= 8;
+      const cta = c.soldOut
+        ? `<div class="tcard__soldout">Sold out — join the waitlist</div>`
+        : `<a href="#" class="btn-gold open-modal">Reserve My Spot →</a>`;
+      const fomo = c.soldOut
+        ? `<div class="tcard__fomo-text">This tour is fully booked</div>`
+        : `<div class="tcard__fomo-bar"><div class="tcard__fomo-fill" style="width:${pct}%"></div></div>
+           <div class="tcard__fomo-text">${low ? '⚡ ' : ''}Only ${c.spots} of ${c.cap} spots remaining</div>`;
       return `
-      <div class="tcard" data-city="${c.name}" data-m="${t.m}" data-start="${t.start}" data-dur="${dur}" data-spots="${c.spots}" data-cap="${c.cap}">
+      <div class="tcard ${c.soldOut ? 'is-sold' : ''}" data-city="${c.name}" data-m="${t.m}" data-start="${t.start}" data-dur="${dur}">
         <div class="tcard__img">
           <img src="${CITY_IMG[c.name]}" alt="${c.name}" loading="lazy">
-          <div class="tbadge">Upcoming</div>
+          <div class="tbadge ${c.soldOut ? 'soldout' : ''}">${c.soldOut ? 'Sold out' : 'Upcoming'}</div>
           <div class="tcard__img-label">${c.name}</div>
         </div>
         <div class="tcard__body">
@@ -1825,48 +1885,85 @@
             ${DURATIONS.map(d => `<button data-dur="${d.key}" class="${d.key === dur ? 'active' : ''}">${d.label}</button>`).join('')}
           </div>
           <div class="tcard__price">
-            <span class="tcard__price-num">${money(PRICES[c.name][dur])}</span>
+            <span class="tcard__price-num">${money(PRICES[dur])}</span>
             <span class="tcard__price-label">per person</span>
           </div>
-          <div class="tcard__note js-note">Part of the full 7-day tour — same start day</div>
+          <div class="tcard__note js-note" style="display:none;">${noteText(dur)}</div>
           <div class="tcard__meta">
-            <div class="tcard__meta-row">${calSvg}<span class="js-daterange">${dateRange(t.m, t.start, 7)}</span></div>
-            <div class="tcard__meta-row">${clockSvg}<span class="js-durrow">7 days · Max 12 men</span></div>
+            <div class="tcard__meta-row">${calSvg}<span class="js-daterange">${scheduleText(t.m, t.start, dur)}</span></div>
+            <div class="tcard__meta-row">${clockSvg}<span class="js-durrow">7 days · ${HOTEL[dur]}</span></div>
           </div>
-          <div class="tcard__fomo">
-            <div class="tcard__fomo-bar"><div class="tcard__fomo-fill" style="width:${pct}%"></div></div>
-            <div class="tcard__fomo-text">${low ? '⚡ ' : ''}Only ${c.spots} of ${c.cap} spots remaining</div>
-          </div>
+          <div class="tcard__fomo">${fomo}</div>
           <div class="tcard__benefits js-benefits">
             ${BENEFITS[dur].map(b => `<div class="tcard__benefit">${checkSvg}${b}</div>`).join('')}
           </div>
-          <a href="#" class="btn-gold open-modal">Reserve My Spot →</a>
+          ${cta}
         </div>
       </div>`;
     }).join('');
 
-    // wire duration toggles + reserve buttons
     gridEl.querySelectorAll('.tcard').forEach(card => {
       card.querySelectorAll('.tcard__dur button').forEach(btn => btn.addEventListener('click', () => {
         const dur = btn.dataset.dur;
         card.dataset.dur = dur;
         card.querySelectorAll('.tcard__dur button').forEach(b => b.classList.toggle('active', b === btn));
-        const city = card.dataset.city, m = +card.dataset.m, start = +card.dataset.start, days = +dur;
-        card.querySelector('.tcard__price-num').textContent = money(PRICES[city][dur]);
-        card.querySelector('.js-daterange').textContent = dateRange(m, start, days);
-        const maxMen = dur === '7' ? 12 : dur === '3' ? 15 : 20;
-        card.querySelector('.js-durrow').textContent = `${DURATIONS.find(d => d.key === dur).label} · Max ${maxMen} men`;
-        card.querySelector('.js-note').style.display = dur === '7' ? 'none' : '';
+        const m = +card.dataset.m, start = +card.dataset.start;
+        card.querySelector('.tcard__price-num').textContent = money(PRICES[dur]);
+        card.querySelector('.js-daterange').textContent = scheduleText(m, start, dur);
+        const durLabel = DURATIONS.find(d => d.key === dur).label;
+        card.querySelector('.js-durrow').textContent = `${durLabel} · ${HOTEL[dur]}`;
+        const note = card.querySelector('.js-note');
+        note.textContent = noteText(dur);
+        note.style.display = dur === '7' ? 'none' : '';
         card.querySelector('.js-benefits').innerHTML = BENEFITS[dur].map(b => `<div class="tcard__benefit">${checkSvg}${b}</div>`).join('');
       }));
     });
     gridEl.querySelectorAll('.open-modal').forEach(el => el.addEventListener('click', e => { e.preventDefault(); openModal(); }));
-    // hide note on default (7-day)
-    gridEl.querySelectorAll('.js-note').forEach(n => n.style.display = 'none');
   }
+
+  // calendar / list view — all 7-day tour dates across every month
+  function renderCalendar() {
+    calEl.innerHTML = TOURS.map(t => `
+      <div class="tcal__month">
+        <div class="tcal__month-h">${t.month} 2026</div>
+        ${t.cities.map(c => {
+          const status = c.soldOut
+            ? `<div class="tcal__status sold">Sold out</div>`
+            : (c.spots <= 8
+                ? `<div class="tcal__status low">Only ${c.spots} spots left</div>`
+                : `<div class="tcal__status ok">${c.spots} spots available</div>`);
+          const btn = c.soldOut
+            ? `<button class="tcal__btn sold" disabled>Sold out</button>`
+            : `<button class="tcal__btn open-modal">Reserve →</button>`;
+          return `
+          <div class="tcal__row">
+            <div class="tcal__city"><span style="background-image:url('${CITY_IMG[c.name]}')"></span>${c.name}</div>
+            <div class="tcal__dates">${dateRange(t.m, t.start, 7)}<small>7-day tour · 3-day &amp; 1-day options available</small></div>
+            ${status}
+            ${btn}
+          </div>`;
+        }).join('')}
+      </div>`).join('');
+    calEl.querySelectorAll('.open-modal').forEach(el => el.addEventListener('click', e => { e.preventDefault(); openModal(); }));
+  }
+
+  // view toggle
+  const viewCards = document.getElementById('viewCards');
+  const viewCal = document.getElementById('viewCal');
+  const cardView = document.getElementById('toursCardView');
+  const calView = document.getElementById('toursCalView');
+  viewCards.addEventListener('click', () => {
+    viewCards.classList.add('active'); viewCal.classList.remove('active');
+    cardView.style.display = ''; calView.style.display = 'none';
+  });
+  viewCal.addEventListener('click', () => {
+    viewCal.classList.add('active'); viewCards.classList.remove('active');
+    calView.style.display = ''; cardView.style.display = 'none';
+  });
 
   renderMonths();
   renderGrid();
+  renderCalendar();
 
   // Form submit
   document.getElementById('inquiryForm').addEventListener('submit', e => {
