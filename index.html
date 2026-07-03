@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MatchLatina — Meet Beautiful Colombian Women in Person</title>
-  <meta name="description" content="MatchLatina connects American men with verified Colombian women through personal introductions and in-person romance tours in Medellín, Barranquilla and Cartagena.">
+  <meta name="description" content="MatchLatina connects men from around the world with verified Colombian women through personal introductions and in-person romance tours in Medellín and Cali.">
   <meta property="og:title" content="MatchLatina — Meet Beautiful Colombian Women">
   <meta property="og:description" content="Real introductions. Verified profiles. In-person romance tours in Colombia.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1512813498716-3e640fed3f39?auto=format&fit=crop&w=1200&q=80">
@@ -485,6 +485,58 @@
     .intentions .section-header h2 { color: #fff; }
     .intentions .section-header p { color: rgba(255,255,255,0.55); }
 
+    /* ── VIDEOS ── */
+    .videos { background: #14110B; padding: 110px 24px; }
+    .videos .section-header .label { color: var(--gold); }
+    .videos .section-header h2 { color: #fff; }
+    .videos .section-header p { color: rgba(255,255,255,0.55); }
+    .videos__row {
+      max-width: var(--max); margin: 0 auto;
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;
+    }
+    .vcard {
+      position: relative; border-radius: 16px; overflow: hidden; cursor: pointer;
+      aspect-ratio: 9/16; background: #000;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform var(--t), border-color var(--t);
+    }
+    .vcard:hover { transform: translateY(-4px); border-color: rgba(196,154,85,0.4); }
+    .vcard__poster { width: 100%; height: 100%; object-fit: cover; opacity: 0.88; transition: opacity var(--t); }
+    .vcard:hover .vcard__poster { opacity: 1; }
+    .vcard__grad { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,8,4,0.85) 0%, transparent 45%); pointer-events: none; }
+    .vcard__play {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(255,255,255,0.14); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      border: 1.5px solid rgba(255,255,255,0.5);
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--t), transform var(--t);
+    }
+    .vcard:hover .vcard__play { background: var(--gold-grad); border-color: transparent; transform: translate(-50%,-50%) scale(1.08); }
+    .vcard__play svg { width: 20px; height: 20px; fill: #fff; margin-left: 3px; }
+    .vcard:hover .vcard__play svg { fill: var(--dark); }
+    .vcard__label { position: absolute; bottom: 14px; left: 14px; right: 14px; z-index: 1; }
+    .vcard__tag { display: inline-block; font-family: var(--sans); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dark); background: var(--gold-grad); padding: 3px 9px; border-radius: 10px; margin-bottom: 8px; }
+    .vcard__title { font-family: var(--serif); font-size: 16px; font-weight: 700; color: #fff; line-height: 1.25; }
+
+    /* video lightbox */
+    .vlb { position: fixed; inset: 0; background: rgba(8,6,3,0.92); z-index: 2500; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(8px); }
+    .vlb.open { opacity: 1; pointer-events: all; }
+    .vlb__inner { position: relative; width: auto; height: 86vh; max-height: 86vh; aspect-ratio: 9/16; max-width: 94vw; }
+    .vlb__inner video { width: 100%; height: 100%; border-radius: 18px; background: #000; box-shadow: 0 24px 80px rgba(0,0,0,0.5); }
+    .vlb__close { position: absolute; top: -46px; right: 0; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #fff; font-size: 22px; line-height: 1; cursor: pointer; transition: background var(--t); display: flex; align-items: center; justify-content: center; }
+    .vlb__close:hover { background: rgba(255,255,255,0.25); }
+    @media (max-width: 900px) {
+      .videos__row { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .videos__row .vcard:nth-child(4), .videos__row .vcard:nth-child(5) { display: none; }
+    }
+    @media (max-width: 560px) {
+      .videos__row { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; -webkit-overflow-scrolling: touch; }
+      .videos__row .vcard { flex: 0 0 62%; scroll-snap-align: center; display: block !important; }
+      .vlb__inner { height: auto; width: 100%; max-height: 80vh; }
+      .vlb__close { top: -44px; }
+    }
+
     .intentions__grid {
       max-width: 900px; margin: 56px auto 0;
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
@@ -522,10 +574,42 @@
 
     /* ── TOURS ── */
     .tours { background: var(--bg-alt); padding: 110px 24px; }
-    .tours__grid {
-      max-width: 1280px; margin: 64px auto 0;
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+
+    /* month switcher */
+    .tours__months {
+      max-width: 560px; margin: 40px auto 0;
+      display: flex; gap: 8px; padding: 6px;
+      background: var(--white); border: 1px solid rgba(28,26,23,0.08);
+      border-radius: 14px; box-shadow: var(--shadow-sm);
     }
+    .tmonth {
+      flex: 1; padding: 12px 8px; border-radius: 10px;
+      font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--muted);
+      background: none; border: none; cursor: pointer; transition: all var(--t);
+      display: flex; flex-direction: column; align-items: center; gap: 2px; line-height: 1.2;
+    }
+    .tmonth span { font-size: 10px; font-weight: 500; color: var(--light); }
+    .tmonth:hover { background: var(--bg-alt); }
+    .tmonth.active { background: var(--gold-grad); color: var(--dark); }
+    .tmonth.active span { color: rgba(28,26,23,0.6); }
+
+    .tours__grid {
+      max-width: 880px; margin: 40px auto 0;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+    }
+
+    /* duration toggle */
+    .tcard__dur {
+      display: flex; gap: 6px; margin-bottom: 16px;
+      background: var(--bg-alt); border-radius: 10px; padding: 4px;
+    }
+    .tcard__dur button {
+      flex: 1; padding: 9px 4px; border-radius: 7px; border: none; background: none; cursor: pointer;
+      font-family: var(--sans); font-size: 12px; font-weight: 600; color: var(--muted);
+      transition: all var(--t);
+    }
+    .tcard__dur button.active { background: var(--white); color: var(--dark); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .tcard__note { font-family: var(--sans); font-size: 11px; color: var(--light); margin: -8px 0 14px; font-style: italic; }
 
     .tcard {
       border-radius: 20px; overflow: hidden;
@@ -605,8 +689,8 @@
 
     .tcard .btn-gold { width: 100%; text-align: center; display: block; margin-top: auto; }
 
-    @media (max-width: 1100px) { .tours__grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 600px)  { .tours__grid { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; } }
+    @media (max-width: 700px)  { .tours__grid { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; } }
+    @media (max-width: 480px)  { .tmonth { font-size: 12px; padding: 10px 4px; } .tmonth span { display: none; } }
 
     /* ── TESTIMONIALS ── */
     .testimonials { background: var(--bg-alt); padding: 110px 24px; }
@@ -780,6 +864,7 @@
       <li><a href="#tours">Tours</a></li>
       <li><a href="#why">How It Works</a></li>
       <li><a href="#stories">Success Stories</a></li>
+      <li><a href="women.html">For Women</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
     <div class="nav__right">
@@ -807,6 +892,7 @@
   <a href="#tours" onclick="document.getElementById('navOverlay').classList.remove('open')">Tours</a>
   <a href="#why" onclick="document.getElementById('navOverlay').classList.remove('open')">How It Works</a>
   <a href="#stories" onclick="document.getElementById('navOverlay').classList.remove('open')">Success Stories</a>
+  <a href="women.html">For Women</a>
   <a href="#faq" onclick="document.getElementById('navOverlay').classList.remove('open')">FAQ</a>
   <div class="ov-lang">
     <button class="active ls-opt" data-lang="en"><span>🇺🇸</span> EN</button>
@@ -884,10 +970,10 @@
     <div class="label" data-aos="fade-up">Why MatchLatina</div>
     <h2 data-aos="fade-up" data-aos-delay="50">A Different Kind of<br>Connection Experience.</h2>
     <p data-aos="fade-up" data-aos-delay="100">
-      We connect American men with verified Colombian women through
-      personal introductions and in-person romance tours in Medellín,
-      Barranquilla and Cartagena. Whether you're looking for something
-      serious or simply want to meet genuine women in person — this is where it starts.
+      We connect men from around the world with verified Colombian women
+      through personal introductions and in-person romance tours in Medellín
+      and Cali. Whether you're looking for something serious or simply want
+      to meet genuine women in person — this is where it starts.
     </p>
     <p class="why__bold" data-aos="fade-up" data-aos-delay="150">No credits. No paid chats. No fake profiles.</p>
   </div>
@@ -1144,135 +1230,10 @@
   <div class="section-header" data-aos="fade-up">
     <div class="label">Upcoming Tours</div>
     <h2>Join Our Next Romance Tour in Colombia</h2>
-    <p>Small groups. Exclusive events. Real introductions to verified Colombian women.</p>
+    <p>Two cities, every month. Pick the length that fits you — the 3-day and 1-day<br>tours are part of the full 7-day experience, starting the same day.</p>
   </div>
-  <div class="tours__grid">
-
-    <!-- MEDELLÍN -->
-    <div class="tcard" data-aos="fade-up" data-aos-delay="0">
-      <div class="tcard__img">
-        <img src="images/medelin.jpg" alt="Medellín" loading="lazy">
-        <div class="tbadge">Upcoming</div>
-        <div class="tcard__img-label">Medellín</div>
-      </div>
-      <div class="tcard__body">
-        <div class="tcard__price">
-          <span class="tcard__price-num">$3,990</span>
-          <span class="tcard__price-label">per person</span>
-        </div>
-        <div class="tcard__meta">
-          <div class="tcard__meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>August 15 – 22, 2026</div>
-          <div class="tcard__meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>7 days · Max 12 men</div>
-        </div>
-        <div class="tcard__fomo">
-          <div class="tcard__fomo-bar"><div class="tcard__fomo-fill" style="width:60%"></div></div>
-          <div class="tcard__fomo-text">⚡ Only 8 of 20 spots remaining</div>
-        </div>
-        <div class="tcard__benefits">
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>4-star hotel included</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 exclusive social events</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Personal translator</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Curated introductions</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Airport transfers</div>
-        </div>
-        <a href="#" class="btn-gold open-modal">Reserve My Spot →</a>
-      </div>
-    </div>
-
-    <!-- BARRANQUILLA -->
-    <div class="tcard" data-aos="fade-up" data-aos-delay="80">
-      <div class="tcard__img">
-        <img src="images/Barranquilla.jpg" alt="Barranquilla" loading="lazy">
-        <div class="tbadge">Upcoming</div>
-        <div class="tcard__img-label">Barranquilla</div>
-      </div>
-      <div class="tcard__body">
-        <div class="tcard__price">
-          <span class="tcard__price-num">$4,290</span>
-          <span class="tcard__price-label">per person</span>
-        </div>
-        <div class="tcard__meta">
-          <div class="tcard__meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>September 5 – 12, 2026</div>
-          <div class="tcard__meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>7 days · Max 12 men</div>
-        </div>
-        <div class="tcard__fomo">
-          <div class="tcard__fomo-bar"><div class="tcard__fomo-fill" style="width:75%"></div></div>
-          <div class="tcard__fomo-text">⚡ Only 5 of 20 spots remaining</div>
-        </div>
-        <div class="tcard__benefits">
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>4-star hotel included</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>4 exclusive social events</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Personal translator</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Curated introductions</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Airport transfers</div>
-        </div>
-        <a href="#" class="btn-gold open-modal">Reserve My Spot →</a>
-      </div>
-    </div>
-
-    <!-- CARTAGENA -->
-    <div class="tcard" data-aos="fade-up" data-aos-delay="160">
-      <div class="tcard__img">
-        <img src="images/Cartagena.jpg" alt="Cartagena" loading="lazy">
-        <div class="tbadge">Upcoming</div>
-        <div class="tcard__img-label">Cartagena</div>
-      </div>
-      <div class="tcard__body">
-        <div class="tcard__price">
-          <span class="tcard__price-num">$5,190</span>
-          <span class="tcard__price-label">per person</span>
-        </div>
-        <div class="tcard__meta">
-          <div class="tcard__meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>October 3 – 10, 2026</div>
-          <div class="tcard__meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>7 days · Max 10 men</div>
-        </div>
-        <div class="tcard__fomo">
-          <div class="tcard__fomo-bar"><div class="tcard__fomo-fill" style="width:44%"></div></div>
-          <div class="tcard__fomo-text">⚡ Only 10 of 18 spots remaining</div>
-        </div>
-        <div class="tcard__benefits">
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>5-star boutique hotel</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>4 exclusive social events</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Personal translator</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Curated introductions</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Private city tour included</div>
-        </div>
-        <a href="#" class="btn-gold open-modal">Reserve My Spot →</a>
-      </div>
-    </div>
-
-    <!-- SANTA MARTA -->
-    <div class="tcard" data-aos="fade-up" data-aos-delay="240">
-      <div class="tcard__img">
-        <img src="images/SantaMarta.jpg" alt="Santa Marta" loading="lazy">
-        <div class="tbadge">Upcoming</div>
-        <div class="tcard__img-label">Santa Marta</div>
-      </div>
-      <div class="tcard__body">
-        <div class="tcard__price">
-          <span class="tcard__price-num">$3,590</span>
-          <span class="tcard__price-label">per person</span>
-        </div>
-        <div class="tcard__meta">
-          <div class="tcard__meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>November 7 – 14, 2026</div>
-          <div class="tcard__meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>7 days · Max 12 men</div>
-        </div>
-        <div class="tcard__fomo">
-          <div class="tcard__fomo-bar"><div class="tcard__fomo-fill" style="width:30%"></div></div>
-          <div class="tcard__fomo-text">14 of 20 spots remaining</div>
-        </div>
-        <div class="tcard__benefits">
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>4-star beachfront hotel</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 exclusive social events</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Personal translator</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Curated introductions</div>
-          <div class="tcard__benefit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Airport transfers</div>
-        </div>
-        <a href="#" class="btn-gold open-modal">Reserve My Spot →</a>
-      </div>
-    </div>
-
-  </div>
+  <div class="tours__months" id="toursMonths" data-aos="fade-up"></div>
+  <div class="tours__grid" id="toursGrid" data-aos="fade-up" data-aos-delay="80"></div>
 </section>
 
 <!-- ════════════════════════════════════════
@@ -1311,12 +1272,12 @@
         <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       </div>
-      <p class="qcard__text">The team handled everything. I just showed up and met incredible women. The whole experience felt premium and professional from start to finish. Worth every dollar — I'm already signed up for the Cartagena tour.</p>
+      <p class="qcard__text">The team handled everything. I just showed up and met incredible women. The whole experience felt premium and professional from start to finish. Worth every dollar — I'm already signed up for the Cali tour.</p>
       <div class="qcard__author">
         <img class="qcard__avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=88&q=80" alt="Michael">
         <div>
           <div class="qcard__name">Michael, 51</div>
-          <div class="qcard__loc">California, USA · Barranquilla Tour 2025</div>
+          <div class="qcard__loc">London, UK · Cali Tour 2025</div>
         </div>
       </div>
     </div>
@@ -1334,7 +1295,7 @@
         <img class="qcard__avatar" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=88&q=80" alt="Robert">
         <div>
           <div class="qcard__name">Robert, 38</div>
-          <div class="qcard__loc">Florida, USA · Cartagena Tour 2025</div>
+          <div class="qcard__loc">Toronto, Canada · Medellín Tour 2025</div>
         </div>
       </div>
     </div>
@@ -1352,7 +1313,7 @@
         <img class="qcard__avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=88&q=80" alt="David">
         <div>
           <div class="qcard__name">David, 52</div>
-          <div class="qcard__loc">New York, USA · Medellín Tour 2025</div>
+          <div class="qcard__loc">Sydney, Australia · Cali Tour 2025</div>
         </div>
       </div>
     </div>
@@ -1370,7 +1331,7 @@
         <img class="qcard__avatar" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=88&q=80" alt="Brian">
         <div>
           <div class="qcard__name">Brian, 46</div>
-          <div class="qcard__loc">Chicago, USA · Barranquilla Tour 2025</div>
+          <div class="qcard__loc">Madrid, Spain · Medellín Tour 2025</div>
         </div>
       </div>
     </div>
@@ -1388,13 +1349,70 @@
         <img class="qcard__avatar" src="https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&fit=crop&w=88&q=80" alt="Mark">
         <div>
           <div class="qcard__name">Mark, 41</div>
-          <div class="qcard__loc">Austin, USA · Cartagena Tour 2024</div>
+          <div class="qcard__loc">Berlin, Germany · Cali Tour 2024</div>
         </div>
       </div>
     </div>
 
   </div>
 </section>
+
+<!-- ════════════════════════════════════════
+     SECTION — EVENT VIDEOS
+════════════════════════════════════════ -->
+<section class="videos" id="videos">
+  <div class="section-header" data-aos="fade-up">
+    <div class="label">Straight from our events</div>
+    <h2>See it with your own eyes</h2>
+    <p>Real moments and honest words from members and women who have already<br>been part of a MatchLatina event in Colombia.</p>
+  </div>
+  <div class="videos__row" data-aos="fade-up" data-aos-delay="80">
+
+    <div class="vcard" data-src="videos/web/feedback-men.mp4">
+      <img class="vcard__poster" src="videos/posters/feedback-men.jpg" alt="Feedback from members" loading="lazy">
+      <div class="vcard__grad"></div>
+      <div class="vcard__play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="vcard__label"><span class="vcard__tag">Members</span><div class="vcard__title">What the men say</div></div>
+    </div>
+
+    <div class="vcard" data-src="videos/web/feedback-woman.mp4">
+      <img class="vcard__poster" src="videos/posters/feedback-woman.jpg" alt="Feedback from a woman" loading="lazy">
+      <div class="vcard__grad"></div>
+      <div class="vcard__play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="vcard__label"><span class="vcard__tag">Her story</span><div class="vcard__title">A woman's experience</div></div>
+    </div>
+
+    <div class="vcard" data-src="videos/web/who-we-are.mp4">
+      <img class="vcard__poster" src="videos/posters/who-we-are.jpg" alt="Who we are" loading="lazy">
+      <div class="vcard__grad"></div>
+      <div class="vcard__play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="vcard__label"><span class="vcard__tag">About us</span><div class="vcard__title">Who we are</div></div>
+    </div>
+
+    <div class="vcard" data-src="videos/web/invitation.mp4">
+      <img class="vcard__poster" src="videos/posters/invitation.jpg" alt="Invitation" loading="lazy">
+      <div class="vcard__grad"></div>
+      <div class="vcard__play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="vcard__label"><span class="vcard__tag">Invitation</span><div class="vcard__title">Join the next tour</div></div>
+    </div>
+
+    <div class="vcard" data-src="videos/web/questions.mp4">
+      <img class="vcard__poster" src="videos/posters/questions.jpg" alt="Common questions" loading="lazy">
+      <div class="vcard__grad"></div>
+      <div class="vcard__play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="vcard__label"><span class="vcard__tag">Q&amp;A</span><div class="vcard__title">Your questions answered</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Video lightbox -->
+<div class="vlb" id="videoLightbox">
+  <div class="vlb__inner">
+    <button class="vlb__close" id="vlbClose" aria-label="Close">×</button>
+    <video id="vlbVideo" controls playsinline></video>
+  </div>
+</div>
 
 <!-- ════════════════════════════════════════
      SECTION — TRUST & GUARANTEE
@@ -1581,7 +1599,7 @@
       <ul>
         <li><a href="#women">Women</a></li>
         <li><a href="#tours">Tours</a></li>
-        <li><a href="#why">About</a></li>
+        <li><a href="women.html">For Women</a></li>
         <li><a href="affiliate.html">Affiliate</a></li>
       </ul>
     </div>
@@ -1632,8 +1650,8 @@
         </div>
         <div class="form-row">
           <div class="form-g">
-            <label for="country">Country / State *</label>
-            <input type="text" id="country" name="country" required placeholder="Texas, USA">
+            <label for="country">Country / City *</label>
+            <input type="text" id="country" name="country" required placeholder="e.g. London, UK">
           </div>
           <div class="form-g">
             <label for="age">Age *</label>
@@ -1644,9 +1662,14 @@
           <label for="tour">Which tour are you interested in? *</label>
           <select id="tour" name="tour" required>
             <option value="">— Select a tour —</option>
-            <option value="medellin">Medellín · August 15–22, 2026</option>
-            <option value="barranquilla">Barranquilla · September 5–12, 2026</option>
-            <option value="cartagena">Cartagena · October 3–10, 2026</option>
+            <option value="medellin-sep">Medellín · September 2026</option>
+            <option value="cali-sep">Cali · September 2026</option>
+            <option value="medellin-oct">Medellín · October 2026</option>
+            <option value="cali-oct">Cali · October 2026</option>
+            <option value="medellin-nov">Medellín · November 2026</option>
+            <option value="cali-nov">Cali · November 2026</option>
+            <option value="medellin-dec">Medellín · December 2026</option>
+            <option value="cali-dec">Cali · December 2026</option>
             <option value="notsure">Not sure yet</option>
           </select>
         </div>
@@ -1708,6 +1731,142 @@
   document.getElementById('modalClose').addEventListener('click', closeModal);
   modalOv.addEventListener('click', e => { if (e.target === modalOv) closeModal(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // Video lightbox
+  const vlb = document.getElementById('videoLightbox');
+  const vlbVideo = document.getElementById('vlbVideo');
+  const openVideo = src => {
+    vlbVideo.src = src;
+    vlb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    vlbVideo.play().catch(() => {});
+  };
+  const closeVideo = () => {
+    vlb.classList.remove('open');
+    document.body.style.overflow = '';
+    vlbVideo.pause();
+    vlbVideo.removeAttribute('src');
+    vlbVideo.load();
+  };
+  document.querySelectorAll('.vcard').forEach(card => card.addEventListener('click', () => openVideo(card.dataset.src)));
+  document.getElementById('vlbClose').addEventListener('click', closeVideo);
+  vlb.addEventListener('click', e => { if (e.target === vlb) closeVideo(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo(); });
+
+  /* ── TOURS (data-driven) ── */
+  const DURATIONS = [
+    { key: '1',  label: '1 day',  days: 1 },
+    { key: '3',  label: '3 days', days: 3 },
+    { key: '7',  label: '7 days', days: 7 }
+  ];
+  // benefits per duration
+  const BENEFITS = {
+    '1': ['1 exclusive social event', 'Personal translator', 'Group introductions', 'City welcome dinner'],
+    '3': ['Boutique hotel (3 nights)', '2 exclusive social events', 'Personal translator', 'Curated introductions'],
+    '7': ['4-star hotel (7 nights)', '4 exclusive social events', 'Personal translator', 'Curated introductions', 'Airport transfers']
+  };
+  const PRICES = {
+    'Medellín': { '1': 690, '3': 1890, '7': 4290 },
+    'Cali':     { '1': 650, '3': 1790, '7': 3990 }
+  };
+  const CITY_IMG = { 'Medellín': 'images/medelin.jpg', 'Cali': 'images/cali.jpg' };
+  const MONTHS_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  // Each month: first Saturday start day (2026)
+  const TOURS = [
+    { month: 'September', m: 8, start: 5,
+      cities: [ { name: 'Medellín', spots: 8,  cap: 20 }, { name: 'Cali', spots: 12, cap: 20 } ] },
+    { month: 'October', m: 9, start: 3,
+      cities: [ { name: 'Medellín', spots: 5,  cap: 20 }, { name: 'Cali', spots: 14, cap: 20 } ] },
+    { month: 'November', m: 10, start: 7,
+      cities: [ { name: 'Medellín', spots: 11, cap: 20 }, { name: 'Cali', spots: 9,  cap: 20 } ] },
+    { month: 'December', m: 11, start: 5,
+      cities: [ { name: 'Medellín', spots: 16, cap: 20 }, { name: 'Cali', spots: 18, cap: 20 } ] }
+  ];
+
+  const fmtDate = (m, d) => `${MONTHS_ABBR[m]} ${d}`;
+  const dateRange = (m, start, days) => {
+    if (days === 1) return `${fmtDate(m, start)}, 2026`;
+    return `${fmtDate(m, start)} – ${fmtDate(m, start + days - 1)}, 2026`;
+  };
+  const money = n => '$' + n.toLocaleString('en-US');
+
+  const monthsEl = document.getElementById('toursMonths');
+  const gridEl = document.getElementById('toursGrid');
+  let activeMonth = 0;
+
+  const checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  const calSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+  const clockSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+
+  function renderMonths() {
+    monthsEl.innerHTML = TOURS.map((t, i) =>
+      `<button class="tmonth ${i === activeMonth ? 'active' : ''}" data-i="${i}">${t.month}<span>2026</span></button>`
+    ).join('');
+    monthsEl.querySelectorAll('.tmonth').forEach(b => b.addEventListener('click', () => {
+      activeMonth = +b.dataset.i; renderMonths(); renderGrid();
+    }));
+  }
+
+  function renderGrid() {
+    const t = TOURS[activeMonth];
+    gridEl.innerHTML = t.cities.map((c, idx) => {
+      const dur = '7';
+      const pct = Math.round((1 - c.spots / c.cap) * 100);
+      const low = c.spots <= 8;
+      return `
+      <div class="tcard" data-city="${c.name}" data-m="${t.m}" data-start="${t.start}" data-dur="${dur}" data-spots="${c.spots}" data-cap="${c.cap}">
+        <div class="tcard__img">
+          <img src="${CITY_IMG[c.name]}" alt="${c.name}" loading="lazy">
+          <div class="tbadge">Upcoming</div>
+          <div class="tcard__img-label">${c.name}</div>
+        </div>
+        <div class="tcard__body">
+          <div class="tcard__dur">
+            ${DURATIONS.map(d => `<button data-dur="${d.key}" class="${d.key === dur ? 'active' : ''}">${d.label}</button>`).join('')}
+          </div>
+          <div class="tcard__price">
+            <span class="tcard__price-num">${money(PRICES[c.name][dur])}</span>
+            <span class="tcard__price-label">per person</span>
+          </div>
+          <div class="tcard__note js-note">Part of the full 7-day tour — same start day</div>
+          <div class="tcard__meta">
+            <div class="tcard__meta-row">${calSvg}<span class="js-daterange">${dateRange(t.m, t.start, 7)}</span></div>
+            <div class="tcard__meta-row">${clockSvg}<span class="js-durrow">7 days · Max 12 men</span></div>
+          </div>
+          <div class="tcard__fomo">
+            <div class="tcard__fomo-bar"><div class="tcard__fomo-fill" style="width:${pct}%"></div></div>
+            <div class="tcard__fomo-text">${low ? '⚡ ' : ''}Only ${c.spots} of ${c.cap} spots remaining</div>
+          </div>
+          <div class="tcard__benefits js-benefits">
+            ${BENEFITS[dur].map(b => `<div class="tcard__benefit">${checkSvg}${b}</div>`).join('')}
+          </div>
+          <a href="#" class="btn-gold open-modal">Reserve My Spot →</a>
+        </div>
+      </div>`;
+    }).join('');
+
+    // wire duration toggles + reserve buttons
+    gridEl.querySelectorAll('.tcard').forEach(card => {
+      card.querySelectorAll('.tcard__dur button').forEach(btn => btn.addEventListener('click', () => {
+        const dur = btn.dataset.dur;
+        card.dataset.dur = dur;
+        card.querySelectorAll('.tcard__dur button').forEach(b => b.classList.toggle('active', b === btn));
+        const city = card.dataset.city, m = +card.dataset.m, start = +card.dataset.start, days = +dur;
+        card.querySelector('.tcard__price-num').textContent = money(PRICES[city][dur]);
+        card.querySelector('.js-daterange').textContent = dateRange(m, start, days);
+        const maxMen = dur === '7' ? 12 : dur === '3' ? 15 : 20;
+        card.querySelector('.js-durrow').textContent = `${DURATIONS.find(d => d.key === dur).label} · Max ${maxMen} men`;
+        card.querySelector('.js-note').style.display = dur === '7' ? 'none' : '';
+        card.querySelector('.js-benefits').innerHTML = BENEFITS[dur].map(b => `<div class="tcard__benefit">${checkSvg}${b}</div>`).join('');
+      }));
+    });
+    gridEl.querySelectorAll('.open-modal').forEach(el => el.addEventListener('click', e => { e.preventDefault(); openModal(); }));
+    // hide note on default (7-day)
+    gridEl.querySelectorAll('.js-note').forEach(n => n.style.display = 'none');
+  }
+
+  renderMonths();
+  renderGrid();
 
   // Form submit
   document.getElementById('inquiryForm').addEventListener('submit', e => {
