@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse All Women — MatchLatina</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='serif' fill='%23B8922A'>M</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#FAFAF8; --bg-alt:#F3F1EC; --dark:#1C1A17; --text:#1C1A17; --muted:#4A4640; --light:#8A8480;
+      --gold:#C49A55; --gold-h:#E8AE68; --gold-grad:linear-gradient(135deg,#E8AE68 0%,#A57F60 100%);
+      --white:#FFFFFF; --serif:'Playfair Display',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+      --t:0.3s ease; --max:1200px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;overflow-x:hidden;}
+    body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+    img{max-width:100%;display:block;}
+    a{text-decoration:none;color:inherit;}
+    button,select{cursor:pointer;font-family:inherit;}
+
+    /* NAV */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;padding:0 24px;background:rgba(20,17,11,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.07);}
+    .nav__inner{max-width:var(--max);margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;}
+    .nav__logo{font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:0.08em;background:var(--gold-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap;}
+    .nav__back{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:500;color:rgba(255,255,255,0.7);transition:color var(--t);}
+    .nav__back:hover{color:var(--gold-h);}
+    .nav__back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+    .btn-gold{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:var(--gold-grad);color:var(--dark);font-family:var(--sans);font-size:13px;font-weight:700;border-radius:8px;transition:opacity var(--t);white-space:nowrap;border:none;}
+    .btn-gold:hover{opacity:0.88;}
+
+    /* HEADER */
+    .head{margin-top:72px;background:#18160F;padding:56px 24px 40px;text-align:center;}
+    .head__label{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold-h);margin-bottom:12px;}
+    .head h1{font-family:var(--serif);font-size:clamp(30px,4vw,44px);font-weight:700;color:#fff;line-height:1.15;margin-bottom:12px;}
+    .head p{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);}
+
+    /* FILTER BAR */
+    .filters{position:sticky;top:72px;z-index:900;background:var(--white);border-bottom:1px solid rgba(28,26,23,0.08);box-shadow:0 4px 20px rgba(0,0,0,0.04);padding:16px 24px;}
+    .filters__inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+    .filter{display:flex;flex-direction:column;gap:4px;}
+    .filter label{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--light);}
+    .filter select{padding:9px 30px 9px 12px;border:1.5px solid rgba(28,26,23,0.12);border-radius:8px;font-size:13px;font-weight:500;color:var(--dark);background:var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238A8480' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;appearance:none;-webkit-appearance:none;outline:none;transition:border-color var(--t);}
+    .filter select:focus{border-color:var(--gold);}
+    .filters__count{margin-left:auto;font-family:var(--sans);font-size:13px;color:var(--muted);}
+    .filters__count strong{color:var(--dark);font-weight:700;}
+    .filters__reset{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--gold);background:none;border:none;padding:6px;}
+    .filters__reset:hover{text-decoration:underline;}
+
+    /* GRID (catalog) */
+    .wrap{max-width:var(--max);margin:0 auto;padding:36px 24px 80px;}
+    .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+    .pcard{position:relative;overflow:hidden;border-radius:12px;cursor:pointer;transition:transform var(--t),box-shadow var(--t);background:#000;display:block;}
+    .pcard:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.16);}
+    .pcard__img{aspect-ratio:2/3;overflow:hidden;}
+    .pcard__img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;}
+    .pcard:hover .pcard__img img{transform:scale(1.05);}
+    .pcard__badge{position:absolute;top:10px;right:10px;width:26px;height:26px;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.35));}
+    .pcard__overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(14,11,6,0.92) 0%,rgba(14,11,6,0.4) 55%,transparent 100%);padding:48px 13px 14px;}
+    .pcard__name{font-family:var(--serif);font-size:17px;font-weight:700;color:#fff;line-height:1.1;}
+    .pcard__meta{font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.72);display:flex;align-items:center;gap:4px;margin-top:3px;}
+    .pcard__meta svg{width:11px;height:11px;flex-shrink:0;opacity:0.8;}
+    .pcard__tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
+    .pcard__tags .tag{font-family:var(--sans);font-size:9.5px;font-weight:600;color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.14);padding:2px 7px;border-radius:10px;backdrop-filter:blur(4px);}
+    .empty{text-align:center;padding:60px 20px;font-family:var(--sans);color:var(--light);}
+
+    @media (max-width:1024px){.grid{grid-template-columns:repeat(4,1fr);}}
+    @media (max-width:760px){.grid{grid-template-columns:repeat(3,1fr);gap:10px;}}
+    @media (max-width:520px){
+      .grid{grid-template-columns:repeat(2,1fr);}
+      .filters__count{margin-left:0;width:100%;order:5;}
+      .filter{flex:1;}
+      .filter select{width:100%;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">MATCHLATINA</a>
+    <a href="index.html" class="nav__back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Back to home</a>
+    <button class="btn-gold" onclick="location.href='index.html#tours'">Join the Next Tour →</button>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<div class="head">
+  <div class="head__label">Member Directory</div>
+  <h1>Browse All Verified Women</h1>
+  <p>1,800+ verified profiles across Colombia — filter and find who you'd love to meet.</p>
+</div>
+
+<!-- FILTERS -->
+<div class="filters">
+  <div class="filters__inner">
+    <div class="filter">
+      <label>City</label>
+      <select id="fCity"><option value="">All cities</option></select>
+    </div>
+    <div class="filter">
+      <label>Age</label>
+      <select id="fAge">
+        <option value="">Any age</option>
+        <option value="18-25">18–25</option>
+        <option value="26-30">26–30</option>
+        <option value="31-40">31–40</option>
+      </select>
+    </div>
+    <div class="filter">
+      <label>Looking for</label>
+      <select id="fSeek">
+        <option value="">Anything</option>
+        <option>Serious relationship</option>
+        <option>Dating</option>
+        <option>Casual</option>
+        <option>Marriage &amp; family</option>
+      </select>
+    </div>
+    <div class="filter">
+      <label>Language</label>
+      <select id="fLang">
+        <option value="">Any</option>
+        <option>English speaker</option>
+      </select>
+    </div>
+    <button class="filters__reset" id="fReset">Reset</button>
+    <div class="filters__count"><strong id="fCount">0</strong> women found</div>
+  </div>
+</div>
+
+<!-- GRID -->
+<div class="wrap">
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none;">No women match these filters. Try widening your search.</div>
+</div>
+
+<script>
+  // 10 real detailed profiles (id + photo). Generated cards link to these so the
+  // photo on the card matches the photo on the detail page.
+  const BASE = [
+    { id:'sofia',     img:'images/pipe-gil-cZKRzB3b4BY-unsplash.jpg' },
+    { id:'valentina', img:'images/garin-chadwick-1SKjtoZqwBo-unsplash.jpg' },
+    { id:'camila',    img:'images/david-gabric-SRJIMp_UKUQ-unsplash.jpg' },
+    { id:'daniela',   img:'images/joshua-rawson-harris-6PROVhY2Yq4-unsplash.jpg' },
+    { id:'mariana',   img:'images/michael-fischer-Z-_pzonptuU-unsplash.jpg' },
+    { id:'isabella',  img:'images/darren-lawrence-VIpDxjeD6xM-unsplash.jpg' },
+    { id:'lucia',     img:'images/david-gabric-FG8xf4A_ybg-unsplash.jpg' },
+    { id:'andrea',    img:'images/christophe-dusabe-x-0a7bB0Ees-unsplash.jpg' },
+    { id:'paola',     img:'images/gabriel-porras-j_GgMDWiMJU-unsplash.jpg' },
+    { id:'natalia',   img:'images/carlos-andres-gomez-fEaI7uAYBtM-unsplash.jpg' }
+  ];
+  const NAMES = ['Sofía','Valentina','Camila','Daniela','Mariana','Isabella','Lucía','Andrea','Paola','Natalia',
+    'Carolina','Juliana','Manuela','Gabriela','Laura','Sara','Antonia','Salomé','Luciana','Ximena',
+    'Catalina','Alejandra','Fernanda','Ángela','Diana','Adriana','Melissa','Tatiana','Vanessa','Lorena',
+    'Estefanía','Verónica','Juana','Carmen','Paulina','Bianca','Renata','Emilia','Mónica','Rocío',
+    'Daniela','Yuliana','Marcela','Liliana','Nataly','Karen','Jessica','Wendy','Sandra','Claudia',
+    'Milena','Viviana','Dayana','Luisa','Sofía','Valeria','Alejandra','Natalia','Andrea','Carolina'];
+  const CITIES = ['Medellín','Cali','Bogotá','Cartagena','Barranquilla','Santa Marta','Pereira','Bucaramanga'];
+  const SEEK = ['Serious relationship','Dating','Casual','Marriage & family'];
+  const TAGPOOL = ['Bilingual','Fluent English','Wants Family','No Children','Professional','University',
+    'Catholic','Adventurous','Loves Travel','Fitness','Foodie','Salsa Dancer','Family-oriented','Open to Relocate'];
+  const badgeSvg = `<svg class="pcard__badge" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 2.5l3.9 3.3 5.1-.7 1.8 4.8 4.5 2.6-.7 5.1 3.3 3.9-3.3 3.9.7 5.1-4.5 2.6-1.8 4.8-5.1-.7-3.9 3.3-3.9-3.3-5.1.7-1.8-4.8-4.5-2.6.7-5.1L2.5 20l3.3-3.9-.7-5.1 4.5-2.6 1.8-4.8 5.1.7z" fill="#1D9BF0"/><path d="M13 20.5l4.5 4.5 9.5-9.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const pinSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+
+  // build ~60 profiles deterministically
+  const TOTAL = 60;
+  const women = [];
+  for (let i = 0; i < TOTAL; i++) {
+    const base = BASE[i % BASE.length];
+    const age = 21 + (i * 7) % 16;                 // 21..36
+    const city = CITIES[(i * 3) % CITIES.length];
+    const seek = SEEK[i % SEEK.length];
+    const t1 = TAGPOOL[(i * 5) % TAGPOOL.length];
+    const t2 = TAGPOOL[(i * 5 + 3) % TAGPOOL.length];
+    const tags = t1 === t2 ? [t1] : [t1, t2];
+    const english = /English|Bilingual/.test(tags.join()) || i % 2 === 0;
+    women.push({ id: base.id, img: base.img, name: NAMES[i % NAMES.length], age, city, seek, tags, english });
+  }
+
+  // populate city filter
+  const fCity = document.getElementById('fCity');
+  [...new Set(women.map(w => w.city))].sort().forEach(c => {
+    const o = document.createElement('option'); o.value = c; o.textContent = c; fCity.appendChild(o);
+  });
+
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('empty');
+  const countEl = document.getElementById('fCount');
+
+  function inAge(age, range) {
+    if (!range) return true;
+    const [a, b] = range.split('-').map(Number);
+    return age >= a && age <= b;
+  }
+
+  function render() {
+    const city = fCity.value, age = document.getElementById('fAge').value,
+          seek = document.getElementById('fSeek').value, lang = document.getElementById('fLang').value;
+    const list = women.filter(w =>
+      (!city || w.city === city) &&
+      inAge(w.age, age) &&
+      (!seek || w.seek === seek) &&
+      (!lang || w.english)
+    );
+    countEl.textContent = list.length;
+    empty.style.display = list.length ? 'none' : 'block';
+    grid.innerHTML = list.map(w => `
+      <a class="pcard" href="profile.html?id=${w.id}">
+        <div class="pcard__img"><img src="${w.img}" alt="${w.name}" loading="lazy"></div>
+        ${badgeSvg}
+        <div class="pcard__overlay">
+          <div class="pcard__name">${w.name}, ${w.age}</div>
+          <div class="pcard__meta">${pinSvg}${w.city}</div>
+          <div class="pcard__tags">${w.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+        </div>
+      </a>`).join('');
+  }
+
+  ['fCity','fAge','fSeek','fLang'].forEach(id => document.getElementById(id).addEventListener('change', render));
+  document.getElementById('fReset').addEventListener('click', () => {
+    ['fCity','fAge','fSeek','fLang'].forEach(id => document.getElementById(id).value = '');
+    render();
+  });
+  render();
+</script>
+</body>
+</html>
