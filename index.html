@@ -1864,15 +1864,13 @@
     const t = TOURS[activeMonth];
     gridEl.innerHTML = t.cities.map(c => {
       const dur = '7';
-      const pct = c.soldOut ? 100 : Math.round((1 - c.spots / c.cap) * 100);
       const low = !c.soldOut && c.spots <= 8;
       const cta = c.soldOut
         ? `<div class="tcard__soldout">Sold out — join the waitlist</div>`
-        : `<a href="#" class="btn-gold open-modal">Reserve My Spot →</a>`;
+        : `<a href="#" class="btn-gold open-modal">Give me more details →</a>`;
       const fomo = c.soldOut
         ? `<div class="tcard__fomo-text">This tour is fully booked</div>`
-        : `<div class="tcard__fomo-bar"><div class="tcard__fomo-fill" style="width:${pct}%"></div></div>
-           <div class="tcard__fomo-text">${low ? '⚡ ' : ''}Only ${c.spots} of ${c.cap} spots remaining</div>`;
+        : `<div class="tcard__fomo-text">${low ? '⚡ ' : ''}Only ${c.spots} spots left</div>`;
       return `
       <div class="tcard ${c.soldOut ? 'is-sold' : ''}" data-city="${c.name}" data-m="${t.m}" data-start="${t.start}" data-dur="${dur}">
         <div class="tcard__img">
@@ -1934,7 +1932,7 @@
                 : `<div class="tcal__status ok">${c.spots} spots available</div>`);
           const btn = c.soldOut
             ? `<button class="tcal__btn sold" disabled>Sold out</button>`
-            : `<button class="tcal__btn open-modal">Reserve →</button>`;
+            : `<button class="tcal__btn open-modal">More details →</button>`;
           return `
           <div class="tcal__row">
             <div class="tcal__city"><span style="background-image:url('${CITY_IMG[c.name]}')"></span>${c.name}</div>
