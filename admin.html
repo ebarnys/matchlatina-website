@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — MatchLatin (concept)</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='serif' fill='%23D4495F'>M</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#F4F6F8; --panel:#FFFFFF; --navy:#102B3D; --navy2:#17384D; --ink:#102B3D;
+      --muted:#52616E; --light:#94A0AA; --line:#E5E9ED;
+      --coral:#D4495F; --coral-l:#F07A8A; --green:#1E8A4C;
+      --serif:'Lilita One',Georgia,serif; --sans:'Montserrat',-apple-system,sans-serif; --t:0.2s ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.5;}
+    button,input,select,textarea{font-family:inherit;}
+    a{color:inherit;text-decoration:none;}
+    ::-webkit-scrollbar{width:10px;height:10px;} ::-webkit-scrollbar-thumb{background:#d5dbe0;border-radius:6px;}
+
+    /* LOGIN */
+    .login{position:fixed;inset:0;z-index:100;background:var(--navy);display:flex;align-items:center;justify-content:center;padding:24px;}
+    .login__card{background:var(--panel);border-radius:20px;padding:44px 40px;width:100%;max-width:380px;box-shadow:0 24px 80px rgba(0,0,0,0.3);}
+    .login__logo{font-family:var(--serif);font-size:26px;color:var(--coral);text-align:center;}
+    .login__logo span{color:var(--navy);}
+    .login__sub{text-align:center;font-size:13px;color:var(--light);margin:2px 0 28px;}
+    .fld{margin-bottom:16px;}
+    .fld label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;}
+    .fld input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;outline:none;}
+    .fld input:focus{border-color:var(--coral);}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;cursor:pointer;border-radius:10px;font-weight:700;transition:all var(--t);}
+    .btn--primary{background:var(--coral);color:#fff;padding:13px 20px;font-size:14px;width:100%;}
+    .btn--primary:hover{background:var(--coral-l);}
+    .login__demo{text-align:center;font-size:11px;color:var(--light);margin-top:16px;}
+
+    /* SHELL */
+    .app{display:none;}
+    .app.on{display:grid;grid-template-columns:230px 1fr;min-height:100vh;}
+    .side{background:var(--navy);color:#fff;padding:18px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;}
+    .side__logo{font-family:var(--serif);font-size:20px;color:#fff;padding:8px 10px 18px;}
+    .side__logo span{color:var(--coral-l);}
+    .navi{display:flex;flex-direction:column;gap:2px;}
+    .navi a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;font-size:13.5px;font-weight:500;color:rgba(255,255,255,0.72);cursor:pointer;transition:all var(--t);}
+    .navi a svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+    .navi a:hover{background:rgba(255,255,255,0.07);color:#fff;}
+    .navi a.active{background:var(--coral);color:#fff;}
+    .navi .navi__badge{margin-left:auto;background:rgba(255,255,255,0.18);font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;}
+    .navi a.active .navi__badge{background:rgba(255,255,255,0.25);}
+    .navi__sep{font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.35);padding:16px 12px 6px;font-weight:700;}
+
+    .main{min-width:0;}
+    .topbar{height:56px;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 24px;position:sticky;top:0;z-index:20;}
+    .topbar__title{font-weight:700;font-size:14px;color:var(--muted);}
+    .topbar__user{margin-left:auto;display:flex;align-items:center;gap:9px;font-size:13px;font-weight:600;}
+    .topbar__avatar{width:30px;height:30px;border-radius:50%;background:var(--coral);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+    .topbar__logout{color:var(--light);font-size:12px;cursor:pointer;margin-left:4px;}
+    .topbar__logout:hover{color:var(--coral);}
+    .content{padding:26px 24px 60px;}
+
+    .page-h{font-family:var(--serif);font-size:24px;margin-bottom:2px;}
+    .page-sub{font-size:13px;color:var(--muted);margin-bottom:22px;}
+
+    /* stats */
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+    .stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+    .stat__n{font-family:var(--serif);font-size:26px;line-height:1;}
+    .stat__l{font-size:12px;color:var(--light);margin-top:6px;}
+    .stat--accent .stat__n{color:var(--coral);}
+    .stat__d{font-size:11px;color:var(--green);margin-top:4px;font-weight:600;}
+
+    /* generic card */
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px;}
+    .card h3{font-family:var(--serif);font-size:16px;margin-bottom:14px;}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+    /* toolbar */
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;}
+    .toolbar select,.toolbar input{padding:9px 12px;border:1.5px solid var(--line);border-radius:9px;font-size:13px;background:var(--panel);outline:none;}
+    .toolbar input{flex:1;min-width:160px;}
+    .toolbar select:focus,.toolbar input:focus{border-color:var(--coral);}
+    .toolbar .count{margin-left:auto;font-size:13px;color:var(--muted);}
+    .btn--add{background:var(--coral);color:#fff;padding:9px 16px;font-size:13px;}
+    .btn--add:hover{background:var(--coral-l);}
+
+    /* table */
+    .tablewrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+    table{width:100%;border-collapse:collapse;}
+    th{font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--light);text-align:left;padding:13px 18px;border-bottom:1px solid var(--line);font-weight:700;}
+    td{padding:13px 18px;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:middle;}
+    tr:last-child td{border-bottom:none;}
+    tbody tr.clickable{cursor:pointer;transition:background var(--t);}
+    tbody tr.clickable:hover{background:#FBF0F3;}
+    .strong{font-weight:700;color:var(--ink);}
+    .sub{font-size:12px;color:var(--light);}
+    .pill{display:inline-block;font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;white-space:nowrap;}
+    .s-new{background:rgba(212,73,95,0.14);color:#C0324B;}
+    .s-contacted{background:rgba(29,155,240,0.14);color:#1477B8;}
+    .s-followup{background:rgba(230,160,40,0.16);color:#A76B10;}
+    .s-interested{background:rgba(39,174,96,0.15);color:#1E8A4C;}
+    .s-offer{background:rgba(120,80,200,0.14);color:#6A3FB0;}
+    .s-won{background:rgba(39,174,96,0.2);color:#137A3D;}
+    .s-lost{background:rgba(120,130,140,0.15);color:#5A6570;}
+    .s-published{background:rgba(39,174,96,0.15);color:#1E8A4C;}
+    .s-verified{background:rgba(29,155,240,0.14);color:#1477B8;}
+    .s-applicant{background:rgba(230,160,40,0.16);color:#A76B10;}
+    .s-paused{background:rgba(120,130,140,0.15);color:#5A6570;}
+    .s-paid{background:rgba(39,174,96,0.2);color:#137A3D;}
+    .s-deposit{background:rgba(230,160,40,0.16);color:#A76B10;}
+    .s-active{background:rgba(39,174,96,0.15);color:#1E8A4C;}
+    .type-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);}
+    .type-badge .dot{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;background:rgba(16,43,61,0.06);}
+    .ref-tag{display:inline-block;font-size:11px;font-weight:700;background:rgba(212,73,95,0.12);color:var(--coral);padding:2px 8px;border-radius:8px;}
+    .empty{padding:44px;text-align:center;color:var(--light);font-size:14px;}
+    .muted-date{font-size:12px;color:var(--light);}
+    .idcell{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--light);font-weight:600;width:52px;}
+    th.idcol{width:52px;}
+    .newdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--coral);vertical-align:middle;margin-left:4px;box-shadow:0 0 0 3px rgba(212,73,95,0.18);}
+    .dupwarn{font-size:11px;color:#A76B10;font-weight:600;margin-top:3px;}
+    .ichips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:3px;}
+    .ichip{font-size:11px;font-weight:600;background:#EEF1F4;color:var(--muted);padding:2px 8px;border-radius:8px;}
+    .ichip.more{background:rgba(212,73,95,0.12);color:var(--coral);}
+    .dupbanner{background:rgba(230,160,40,0.12);border:1px solid rgba(230,160,40,0.35);color:#8A5A10;border-radius:12px;padding:12px 14px;font-size:13px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .dupmerge{margin-left:auto;background:#fff;border:1.5px solid rgba(230,160,40,0.5);color:#8A5A10;font-weight:700;font-size:12px;padding:6px 12px;border-radius:8px;cursor:pointer;}
+    .tlist{display:flex;flex-direction:column;gap:2px;}
+    .tl{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);}
+    .tl:last-child{border-bottom:none;}
+    .tl__ic{width:30px;height:30px;border-radius:8px;background:#EEF1F4;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+    .tl__t{font-size:13.5px;color:var(--ink);}
+    .tl__d{font-size:11px;color:var(--light);margin-top:2px;}
+
+    /* women grid */
+    .wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;}
+    .wcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform var(--t),box-shadow var(--t);}
+    .wcard:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,0.1);}
+    .wcard__img{aspect-ratio:1/1;overflow:hidden;position:relative;background:#000;}
+    .wcard__img img{width:100%;height:100%;object-fit:cover;}
+    .wcard__st{position:absolute;top:8px;left:8px;}
+    .wcard__b{padding:10px 12px;}
+    .wcard__n{font-weight:700;font-size:14px;}
+    .wcard__c{font-size:12px;color:var(--light);}
+
+    /* woman detail page */
+    .backlink{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--coral);cursor:pointer;margin-bottom:14px;}
+    .backlink:hover{text-decoration:underline;}
+    .wp-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:22px;}
+    .wform-grid{display:grid;grid-template-columns:320px 1fr;gap:22px;align-items:start;}
+    .photo-main{border-radius:12px;overflow:hidden;position:relative;margin-bottom:12px;background:#000;}
+    .photo-main img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;}
+    .photo-thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+    .pth{position:relative;border-radius:9px;overflow:hidden;aspect-ratio:1/1;border:2px solid transparent;cursor:pointer;}
+    .pth.primary{border-color:var(--coral);}
+    .pth img{width:100%;height:100%;object-fit:cover;}
+    .pth-x{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:6px;background:rgba(16,43,61,0.75);color:#fff;border:none;font-size:13px;cursor:pointer;line-height:1;}
+    .pth-tag{position:absolute;bottom:3px;left:3px;background:var(--coral);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px;}
+    .pth-add{display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;border:2px dashed var(--line);border-radius:9px;color:var(--light);font-size:12px;font-weight:600;cursor:pointer;text-align:center;}
+    .pth-add:hover{border-color:var(--coral);color:var(--coral);}
+    .flabel{display:block;font-size:12px;font-weight:600;color:var(--muted);margin:0 0 6px;}
+    .finput{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;font-size:13.5px;outline:none;margin-bottom:14px;background:#fff;color:var(--ink);}
+    .finput:focus{border-color:var(--coral);}
+    textarea.finput{min-height:90px;line-height:1.6;resize:vertical;}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .save-bar{display:flex;gap:10px;margin-top:4px;}
+    @media (max-width:800px){.wform-grid{grid-template-columns:1fr;}}
+
+    /* funnel */
+    .funnel{display:flex;flex-direction:column;gap:8px;}
+    .fbar{display:flex;align-items:center;gap:12px;}
+    .fbar__l{width:96px;font-size:12px;color:var(--muted);}
+    .fbar__track{flex:1;background:#EEF1F4;border-radius:6px;height:22px;overflow:hidden;}
+    .fbar__fill{height:100%;background:var(--coral);border-radius:6px;display:flex;align-items:center;padding:0 8px;color:#fff;font-size:11px;font-weight:700;}
+    .list-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;}
+    .list-row:last-child{border-bottom:none;}
+    .list-row .r-main{flex:1;}
+    .list-row .r-strong{font-weight:600;}
+    .mini-bar{width:90px;height:6px;background:#EEF1F4;border-radius:4px;overflow:hidden;}
+    .mini-bar span{display:block;height:100%;background:var(--coral);}
+
+    /* drawer */
+    .scrim{position:fixed;inset:0;background:rgba(16,43,61,0.4);z-index:40;opacity:0;pointer-events:none;transition:opacity var(--t);}
+    .scrim.on{opacity:1;pointer-events:auto;}
+    .drawer{position:fixed;top:0;right:0;height:100%;width:500px;max-width:94vw;background:var(--bg);z-index:50;box-shadow:-16px 0 48px rgba(0,0,0,0.18);transform:translateX(100%);transition:transform 0.28s ease;overflow-y:auto;}
+    .drawer.on{transform:translateX(0);}
+    .dr-head{background:var(--navy);color:#fff;padding:20px 22px;position:sticky;top:0;z-index:2;}
+    .dr-close{position:absolute;top:15px;right:16px;background:rgba(255,255,255,0.12);border:none;color:#fff;width:30px;height:30px;border-radius:8px;font-size:18px;cursor:pointer;}
+    .dr-close:hover{background:rgba(255,255,255,0.25);}
+    .dr-name{font-family:var(--serif);font-size:22px;}
+    .dr-sub{font-size:13px;color:rgba(255,255,255,0.6);margin-top:2px;}
+    .dr-body{padding:20px 22px;}
+    .dcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:14px;}
+    .dcard h4{font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--light);margin-bottom:12px;font-weight:700;}
+    .kv{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:13.5px;border-bottom:1px solid var(--line);}
+    .kv:last-child{border-bottom:none;}
+    .kv .k{color:var(--muted);} .kv .v{color:var(--ink);font-weight:600;text-align:right;}
+    .kv .v a{color:var(--coral);}
+    .msg-quote{background:#FBF0F3;border-left:3px solid var(--coral);border-radius:0 10px 10px 0;padding:11px 13px;font-size:13px;color:var(--muted);font-style:italic;line-height:1.6;}
+    .actions{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px;}
+    .act{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 6px;border-radius:11px;border:1.5px solid var(--line);background:var(--panel);cursor:pointer;font-size:12px;font-weight:600;transition:all var(--t);}
+    .act:hover{border-color:var(--coral);color:var(--coral);}
+    .act svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+    .act--wa:hover{border-color:#25D366;color:#128C4B;}
+    .status-row{display:flex;flex-wrap:wrap;gap:6px;}
+    .status-opt{font-size:12px;font-weight:600;padding:6px 11px;border-radius:20px;border:1.5px solid var(--line);background:var(--panel);color:var(--muted);cursor:pointer;transition:all var(--t);}
+    .status-opt:hover{border-color:var(--coral);}
+    .status-opt.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+    .note{padding:11px 0;border-bottom:1px solid var(--line);font-size:13px;}
+    .note:last-child{border-bottom:none;}
+    .note__meta{font-size:11px;color:var(--light);margin-bottom:3px;}
+    .note-add{display:flex;gap:8px;margin-top:10px;}
+    .note-add textarea{flex:1;padding:9px 11px;border:1.5px solid var(--line);border-radius:10px;font-size:13px;outline:none;resize:vertical;min-height:36px;}
+    .btn--sm{background:var(--coral);color:#fff;padding:0 15px;font-size:13px;border-radius:10px;}
+
+    /* modal */
+    .modal-scrim{position:fixed;inset:0;background:rgba(16,43,61,0.55);z-index:60;display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px);}
+    .modal-scrim.on{display:flex;}
+    .modal{background:var(--panel);border-radius:18px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,0.25);}
+    .modal__head{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;}
+    .modal__head h3{font-family:var(--serif);font-size:19px;}
+    .modal__head button{background:none;border:none;font-size:22px;color:var(--light);cursor:pointer;}
+    .modal__body{padding:20px 22px;}
+    .modal__body label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin:14px 0 6px;}
+    .modal__body label:first-child{margin-top:0;}
+    .modal__body select,.modal__body input,.modal__body textarea{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;font-size:13.5px;outline:none;}
+    .modal__body textarea{min-height:200px;line-height:1.6;resize:vertical;}
+    .modal__foot{padding:14px 22px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px;}
+    .btn--ghost{background:none;border:1.5px solid var(--line);color:var(--muted);padding:10px 16px;font-size:13px;}
+    .btn--send{background:var(--coral);color:#fff;padding:10px 20px;font-size:13px;}
+    .btn--send:hover{background:var(--coral-l);}
+
+    .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:12px 22px;border-radius:10px;font-size:13.5px;font-weight:500;opacity:0;pointer-events:none;transition:all var(--t);z-index:90;}
+    .toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+    @media (max-width:900px){
+      .app.on{grid-template-columns:1fr;}
+      .side{position:static;height:auto;display:flex;gap:6px;overflow-x:auto;padding:10px;}
+      .side__logo{display:none;} .navi{flex-direction:row;gap:4px;} .navi__sep{display:none;} .navi__badge{display:none;}
+      .navi a{white-space:nowrap;padding:8px 12px;}
+      .stats{grid-template-columns:1fr 1fr;} .grid2{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="login">
+  <div class="login__card">
+    <div class="login__logo">Match<span>Latin</span></div>
+    <div class="login__sub">Admin · concept</div>
+    <div class="fld"><label>Email</label><input type="email" value="owner@matchlatin.com"></div>
+    <div class="fld"><label>Password</label><input type="password" value="demo1234"></div>
+    <button class="btn btn--primary" id="signIn">Sign in →</button>
+    <div class="login__demo">🔒 Concept clickdummy — no real data</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+  <aside class="side">
+    <div class="side__logo">Match<span>Latin</span></div>
+    <nav class="navi" id="navi">
+      <a data-sec="dashboard" class="active"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</a>
+      <a data-sec="leads"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.18 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Leads<span class="navi__badge" id="badgeLeads"></span></a>
+      <a data-sec="customers"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Customers</a>
+      <div class="navi__sep">Catalog</div>
+      <a data-sec="women"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M12 13v8M9 18h6"/></svg>Women<span class="navi__badge" id="badgeWomen"></span></a>
+      <a data-sec="tours"><svg viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2 3 8l6 3-2 4-3 1 1 2 4-2 4 2 2-3-3-3 5-2z"/></svg>Tours</a>
+      <a data-sec="affiliates"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>Affiliates</a>
+      <div class="navi__sep">System</div>
+      <a data-sec="templates"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>Templates</a>
+      <a data-sec="users"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>Users &amp; roles</a>
+      <a data-sec="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</a>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar__title" id="crumb">Dashboard</div>
+      <div class="topbar__user"><div class="topbar__avatar">OW</div>Owner<span class="topbar__logout" id="logout">Log out</span></div>
+    </div>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<!-- DRAWER + MODAL + TOAST -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer"></aside>
+<div class="modal-scrim" id="modal"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+  const $=s=>document.querySelector(s);
+  const el=(h)=>{const d=document.createElement('div');d.innerHTML=h;return d.firstElementChild;};
+  let toastT; function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2000);}
+
+  /* ── DATA ── */
+  const STATUS={new:{l:'New',c:'s-new'},contacted:{l:'Contacted',c:'s-contacted'},followup:{l:'Follow-up',c:'s-followup'},interested:{l:'Interested',c:'s-interested'},offer:{l:'Offer sent',c:'s-offer'},won:{l:'Won',c:'s-won'},lost:{l:'Lost',c:'s-lost'}};
+  const ORDER=['new','contacted','followup','interested','offer','won','lost'];
+
+  // One record per PERSON (unique by email). All their website actions live in acts[].
+  // Affiliate commission = LAST-TOUCH: the most recent act that carried a ref.
+  const LEADS=[
+    {id:1,name:'David Whitmore',email:'david.w@email.com',phone:'+1 512 555 0148',age:52,country:'Texas, USA',lang:'EN',status:'new',today:true,newActivity:true,notes:[],acts:[
+      {type:'tour',label:'Cali · September 2026',ref:'maria-r',when:'Jul 10 · 09:14',msg:''},
+      {type:'msg',label:'Valentina, 26 · Cartagena',ref:'',when:'Jul 8 · 20:03',msg:'Hi Valentina, would love to meet you on the tour.'}
+    ]},
+    {id:2,name:'James Holloway',email:'j.holloway@email.co.uk',phone:'+44 7700 900321',age:47,country:'London, UK',lang:'EN',status:'new',today:true,newActivity:true,notes:[],acts:[
+      {type:'msg',label:'Sofía, 24 · Medellín',ref:'',when:'Jul 10 · 08:02',msg:"Hi! I really liked your profile and would love to get to know you."},
+      {type:'msg',label:'Daniela, 27 · Medellín',ref:'',when:'Jul 9 · 22:14',msg:'Beautiful smile — hope to meet you!'},
+      {type:'tour',label:'Medellín · November 2026',ref:'',when:'Jul 9 · 21:50',msg:''}
+    ]},
+    {id:3,name:'Robert Klein',email:'rklein@email.com',phone:'+1 305 555 0199',age:58,country:'Miami, USA',lang:'EN',status:'interested',notes:[{m:'Jul 9, 16:05 · Carlos',b:'Spoke 10 min. Very keen on 7-day Cali. Sending offer.'}],acts:[
+      {type:'tour',label:'Cali · October 2026',ref:'laura-g',when:'Jul 9 · 15:22',msg:''},
+      {type:'msg',label:'Sofía, 24 · Medellín',ref:'maria-r',when:'Jul 2 · 11:40',msg:'Hola Sofía!'}
+    ]},
+    {id:4,name:'Miguel Santos',email:'m.santos@email.es',phone:'+34 612 345 678',age:44,country:'Madrid, Spain',lang:'ES',status:'followup',followup:'2026-07-11',notes:[{m:'Jul 9, 11:00 · Carlos',b:'Call back Friday after 6pm.'}],acts:[
+      {type:'msg',label:'Valentina, 26 · Cartagena',ref:'',when:'Jul 8 · 21:11',msg:"Hola! Your profile caught my eye."}
+    ]},
+    {id:5,name:'Andrew Scott',email:'a.scott@email.com.au',phone:'+61 400 123 456',age:41,country:'Sydney, Australia',lang:'EN',status:'offer',notes:[{m:'Jul 8, 14:20 · Carlos',b:'Sold out Sept — offered October. Sent offer.'}],acts:[
+      {type:'tour',label:'Medellín · Sept 2026 (sold out)',ref:'',when:'Jul 8 · 12:30',msg:''}
+    ]},
+    {id:6,name:'Daniel Brooks',email:'dbrooks@email.com',phone:'+1 646 555 0110',age:49,country:'New York, USA',lang:'EN',status:'won',notes:[{m:'Jul 7, 09:30 · Carlos',b:'Paid deposit $900. 🎉'}],acts:[
+      {type:'tour',label:'Cali · October 2026',ref:'maria-r',when:'Jul 5 · 10:05',msg:''}
+    ]},
+    {id:7,name:'Frank Müller',email:'f.mueller@email.de',phone:'+49 172 9988776',age:55,country:'Munich, Germany',lang:'EN',status:'new',today:true,newActivity:true,notes:[],acts:[
+      {type:'tour',label:'Cali · November 2026',ref:'',when:'Jul 10 · 07:18',msg:''}
+    ]},
+    {id:8,name:'Steven Clarke',email:'s.clarke@email.com',phone:'+1 305 555 0199',age:46,country:'San Francisco, USA',lang:'EN',status:'new',newActivity:true,dupPhoneOf:3,notes:[],acts:[
+      {type:'msg',label:'Isabella, 25 · Cartagena',ref:'juan-p',when:'Jul 9 · 22:50',msg:"I'd love to take you to dinner during the event."}
+    ]},
+    {id:9,name:'Marco Rossi',email:'m.rossi@email.it',phone:'+39 320 1234567',age:43,country:'Milan, Italy',lang:'EN',status:'contacted',notes:[{m:'Jul 7, 17:00 · Carlos',b:'Comparing Dec Medellín vs Cali.'}],acts:[
+      {type:'tour',label:'Medellín · December 2026',ref:'',when:'Jul 7 · 14:12',msg:''}
+    ]},
+    {id:10,name:'George Adams',email:'g.adams@email.com',phone:'+1 702 555 0143',age:61,country:'Las Vegas, USA',lang:'EN',status:'interested',notes:[{m:'Jul 6, 15:40 · Carlos',b:'Hot lead — follow up to close.'}],acts:[
+      {type:'tour',label:'Cali · September 2026',ref:'',when:'Jul 6 · 11:33',msg:''}
+    ]}
+  ];
+  // helpers for the person model
+  const lastTouch=l=>{const a=l.acts.find(x=>x.ref);return a?a.ref:'';};
+  const latestWhen=l=>l.acts[0]?l.acts[0].when:'';
+  const interestChips=l=>l.acts.map(a=>a.type==='msg'?a.label.split(',')[0]:a.label.replace(' · ',' ').split('(')[0].trim());
+
+  const BOOKINGS=[
+    {name:'Daniel Brooks',email:'dbrooks@email.com',tour:'Cali · October 2026',dur:'7 days',total:3499,paid:900,pay:'deposit',date:'Jul 7, 2026'},
+    {name:'Richard Vale',email:'rvale@email.com',tour:'Medellín · November 2026',dur:'7 days',total:3499,paid:3499,pay:'paid',date:'Jul 3, 2026'},
+    {name:'Kevin Park',email:'kpark@email.com',tour:'Cali · September 2026',dur:'3 days',total:1499,paid:1499,pay:'paid',date:'Jun 28, 2026'},
+    {name:'Oliver Hunt',email:'ohunt@email.com',tour:'Medellín · December 2026',dur:'7 days',total:3499,paid:900,pay:'deposit',date:'Jul 9, 2026'},
+    {name:'Greg Nolan',email:'gnolan@email.com',tour:'Cali · October 2026',dur:'1 day',total:299,paid:299,pay:'paid',date:'Jun 25, 2026'}
+  ];
+
+  const WOMEN=[
+    {id:'sofia',name:'Sofía',age:24,city:'Medellín',status:'published',img:'images/pipe-gil-cZKRzB3b4BY-unsplash.jpg',langs:'Spanish, English',joined:'Mar 2026',seek:'Serious relationship'},
+    {id:'valentina',name:'Valentina',age:26,city:'Cartagena',status:'published',img:'images/garin-chadwick-1SKjtoZqwBo-unsplash.jpg',langs:'Spanish, English',joined:'Mar 2026',seek:'Dating'},
+    {id:'camila',name:'Camila',age:29,city:'Bogotá',status:'published',img:'images/david-gabric-SRJIMp_UKUQ-unsplash.jpg',langs:'Spanish, English, French',joined:'Apr 2026',seek:'Marriage & family'},
+    {id:'daniela',name:'Daniela',age:27,city:'Medellín',status:'published',img:'images/joshua-rawson-harris-6PROVhY2Yq4-unsplash.jpg',langs:'Spanish, English',joined:'Apr 2026',seek:'Serious relationship'},
+    {id:'mariana',name:'Mariana',age:31,city:'Barranquilla',status:'paused',img:'images/michael-fischer-Z-_pzonptuU-unsplash.jpg',langs:'Spanish, English, German',joined:'Feb 2026',seek:'Dating'},
+    {id:'isabella',name:'Isabella',age:25,city:'Cartagena',status:'published',img:'images/darren-lawrence-VIpDxjeD6xM-unsplash.jpg',langs:'Spanish, English',joined:'May 2026',seek:'Casual'},
+    {id:'lucia',name:'Lucía',age:28,city:'Medellín',status:'verified',img:'images/david-gabric-FG8xf4A_ybg-unsplash.jpg',langs:'Spanish',joined:'Jul 2026',seek:'Serious relationship'},
+    {id:'andrea',name:'Andrea',age:30,city:'Bogotá',status:'applicant',img:'images/christophe-dusabe-x-0a7bB0Ees-unsplash.jpg',langs:'Spanish, English, Portuguese',joined:'Jul 2026',seek:'Marriage & family'},
+    {id:'paola',name:'Paola',age:23,city:'Santa Marta',status:'applicant',img:'images/gabriel-porras-j_GgMDWiMJU-unsplash.jpg',langs:'Spanish, English',joined:'Jul 2026',seek:'Dating'},
+    {id:'natalia',name:'Natalia',age:32,city:'Medellín',status:'applicant',img:'images/carlos-andres-gomez-fEaI7uAYBtM-unsplash.jpg',langs:'Spanish, English',joined:'Jul 2026',seek:'Serious relationship'}
+  ];
+  const WSTATUS={applicant:{l:'Applicant',c:'s-applicant'},verified:{l:'Verified',c:'s-verified'},published:{l:'Published',c:'s-published'},paused:{l:'Paused',c:'s-paused'}};
+  const WORDER=['applicant','verified','published','paused'];
+
+  const TOURS=[
+    {city:'Medellín',month:'September 2026',dates:'Sep 5 – 11',booked:20,cap:20,status:'sold'},
+    {city:'Cali',month:'September 2026',dates:'Sep 5 – 11',booked:8,cap:20,status:'open'},
+    {city:'Medellín',month:'October 2026',dates:'Oct 3 – 9',booked:20,cap:20,status:'sold'},
+    {city:'Cali',month:'October 2026',dates:'Oct 3 – 9',booked:6,cap:20,status:'open'},
+    {city:'Medellín',month:'November 2026',dates:'Nov 7 – 13',booked:9,cap:20,status:'open'},
+    {city:'Cali',month:'November 2026',dates:'Nov 7 – 13',booked:11,cap:20,status:'open'},
+    {city:'Medellín',month:'December 2026',dates:'Dec 5 – 11',booked:4,cap:20,status:'open'},
+    {city:'Cali',month:'December 2026',dates:'Dec 5 – 11',booked:2,cap:20,status:'open'}
+  ];
+
+  const AFFILIATES=[
+    {name:'María Restrepo',code:'maria-r',ig:'@maria_fit',clicks:12840,leads:31,conv:6,rate:15,earned:4680,status:'active'},
+    {name:'Laura Gómez',code:'laura-g',ig:'@lauragomez',clicks:8100,leads:18,conv:3,rate:12,earned:1890,status:'active'},
+    {name:'Juan Pérez',code:'juan-p',ig:'@juanp_ve',clicks:5400,leads:9,conv:1,rate:12,earned:540,status:'active'},
+    {name:'Sofía Ruiz',code:'sofia-r',ig:'@sofiaruiz',clicks:2100,leads:3,conv:0,rate:12,earned:0,status:'paused'}
+  ];
+
+  const TEMPLATES=[
+    {id:'offer',ch:'Email',name:'Binding tour offer + payment',subj:'Your MatchLatin tour — booking & payment details',body:'Hi {name},\n\nGreat speaking with you! Here are the details for your tour: {tour}.\n\n• 4-star hotel (7 nights), social events, translator, transfers\n• Price: $3,499 per person\n• Deposit of $900 secures your spot\n\nPayment options: bank transfer / card link.\n\nWarm regards,\nCarlos — MatchLatin'},
+    {id:'info',ch:'Email',name:'More information about the tour',subj:'More about your MatchLatin tour',body:'Hi {name},\n\nThanks for your interest in {tour}! Small groups, fully organized, exclusive events with verified women.\n\nWhen is a good time to call?\n\nBest, Carlos'},
+    {id:'intro',ch:'Email',name:'Introduction & next steps',subj:'Welcome to MatchLatin 👋',body:'Hi {name},\n\nI am Carlos and I will personally help you plan everything. Which month and city works best?\n\nSpeak soon, Carlos'},
+    {id:'wa1',ch:'WhatsApp',name:'First WhatsApp touch',subj:'—',body:'Hi {name}, this is Carlos from MatchLatin 👋 Thanks for your interest! Is now a good time for a quick chat?'},
+    {id:'wa2',ch:'WhatsApp',name:'Follow-up nudge',subj:'—',body:'Hi {name}, just checking in 🙂 Still thinking about {tour}? Happy to answer any questions!'}
+  ];
+
+  const USERS=[
+    {name:'Owner',email:'owner@matchlatin.com',role:'Admin',last:'Now'},
+    {name:'Carlos',email:'carlos@matchlatin.com',role:'Sales',last:'Today · 08:40'}
+  ];
+
+  /* sequential numeric IDs for every record */
+  BOOKINGS.forEach((b,i)=>b.id=i+1);
+  WOMEN.forEach((w,i)=>w.nid=i+1);
+  TOURS.forEach((t,i)=>t.id=i+1);
+  AFFILIATES.forEach((a,i)=>a.id=i+1);
+  const idcell=n=>`<td class="idcell">#${n}</td>`;
+
+  /* ── LOGIN ── */
+  $('#signIn').addEventListener('click',()=>{$('#login').style.display='none';$('#app').classList.add('on');});
+  $('#logout').addEventListener('click',()=>{$('#app').classList.remove('on');$('#login').style.display='flex';});
+
+  /* ── ROUTER ── */
+  const SEC_TITLE={dashboard:'Dashboard',leads:'Leads',customers:'Customers',women:'Women',tours:'Tours',affiliates:'Affiliates',templates:'Templates',users:'Users & roles',settings:'Settings'};
+  document.querySelectorAll('#navi a').forEach(a=>a.addEventListener('click',()=>{
+    document.querySelectorAll('#navi a').forEach(x=>x.classList.toggle('active',x===a));
+    go(a.dataset.sec);
+  }));
+  function go(sec){ $('#crumb').textContent=SEC_TITLE[sec]; RENDER[sec](); window.scrollTo(0,0); }
+
+  const money=n=>'$'+n.toLocaleString('en-US');
+
+  /* ── DASHBOARD ── */
+  function dashboard(){
+    const newToday=LEADS.filter(l=>l.today).length;
+    const funnel=[['Leads',LEADS.length],['Contacted',LEADS.filter(l=>['contacted','followup','interested','offer','won'].includes(l.status)).length],['Interested',LEADS.filter(l=>['interested','offer','won'].includes(l.status)).length],['Offer',LEADS.filter(l=>['offer','won'].includes(l.status)).length],['Won',LEADS.filter(l=>l.status==='won').length]];
+    const fmax=funnel[0][1];
+    const revenue=BOOKINGS.reduce((s,b)=>s+b.paid,0);
+    const pendingW=WOMEN.filter(w=>w.status==='applicant').length;
+    const topTours=[...TOURS].sort((a,b)=>b.booked/b.cap-a.booked/a.cap).slice(0,4);
+    const topAff=[...AFFILIATES].sort((a,b)=>b.earned-a.earned).slice(0,3);
+    $('#content').innerHTML=`
+      <div class="page-h">Dashboard</div>
+      <div class="page-sub">Overview of what's happening across MatchLatin.</div>
+      <div class="stats">
+        <div class="stat stat--accent"><div class="stat__n">2,480</div><div class="stat__l">Website visits (7d)</div><div class="stat__d">↑ 12% vs last week</div></div>
+        <div class="stat"><div class="stat__n">${LEADS.reduce((s,l)=>s+l.acts.length,0)}</div><div class="stat__l">Forms submitted</div><div class="stat__d">${LEADS.length} unique people</div></div>
+        <div class="stat"><div class="stat__n">${WOMEN.filter(w=>w.status==='published').length}</div><div class="stat__l">Published women</div><div class="stat__d">${pendingW} pending review</div></div>
+        <div class="stat"><div class="stat__n">${money(revenue)}</div><div class="stat__l">Revenue (this month)</div><div class="stat__d">${BOOKINGS.length} bookings</div></div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h3>Conversion funnel</h3>
+          <div class="funnel">${funnel.map(f=>`<div class="fbar"><div class="fbar__l">${f[0]}</div><div class="fbar__track"><div class="fbar__fill" style="width:${Math.max(f[1]/fmax*100,8)}%">${f[1]}</div></div></div>`).join('')}</div>
+        </div>
+        <div class="card">
+          <h3>Tours filling up</h3>
+          ${topTours.map(t=>`<div class="list-row"><div class="r-main"><div class="r-strong">${t.city} · ${t.month}</div><div class="sub">${t.booked}/${t.cap} booked</div></div><div class="mini-bar"><span style="width:${t.booked/t.cap*100}%"></span></div>${t.status==='sold'?'<span class="pill s-lost">Sold out</span>':''}</div>`).join('')}
+        </div>
+        <div class="card">
+          <h3>Top affiliates</h3>
+          ${topAff.map(a=>`<div class="list-row"><div class="r-main"><div class="r-strong">${a.name} <span class="ref-tag">${a.code}</span></div><div class="sub">${a.conv} conversions · ${a.leads} leads</div></div><div class="r-strong">${money(a.earned)}</div></div>`).join('')}
+        </div>
+        <div class="card">
+          <h3>Needs attention</h3>
+          <div class="list-row"><div class="r-main"><div class="r-strong">${newToday} new leads today</div><div class="sub">Not contacted yet</div></div><span class="pill s-new">Action</span></div>
+          <div class="list-row"><div class="r-main"><div class="r-strong">${pendingW} women applications</div><div class="sub">Waiting for review</div></div><span class="pill s-applicant">Review</span></div>
+          <div class="list-row"><div class="r-main"><div class="r-strong">${LEADS.filter(l=>l.status==='followup').length} follow-ups due</div><div class="sub">Scheduled callbacks</div></div><span class="pill s-followup">Call</span></div>
+        </div>
+      </div>`;
+  }
+
+  /* ── LEADS ── */
+  function leads(){
+    $('#content').innerHTML=`
+      <div class="page-h">Leads</div>
+      <div class="page-sub">One record per person (unique by email). All their website actions are grouped together.</div>
+      <div class="toolbar">
+        <select id="fStatus"><option value="">All statuses</option>${ORDER.map(s=>`<option value="${s}">${STATUS[s].l}</option>`).join('')}</select>
+        <select id="fType"><option value="">All activity</option><option value="msg">Messaged a woman</option><option value="tour">Tour interest</option></select>
+        <input id="fSearch" placeholder="Search name, email, phone…">
+        <div class="count"><b id="cnt">0</b> people</div>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th class="idcol">ID</th><th>Lead</th><th>Interested in</th><th>Attributed</th><th>Status</th><th>Last activity</th></tr></thead><tbody id="rows"></tbody></table><div class="empty" id="empty" style="display:none;">No leads match.</div></div>`;
+    const draw=()=>{
+      const st=$('#fStatus').value,ty=$('#fType').value,q=$('#fSearch').value.trim().toLowerCase();
+      const list=LEADS.filter(l=>(!st||l.status===st)&&(!ty||l.acts.some(a=>a.type===ty))&&(!q||(l.name+l.email+l.phone).toLowerCase().includes(q))).sort((a,b)=>a.id-b.id);
+      $('#cnt').textContent=list.length; $('#empty').style.display=list.length?'none':'block';
+      $('#rows').innerHTML=list.map(l=>{
+        const chips=interestChips(l);const shown=chips.slice(0,2).map(c=>`<span class="ichip">${c}</span>`).join('');const more=chips.length>2?`<span class="ichip more">+${chips.length-2}</span>`:'';
+        const ref=lastTouch(l);
+        return `<tr class="clickable" data-id="${l.id}">
+        ${idcell(l.id)}
+        <td><div class="strong">${l.name} ${l.newActivity?'<span class="newdot" title="New activity"></span>':''}</div><div class="sub">${l.country} · ${l.email}</div>${l.dupPhoneOf?'<div class="dupwarn">⚠ possible duplicate (same phone)</div>':''}</td>
+        <td><div class="ichips">${shown}${more}</div><div class="sub">${l.acts.filter(a=>a.type==='msg').length} women · ${l.acts.filter(a=>a.type==='tour').length} tour</div></td>
+        <td>${ref?`<span class="ref-tag">${ref}</span>`:'<span class="sub">—</span>'}</td>
+        <td><span class="pill ${STATUS[l.status].c}">${STATUS[l.status].l}</span></td>
+        <td><span class="muted-date">${latestWhen(l)}</span></td></tr>`;}).join('');
+      $('#rows').querySelectorAll('tr').forEach(tr=>tr.addEventListener('click',()=>openLead(+tr.dataset.id,draw)));
+    };
+    ['#fStatus','#fType','#fSearch'].forEach(s=>$(s).addEventListener('input',draw));
+    draw();
+  }
+
+  /* drawer for lead */
+  const drawer=$('#drawer'),scrim=$('#scrim');
+  function closeDrawer(){drawer.classList.remove('on');scrim.classList.remove('on');}
+  scrim.addEventListener('click',closeDrawer);
+  let curLead=null;
+  function openLead(id,refresh){
+    const l=LEADS.find(x=>x.id===id);curLead=l;const wa=l.phone.replace(/[^0-9]/g,'');const ref=lastTouch(l);
+    const dup=l.dupPhoneOf?LEADS.find(x=>x.id===l.dupPhoneOf):null;
+    const timeline=l.acts.map(a=>`<div class="tl"><div class="tl__ic">${a.type==='msg'?'💬':'✈️'}</div><div class="tl__b"><div class="tl__t">${a.type==='msg'?'Messaged':'Tour inquiry'} · <strong>${a.label}</strong> ${a.ref?'<span class="ref-tag">via '+a.ref+'</span>':''}</div><div class="tl__d">${a.when}</div>${a.msg?`<div class="msg-quote" style="margin-top:6px">“${a.msg}”</div>`:''}</div></div>`).join('');
+    drawer.innerHTML=`<div class="dr-head"><button class="dr-close" id="drX">×</button><div class="dr-name">${l.name}</div><div class="dr-sub">${l.age} · ${l.country} · ${l.lang}</div></div>
+      <div class="dr-body">
+        ${dup?`<div class="dupbanner">⚠ Same phone as <strong>#${dup.id} ${dup.name}</strong> — possible duplicate. <button class="dupmerge" id="drMerge">Merge</button></div>`:''}
+        <div class="actions">
+          <a class="act" href="tel:${l.phone.replace(/\s/g,'')}"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Call</a>
+          <a class="act act--wa" target="_blank" href="https://wa.me/${wa}?text=${encodeURIComponent('Hi '+l.name.split(' ')[0]+', this is Carlos from MatchLatin 👋')}"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.3-1.4A10 10 0 1 0 12 2z"/></svg>WhatsApp</a>
+          <button class="act" id="drEmail"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>Email</button>
+        </div>
+        <div class="dcard"><h4>Contact</h4>
+          <div class="kv"><span class="k">Email</span><span class="v"><a href="mailto:${l.email}">${l.email}</a></span></div>
+          <div class="kv"><span class="k">Phone</span><span class="v">${l.phone}</span></div>
+          <div class="kv"><span class="k">Country</span><span class="v">${l.country}</span></div>
+          <div class="kv"><span class="k">Affiliate (last touch)</span><span class="v">${ref?'<span class=\'ref-tag\'>'+ref+'</span>':'—'}</span></div></div>
+        <div class="dcard"><h4>Website activity · ${l.acts.length}</h4><div class="tlist">${timeline}</div></div>
+        <div class="dcard"><h4>Status</h4><div class="status-row">${ORDER.map(s=>`<button class="status-opt ${s===l.status?'active':''}" data-s="${s}">${STATUS[s].l}</button>`).join('')}</div>${['interested','offer','won'].includes(l.status)?'<button class="btn btn--add" style="width:100%;margin-top:12px" id="drConvert">✈️ Convert to booking</button>':''}</div>
+        <div class="dcard"><h4>Notes</h4><div id="notes">${l.notes.length?l.notes.map(n=>`<div class="note"><div class="note__meta">${n.m}</div><div>${n.b}</div></div>`).join(''):'<div class="note__meta">No notes yet.</div>'}</div>
+          <div class="note-add"><textarea id="ni" placeholder="Add a note…"></textarea><button class="btn btn--sm" id="na">Add</button></div></div>
+      </div>`;
+    drawer.classList.add('on');scrim.classList.add('on');
+    if(l.newActivity){l.newActivity=false;updateBadges();}
+    $('#drX').addEventListener('click',closeDrawer);
+    if(dup)$('#drMerge').addEventListener('click',()=>toast('Merge with #'+dup.id+' (demo)'));
+    const conv=$('#drConvert');if(conv)conv.addEventListener('click',()=>toast('Converted to booking (demo)'));
+    drawer.querySelectorAll('.status-opt').forEach(b=>b.addEventListener('click',()=>{l.status=b.dataset.s;openLead(l.id,refresh);refresh&&refresh();updateBadges();toast('Status → '+STATUS[l.status].l);}));
+    $('#na').addEventListener('click',()=>{const v=$('#ni').value.trim();if(!v)return;l.notes.unshift({m:'Just now · Carlos',b:v});$('#notes').innerHTML=l.notes.map(n=>`<div class="note"><div class="note__meta">${n.m}</div><div>${n.b}</div></div>`).join('');$('#ni').value='';toast('Note added');});
+    $('#drEmail').addEventListener('click',()=>emailModal(l,refresh));
+  }
+
+  /* ── CUSTOMERS / BOOKINGS ── */
+  function customers(){
+    const rev=BOOKINGS.reduce((s,b)=>s+b.paid,0);const out=BOOKINGS.reduce((s,b)=>s+(b.total-b.paid),0);
+    $('#content').innerHTML=`
+      <div class="page-h">Customers</div>
+      <div class="page-sub">People who booked a tour. Track payment status and balances.</div>
+      <div class="stats">
+        <div class="stat stat--accent"><div class="stat__n">${BOOKINGS.length}</div><div class="stat__l">Bookings</div></div>
+        <div class="stat"><div class="stat__n">${money(rev)}</div><div class="stat__l">Collected</div></div>
+        <div class="stat"><div class="stat__n">${money(out)}</div><div class="stat__l">Outstanding balance</div></div>
+        <div class="stat"><div class="stat__n">${BOOKINGS.filter(b=>b.pay==='paid').length}</div><div class="stat__l">Fully paid</div></div>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th class="idcol">ID</th><th>Customer</th><th>Tour</th><th>Length</th><th>Total</th><th>Payment</th><th>Booked</th></tr></thead><tbody>
+        ${[...BOOKINGS].sort((a,b)=>a.id-b.id).map(b=>`<tr>${idcell(b.id)}<td><div class="strong">${b.name}</div><div class="sub">${b.email}</div></td><td>${b.tour}</td><td>${b.dur}</td><td class="strong">${money(b.total)}</td><td>${b.pay==='paid'?'<span class="pill s-paid">Paid</span>':'<span class="pill s-deposit">Deposit '+money(b.paid)+'</span>'}</td><td><span class="muted-date">${b.date}</span></td></tr>`).join('')}
+      </tbody></table></div>`;
+  }
+
+  /* ── WOMEN ── */
+  function women(){
+    $('#content').innerHTML=`
+      <div class="page-h">Women</div>
+      <div class="page-sub">Source database that powers the website catalog. Review applications and manage profiles.</div>
+      <div class="toolbar">
+        <select id="wf"><option value="">All statuses</option>${WORDER.map(s=>`<option value="${s}">${WSTATUS[s].l}</option>`).join('')}</select>
+        <input id="wsearch" placeholder="Search name or city…">
+        <div class="count"><b id="wc">0</b> profiles</div>
+        <button class="btn btn--add" onclick="toastAdd()">+ Add woman</button>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th class="idcol">ID</th><th>Woman</th><th>Age</th><th>City</th><th>Languages</th><th>Looking for</th><th>Status</th></tr></thead><tbody id="wrows"></tbody></table><div class="empty" id="wempty" style="display:none;">No profiles match.</div></div>`;
+    const draw=()=>{
+      const f=$('#wf').value, q=$('#wsearch').value.trim().toLowerCase();
+      const list=WOMEN.filter(w=>(!f||w.status===f)&&(!q||(w.name+w.city).toLowerCase().includes(q))).sort((a,b)=>a.nid-b.nid);
+      $('#wc').textContent=list.length; $('#wempty').style.display=list.length?'none':'block';
+      $('#wrows').innerHTML=list.map(w=>`<tr class="clickable" data-id="${w.id}">
+        ${idcell(w.nid)}
+        <td><div style="display:flex;align-items:center;gap:12px"><img src="${w.img}" alt="" style="width:40px;height:40px;border-radius:9px;object-fit:cover;flex-shrink:0"><span class="strong">${w.name}</span></div></td>
+        <td>${w.age}</td>
+        <td>${w.city}</td>
+        <td class="sub">${w.langs}</td>
+        <td>${w.seek}</td>
+        <td><span class="pill ${WSTATUS[w.status].c}">${WSTATUS[w.status].l}</span></td></tr>`).join('');
+      $('#wrows').querySelectorAll('tr').forEach(tr=>tr.addEventListener('click',()=>womanPage(tr.dataset.id)));
+    };
+    $('#wf').addEventListener('change',draw); $('#wsearch').addEventListener('input',draw); draw();
+  }
+  function womanPage(id){
+    const w=WOMEN.find(x=>x.id===id);
+    const photos=[w.img,w.img,w.img];
+    $('#crumb').textContent='Women · '+w.name;
+    $('#content').innerHTML=`
+      <a class="backlink" id="wback">← Back to Women</a>
+      <div class="wp-head">
+        <div><div class="page-h">${w.name}, ${w.age}</div><div class="page-sub">${w.city} · joined ${w.joined}</div></div>
+        <span class="pill ${WSTATUS[w.status].c}" id="wstatusPill" style="margin-top:6px">${WSTATUS[w.status].l}</span>
+      </div>
+      <div class="wform-grid">
+        <div>
+          <div class="card">
+            <h3>Photos</h3>
+            <div class="photo-main"><img src="${w.img}" alt=""></div>
+            <div class="photo-thumbs">
+              ${photos.map((p,i)=>`<div class="pth ${i===0?'primary':''}"><img src="${p}">${i===0?'<span class="pth-tag">Primary</span>':''}<button class="pth-x" title="Remove" onclick="event.stopPropagation();toast('Photo removed (demo)')">×</button></div>`).join('')}
+              <label class="pth-add" onclick="toast('Upload photo (demo)')">+ Upload</label>
+            </div>
+            <p class="sub" style="margin-top:12px">Drag to reorder · first photo is the main profile picture on the site.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card"><h3>Profile details</h3>
+            <div class="frow"><div><label class="flabel">Name</label><input class="finput" value="${w.name}"></div><div><label class="flabel">Age</label><input class="finput" type="number" value="${w.age}"></div></div>
+            <div class="frow"><div><label class="flabel">City</label><input class="finput" value="${w.city}"></div><div><label class="flabel">Height</label><input class="finput" value="1.6${w.age%9} m"></div></div>
+            <div class="frow"><div><label class="flabel">Occupation</label><input class="finput" value="—" placeholder="e.g. Marketing manager"></div><div><label class="flabel">Education</label><input class="finput" value="—" placeholder="e.g. Bachelor's"></div></div>
+            <label class="flabel">Languages</label><input class="finput" value="${w.langs}">
+            <label class="flabel">Looking for</label>
+            <select class="finput">${['Serious relationship','Dating','Casual','Marriage & family'].map(o=>`<option ${o===w.seek?'selected':''}>${o}</option>`).join('')}</select>
+            <label class="flabel">Bio</label><textarea class="finput" placeholder="Short introduction shown on her public profile…">${w.name} is a warm, genuine woman from ${w.city} looking for ${w.seek.toLowerCase()}.</textarea>
+            <label class="flabel">Tags (comma separated)</label><input class="finput" value="Bilingual, Verified, ${w.city}">
+          </div>
+          <div class="card"><h3>Contact (internal only)</h3>
+            <div class="frow"><div><label class="flabel">Phone / WhatsApp</label><input class="finput" value="+57 3•• ••• ••••"></div><div><label class="flabel">Email</label><input class="finput" value="${w.id}@example.com"></div></div>
+          </div>
+          <div class="card"><h3>Status &amp; verification</h3>
+            <div class="status-row" id="wstatus">${WORDER.map(s=>`<button class="status-opt ${s===w.status?'active':''}" data-s="${s}">${WSTATUS[s].l}</button>`).join('')}</div>
+            <p class="sub" style="margin-top:10px">Applicant → Verified (ID checked) → Published (live on site) → Paused (hidden).</p>
+          </div>
+          <div class="save-bar"><button class="btn btn--add" onclick="toast('Profile saved (demo)')">Save changes</button><button class="btn btn--ghost" id="wcancel">Cancel</button></div>
+        </div>
+      </div>`;
+    $('#wback').addEventListener('click',()=>{ $('#crumb').textContent='Women'; women(); });
+    $('#wcancel').addEventListener('click',()=>{ $('#crumb').textContent='Women'; women(); });
+    $('#wstatus').querySelectorAll('.status-opt').forEach(b=>b.addEventListener('click',()=>{
+      w.status=b.dataset.s;
+      $('#wstatus').querySelectorAll('.status-opt').forEach(x=>x.classList.toggle('active',x===b));
+      const pill=$('#wstatusPill'); pill.className='pill '+WSTATUS[w.status].c; pill.textContent=WSTATUS[w.status].l;
+      updateBadges(); toast(w.name+' → '+WSTATUS[w.status].l);
+    }));
+    window.scrollTo(0,0);
+  }
+  window.toastAdd=()=>toast('New profile form (demo)');
+
+  /* ── TOURS ── */
+  function tours(){
+    $('#content').innerHTML=`
+      <div class="page-h">Tours</div>
+      <div class="page-sub">Create and manage tours. Capacity here drives “sold out / spots left” on the website.</div>
+      <div class="toolbar"><div class="count"><b>${TOURS.length}</b> tours</div><button class="btn btn--add" onclick="toast('New tour form (demo)')">+ New tour</button></div>
+      <div class="tablewrap"><table><thead><tr><th class="idcol">ID</th><th>City</th><th>Month</th><th>Dates (7-day)</th><th>Durations</th><th>Booked</th><th>Status</th></tr></thead><tbody id="trows"></tbody></table></div>`;
+    $('#trows').innerHTML=[...TOURS].sort((a,b)=>a.id-b.id).map(t=>`<tr class="clickable" data-id="${t.id}">${idcell(t.id)}<td class="strong">${t.city}</td><td>${t.month}</td><td>${t.dates}</td><td class="sub">7d · 3d · 1d</td><td><div class="strong">${t.booked}/${t.cap}</div><div class="mini-bar"><span style="width:${t.booked/t.cap*100}%"></span></div></td><td>${t.status==='sold'?'<span class="pill s-lost">Sold out</span>':'<span class="pill s-active">Open</span>'}</td></tr>`).join('');
+    $('#trows').querySelectorAll('tr').forEach(tr=>tr.addEventListener('click',()=>tourPage(+tr.dataset.id)));
+  }
+
+  function tourPage(id){
+    const t=TOURS.find(x=>x.id===id);
+    $('#crumb').textContent='Tours · '+t.city+' '+t.month;
+    const cityImg=t.city==='Cali'?'images/cali.jpg':'images/medelin.jpg';
+    $('#content').innerHTML=`
+      <a class="backlink" id="tback">← Back to Tours</a>
+      <div class="wp-head">
+        <div><div class="page-h">${t.city} · ${t.month}</div><div class="page-sub">${t.dates} · ${t.booked}/${t.cap} booked</div></div>
+        <span class="pill ${t.status==='sold'?'s-lost':'s-active'}" id="tstatusPill" style="margin-top:6px">${t.status==='sold'?'Sold out':'Open'}</span>
+      </div>
+      <div class="wform-grid">
+        <div>
+          <div class="card" style="padding:0;overflow:hidden"><img src="${cityImg}" alt="" style="width:100%;aspect-ratio:3/2;object-fit:cover;display:block"></div>
+          <div class="card"><h3>Capacity</h3>
+            <div class="frow"><div><label class="flabel">Booked</label><input class="finput" type="number" value="${t.booked}"></div><div><label class="flabel">Total spots</label><input class="finput" type="number" value="${t.cap}"></div></div>
+            <div class="mini-bar" style="width:100%;height:8px"><span style="width:${t.booked/t.cap*100}%"></span></div>
+            <p class="sub" style="margin-top:10px">This drives “Only X spots left” and “Sold out” on the website.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card"><h3>Tour details</h3>
+            <div class="frow"><div><label class="flabel">City</label><select class="finput">${['Medellín','Cali'].map(c=>`<option ${c===t.city?'selected':''}>${c}</option>`).join('')}</select></div><div><label class="flabel">Month</label><input class="finput" value="${t.month}"></div></div>
+            <div class="frow"><div><label class="flabel">Start date</label><input class="finput" value="${t.dates.split(' – ')[0]}, 2026"></div><div><label class="flabel">Status</label><select class="finput"><option ${t.status!=='sold'?'selected':''}>Open</option><option ${t.status==='sold'?'selected':''}>Sold out</option></select></div></div>
+          </div>
+          <div class="card"><h3>Durations &amp; pricing</h3>
+            <div class="frow"><div><label class="flabel">7-day price (USD)</label><input class="finput" type="number" value="3499"></div><div><label class="flabel">Hotel</label><input class="finput" value="Included"></div></div>
+            <div class="frow"><div><label class="flabel">3-day price (USD)</label><input class="finput" type="number" value="1499"></div><div><label class="flabel">3-day starts</label><input class="finput" value="Day 2 or Day 5"></div></div>
+            <div class="frow"><div><label class="flabel">1-day event (USD)</label><input class="finput" type="number" value="299"></div><div><label class="flabel">1-day event days</label><input class="finput" value="Day 2 or Day 5"></div></div>
+          </div>
+          <div class="card"><h3>What's included</h3>
+            <textarea class="finput" style="min-height:110px">4-star hotel (7 nights) · 4 exclusive social events · Personal translator · Curated introductions · Airport transfers</textarea>
+          </div>
+          <div class="save-bar"><button class="btn btn--add" onclick="toast('Tour saved (demo)')">Save changes</button><button class="btn btn--ghost" id="tcancel">Cancel</button></div>
+        </div>
+      </div>`;
+    $('#tback').addEventListener('click',()=>{$('#crumb').textContent='Tours';tours();});
+    $('#tcancel').addEventListener('click',()=>{$('#crumb').textContent='Tours';tours();});
+    window.scrollTo(0,0);
+  }
+
+  /* ── AFFILIATES ── */
+  function affiliates(){
+    const totalEarned=AFFILIATES.reduce((s,a)=>s+a.earned,0);const totalConv=AFFILIATES.reduce((s,a)=>s+a.conv,0);
+    $('#content').innerHTML=`
+      <div class="page-h">Affiliates</div>
+      <div class="page-sub">Influencer partners and their referral performance. Codes match the ?ref= tag on incoming leads.</div>
+      <div class="stats">
+        <div class="stat"><div class="stat__n">${AFFILIATES.length}</div><div class="stat__l">Partners</div></div>
+        <div class="stat"><div class="stat__n">${totalConv}</div><div class="stat__l">Conversions</div></div>
+        <div class="stat stat--accent"><div class="stat__n">${money(totalEarned)}</div><div class="stat__l">Commissions owed</div></div>
+        <div class="stat"><div class="stat__n">${AFFILIATES.filter(a=>a.status==='active').length}</div><div class="stat__l">Active</div></div>
+      </div>
+      <div class="tablewrap"><table><thead><tr><th class="idcol">ID</th><th>Partner</th><th>Code</th><th>Clicks</th><th>Leads</th><th>Conv.</th><th>Rate</th><th>Earned</th><th>Status</th></tr></thead><tbody>
+        ${[...AFFILIATES].sort((a,b)=>a.id-b.id).map(a=>`<tr class="clickable" onclick="toast('Affiliate: ${a.name} (demo)')">${idcell(a.id)}<td><div class="strong">${a.name}</div><div class="sub">${a.ig}</div></td><td><span class="ref-tag">${a.code}</span></td><td>${a.clicks.toLocaleString()}</td><td>${a.leads}</td><td class="strong">${a.conv}</td><td>${a.rate}%</td><td class="strong">${money(a.earned)}</td><td>${a.status==='active'?'<span class="pill s-active">Active</span>':'<span class="pill s-paused">Paused</span>'}</td></tr>`).join('')}
+      </tbody></table></div>`;
+  }
+
+  /* ── TEMPLATES ── */
+  function templates(){
+    $('#content').innerHTML=`
+      <div class="page-h">Templates</div>
+      <div class="page-sub">Email &amp; WhatsApp templates sales use. Edit here — no developer needed.</div>
+      <div class="toolbar"><div class="count"><b>${TEMPLATES.length}</b> templates</div><button class="btn btn--add" onclick="toast('New template (demo)')">+ New template</button></div>
+      <div class="tablewrap"><table><thead><tr><th>Name</th><th>Channel</th><th>Subject</th><th></th></tr></thead><tbody>
+        ${TEMPLATES.map(t=>`<tr class="clickable" data-id="${t.id}"><td class="strong">${t.name}</td><td>${t.ch==='Email'?'✉️ Email':'💬 WhatsApp'}</td><td class="sub">${t.subj}</td><td style="text-align:right"><span class="ref-tag">Edit</span></td></tr>`).join('')}
+      </tbody></table></div>`;
+    $('#content').querySelectorAll('tr[data-id]').forEach(tr=>tr.addEventListener('click',()=>editTemplate(tr.dataset.id)));
+  }
+  function editTemplate(id){
+    const t=TEMPLATES.find(x=>x.id===id);
+    $('#modal').innerHTML=`<div class="modal"><div class="modal__head"><h3>Edit template</h3><button onclick="closeModal()">×</button></div>
+      <div class="modal__body"><label>Name</label><input value="${t.name.replace(/"/g,'&quot;')}">
+      <label>Channel</label><input value="${t.ch}" readonly>
+      ${t.ch==='Email'?`<label>Subject</label><input value="${t.subj.replace(/"/g,'&quot;')}">`:''}
+      <label>Message · use {name} and {tour}</label><textarea>${t.body}</textarea></div>
+      <div class="modal__foot"><button class="btn btn--ghost" onclick="closeModal()">Cancel</button><button class="btn btn--send" onclick="closeModal();toast('Template saved (demo)')">Save</button></div></div>`;
+    $('#modal').classList.add('on');
+  }
+
+  /* ── USERS ── */
+  function users(){
+    $('#content').innerHTML=`
+      <div class="page-h">Users &amp; roles</div>
+      <div class="page-sub">Who can access the admin. Roles: Admin (full) · Sales (leads &amp; customers).</div>
+      <div class="toolbar"><div class="count"><b>${USERS.length}</b> users</div><button class="btn btn--add" onclick="toast('Invite user (demo)')">+ Invite user</button></div>
+      <div class="tablewrap"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Last active</th></tr></thead><tbody>
+        ${USERS.map(u=>`<tr><td class="strong">${u.name}</td><td class="sub">${u.email}</td><td>${u.role==='Admin'?'<span class="pill s-offer">Admin</span>':'<span class="pill s-contacted">Sales</span>'}</td><td><span class="muted-date">${u.last}</span></td></tr>`).join('')}
+      </tbody></table></div>`;
+  }
+
+  /* ── SETTINGS ── */
+  function settings(){
+    $('#content').innerHTML=`
+      <div class="page-h">Settings</div>
+      <div class="page-sub">Company info, payment details and defaults.</div>
+      <div class="grid2">
+        <div class="card"><h3>Company</h3>
+          <label class="sub">Brand name</label><input class="setinp" value="MatchLatin">
+          <label class="sub">Support email</label><input class="setinp" value="hello@matchlatin.com">
+          <label class="sub">WhatsApp number</label><input class="setinp" value="+57 300 000 0000"></div>
+        <div class="card"><h3>Payments &amp; defaults</h3>
+          <label class="sub">Deposit amount (USD)</label><input class="setinp" value="900">
+          <label class="sub">Default 7-day price (USD)</label><input class="setinp" value="3499">
+          <label class="sub">Active cities</label><input class="setinp" value="Medellín, Cali"></div>
+        <div class="card"><h3>Email sender</h3>
+          <label class="sub">From name</label><input class="setinp" value="Carlos — MatchLatin">
+          <label class="sub">From email</label><input class="setinp" value="carlos@matchlatin.com"></div>
+        <div class="card"><h3>Affiliate</h3>
+          <label class="sub">Starter commission (%)</label><input class="setinp" value="12">
+          <label class="sub">Payout schedule</label><input class="setinp" value="Every 2 weeks"></div>
+      </div>
+      <button class="btn btn--add" onclick="toast('Settings saved (demo)')">Save settings</button>
+      <style>.setinp{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;font-size:13.5px;margin:4px 0 12px;outline:none;} .setinp:focus{border-color:var(--coral);} .card label.sub{display:block;font-weight:600;color:var(--muted);}</style>`;
+  }
+
+  /* ── EMAIL MODAL (from lead) ── */
+  function emailModal(l,refresh){
+    const opts=TEMPLATES.filter(t=>t.ch==='Email');
+    const primaryTour=(l.acts.find(a=>a.type==='tour')||{}).label||'your tour';
+    const fill=(t)=>({subj:t.subj,body:t.body.replace(/{name}/g,l.name.split(' ')[0]).replace(/{tour}/g,primaryTour)});
+    let cur=fill(opts[0]);
+    $('#modal').innerHTML=`<div class="modal"><div class="modal__head"><h3>Send email</h3><button onclick="closeModal()">×</button></div>
+      <div class="modal__body">
+        <label>Template</label><select id="etpl">${opts.map((t,i)=>`<option value="${i}">${t.name}</option>`).join('')}</select>
+        <label>To</label><input value="${l.email}" readonly>
+        <label>Subject</label><input id="esubj" value="${cur.subj.replace(/"/g,'&quot;')}">
+        <label>Message</label><textarea id="ebody">${cur.body}</textarea></div>
+      <div class="modal__foot"><button class="btn btn--ghost" onclick="closeModal()">Cancel</button><button class="btn btn--send" id="esend">Send email →</button></div></div>`;
+    $('#modal').classList.add('on');
+    $('#etpl').addEventListener('change',e=>{const c=fill(opts[+e.target.value]);$('#esubj').value=c.subj;$('#ebody').value=c.body;});
+    $('#esend').addEventListener('click',()=>{closeModal();l.notes.unshift({m:'Just now · Carlos',b:'📧 Sent email: "'+$('#esubj').value+'"'});if(['new','contacted','interested'].includes(l.status))l.status='offer';refresh&&refresh();updateBadges();openLead(l.id,refresh);toast('Email sent ✓');});
+  }
+  window.closeModal=()=>$('#modal').classList.remove('on');
+  $('#modal').addEventListener('click',e=>{if(e.target===$('#modal'))closeModal();});
+
+  /* ── BADGES ── */
+  function updateBadges(){
+    $('#badgeLeads').textContent=LEADS.filter(l=>l.status==='new').length;
+    $('#badgeWomen').textContent=WOMEN.filter(w=>w.status==='applicant').length;
+  }
+
+  const RENDER={dashboard,leads,customers,women,tours,affiliates,templates,users,settings};
+  updateBadges();
+  dashboard();
+</script>
+</body>
+</html>

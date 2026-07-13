@@ -7,12 +7,12 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='serif' fill='%23B8922A'>M</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:#FAFAF8; --bg-alt:#F3F1EC; --dark:#1C1A17; --text:#1C1A17; --muted:#4A4640; --light:#8A8480;
-      --gold:#C49A55; --gold-h:#E8AE68; --gold-grad:linear-gradient(135deg,#E8AE68 0%,#A57F60 100%);
-      --white:#FFFFFF; --serif:'Playfair Display',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+      --bg:#FAFAF8; --bg-alt:#FBF0F3; --dark:#102B3D; --text:#102B3D; --muted:#52616E; --light:#94A0AA;
+      --gold:#D4495F; --gold-h:#F07A8A; --gold-grad:linear-gradient(135deg,#F07A8A 0%,#D4495F 100%);
+      --white:#FFFFFF; --serif:'Lilita One',Georgia,serif; --sans:'Montserrat',-apple-system,sans-serif;
       --t:0.3s ease; --max:1200px;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -23,7 +23,7 @@
     button,select{cursor:pointer;font-family:inherit;}
 
     /* NAV */
-    .nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;padding:0 24px;background:rgba(20,17,11,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.07);}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;padding:0 24px;background:rgba(11,30,43,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.07);}
     .nav__inner{max-width:var(--max);margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;}
     .nav__logo{font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:0.08em;background:var(--gold-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap;}
     .nav__back{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:500;color:rgba(255,255,255,0.7);transition:color var(--t);}
@@ -33,17 +33,17 @@
     .btn-gold:hover{opacity:0.88;}
 
     /* HEADER */
-    .head{margin-top:72px;background:#18160F;padding:56px 24px 40px;text-align:center;}
+    .head{margin-top:72px;background:#102B3D;padding:56px 24px 40px;text-align:center;}
     .head__label{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold-h);margin-bottom:12px;}
     .head h1{font-family:var(--serif);font-size:clamp(30px,4vw,44px);font-weight:700;color:#fff;line-height:1.15;margin-bottom:12px;}
     .head p{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);}
 
     /* FILTER BAR */
-    .filters{position:sticky;top:72px;z-index:900;background:var(--white);border-bottom:1px solid rgba(28,26,23,0.08);box-shadow:0 4px 20px rgba(0,0,0,0.04);padding:16px 24px;}
+    .filters{position:sticky;top:72px;z-index:900;background:var(--white);border-bottom:1px solid rgba(16,43,61,0.08);box-shadow:0 4px 20px rgba(0,0,0,0.04);padding:16px 24px;}
     .filters__inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
     .filter{display:flex;flex-direction:column;gap:4px;}
     .filter label{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--light);}
-    .filter select{padding:9px 30px 9px 12px;border:1.5px solid rgba(28,26,23,0.12);border-radius:8px;font-size:13px;font-weight:500;color:var(--dark);background:var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238A8480' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;appearance:none;-webkit-appearance:none;outline:none;transition:border-color var(--t);}
+    .filter select{padding:9px 30px 9px 12px;border:1.5px solid rgba(16,43,61,0.12);border-radius:8px;font-size:13px;font-weight:500;color:var(--dark);background:var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238A8480' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;appearance:none;-webkit-appearance:none;outline:none;transition:border-color var(--t);}
     .filter select:focus{border-color:var(--gold);}
     .filters__count{margin-left:auto;font-family:var(--sans);font-size:13px;color:var(--muted);}
     .filters__count strong{color:var(--dark);font-weight:700;}
@@ -59,7 +59,7 @@
     .pcard__img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;}
     .pcard:hover .pcard__img img{transform:scale(1.05);}
     .pcard__badge{position:absolute;top:10px;right:10px;width:26px;height:26px;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.35));}
-    .pcard__overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(14,11,6,0.92) 0%,rgba(14,11,6,0.4) 55%,transparent 100%);padding:48px 13px 14px;}
+    .pcard__overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(8,20,28,0.92) 0%,rgba(8,20,28,0.4) 55%,transparent 100%);padding:48px 13px 14px;}
     .pcard__name{font-family:var(--serif);font-size:17px;font-weight:700;color:#fff;line-height:1.1;}
     .pcard__meta{font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.72);display:flex;align-items:center;gap:4px;margin-top:3px;}
     .pcard__meta svg{width:11px;height:11px;flex-shrink:0;opacity:0.8;}
@@ -82,7 +82,7 @@
 <!-- NAV -->
 <nav class="nav">
   <div class="nav__inner">
-    <a href="index.html" class="nav__logo">MATCHLATINA</a>
+    <a href="index.html" class="nav__logo"><img src="images/matchlatin-logo.png" alt="MatchLatin" style="height:26px;width:auto;display:block"></a>
     <a href="index.html" class="nav__back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Back to home</a>
     <button class="btn-gold" onclick="location.href='index.html#tours'">Join the Next Tour →</button>
   </div>

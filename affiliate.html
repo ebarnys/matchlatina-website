@@ -7,21 +7,21 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='serif' fill='%23B8922A'>M</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg:        #FAFAF8;
-      --bg-alt:    #F3F1EC;
-      --dark:      #1C1A17;
-      --text:      #1C1A17;
-      --muted:     #4A4640;
-      --light:     #8A8480;
-      --gold:      #C49A55;
-      --gold-h:    #E8AE68;
-      --gold-grad: linear-gradient(135deg, #E8AE68 0%, #A57F60 100%);
+      --bg-alt:    #FBF0F3;
+      --dark:      #102B3D;
+      --text:      #102B3D;
+      --muted:     #52616E;
+      --light:     #94A0AA;
+      --gold:      #D4495F;
+      --gold-h:    #F07A8A;
+      --gold-grad: linear-gradient(135deg, #F07A8A 0%, #D4495F 100%);
       --white:     #FFFFFF;
-      --serif:     'Playfair Display', Georgia, serif;
-      --sans:      'Inter', -apple-system, sans-serif;
+      --serif:     'Lilita One', Georgia, serif;
+      --sans:      'Montserrat', -apple-system, sans-serif;
       --t:         0.3s ease;
       --max:       1120px;
     }
@@ -37,7 +37,7 @@
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       height: 72px; display: flex; align-items: center; padding: 0 24px;
-      background: rgba(20,17,11,0.80);
+      background: rgba(11,30,43,0.80);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255,255,255,0.07);
     }
@@ -53,16 +53,16 @@
 
     /* ── HERO ── */
     .hero {
-      margin-top: 72px; background: #18160F;
+      margin-top: 72px; background: #102B3D;
       padding: 90px 24px 100px; position: relative; overflow: hidden;
     }
     .hero::before {
       content: ''; position: absolute; top: -120px; right: -120px;
       width: 420px; height: 420px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(196,154,85,0.16), transparent 70%);
+      background: radial-gradient(circle, rgba(212,73,95,0.16), transparent 70%);
     }
     .hero__inner { max-width: var(--max); margin: 0 auto; position: relative; z-index: 1; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
-    .hero__label { display: inline-flex; align-items: center; gap: 8px; font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-h); background: rgba(196,154,85,0.12); border: 1px solid rgba(196,154,85,0.25); padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; }
+    .hero__label { display: inline-flex; align-items: center; gap: 8px; font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-h); background: rgba(212,73,95,0.12); border: 1px solid rgba(212,73,95,0.25); padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; }
     .hero h1 { font-family: var(--serif); font-size: clamp(34px, 4.5vw, 52px); font-weight: 700; color: #fff; line-height: 1.15; margin-bottom: 20px; }
     .hero h1 .accent { background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .hero__sub { font-family: var(--sans); font-size: 17px; color: rgba(255,255,255,0.6); line-height: 1.75; margin-bottom: 32px; max-width: 480px; }
@@ -71,8 +71,8 @@
 
     /* Earnings card in hero */
     .earn-card {
-      background: linear-gradient(145deg, #252015 0%, #1A1709 100%);
-      border: 1px solid rgba(196,154,85,0.25); border-radius: 24px;
+      background: linear-gradient(145deg, #1B4257 0%, #0B1E2B 100%);
+      border: 1px solid rgba(212,73,95,0.25); border-radius: 24px;
       padding: 36px 34px; box-shadow: 0 16px 56px rgba(0,0,0,0.35);
     }
     .earn-card__label { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-h); margin-bottom: 10px; }
@@ -95,9 +95,9 @@
 
     /* ── HOW IT WORKS ── */
     .steps { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .step { background: var(--white); border: 1px solid rgba(28,26,23,0.07); border-radius: 20px; padding: 36px 30px; position: relative; }
+    .step { background: var(--white); border: 1px solid rgba(16,43,61,0.07); border-radius: 20px; padding: 36px 30px; position: relative; }
     .step__num { position: absolute; top: 28px; right: 30px; font-family: var(--serif); font-size: 44px; font-weight: 700; color: var(--bg-alt); line-height: 1; }
-    .step__icon { width: 52px; height: 52px; border-radius: 14px; background: rgba(196,154,85,0.12); display: flex; align-items: center; justify-content: center; margin-bottom: 22px; }
+    .step__icon { width: 52px; height: 52px; border-radius: 14px; background: rgba(212,73,95,0.12); display: flex; align-items: center; justify-content: center; margin-bottom: 22px; }
     .step__icon svg { width: 26px; height: 26px; stroke: var(--gold); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .step__title { font-family: var(--serif); font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
     .step__desc { font-family: var(--sans); font-size: 14px; color: var(--muted); line-height: 1.7; }
@@ -105,8 +105,8 @@
     /* ── COMMISSION ── */
     .commission { background: var(--bg-alt); }
     .comm-grid { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .comm-card { background: var(--white); border-radius: 20px; padding: 34px 30px; text-align: center; border: 1px solid rgba(28,26,23,0.06); }
-    .comm-card.featured { background: linear-gradient(145deg, #252015 0%, #1A1709 100%); border-color: rgba(196,154,85,0.3); transform: scale(1.04); box-shadow: 0 16px 48px rgba(0,0,0,0.18); }
+    .comm-card { background: var(--white); border-radius: 20px; padding: 34px 30px; text-align: center; border: 1px solid rgba(16,43,61,0.06); }
+    .comm-card.featured { background: linear-gradient(145deg, #1B4257 0%, #0B1E2B 100%); border-color: rgba(212,73,95,0.3); transform: scale(1.04); box-shadow: 0 16px 48px rgba(0,0,0,0.18); }
     .comm-card__tier { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
     .comm-card.featured .comm-card__tier { color: var(--gold-h); }
     .comm-card__pct { font-family: var(--serif); font-size: 48px; font-weight: 700; color: var(--dark); line-height: 1; margin-bottom: 6px; }
@@ -118,11 +118,11 @@
     .comm-card__badge { display: inline-block; font-family: var(--sans); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dark); background: var(--gold-grad); padding: 4px 12px; border-radius: 12px; margin-bottom: 16px; }
 
     /* ── CALCULATOR ── */
-    .calc { background: #18160F; }
+    .calc { background: #102B3D; }
     .calc .section__title { color: #fff; }
     .calc .section__sub { color: rgba(255,255,255,0.55); }
-    .calc__box { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: 24px; overflow: hidden; border: 1px solid rgba(196,154,85,0.22); box-shadow: 0 16px 56px rgba(0,0,0,0.35); }
-    .calc__form { background: linear-gradient(145deg, #252015 0%, #1A1709 100%); padding: 40px 38px; }
+    .calc__box { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: 24px; overflow: hidden; border: 1px solid rgba(212,73,95,0.22); box-shadow: 0 16px 56px rgba(0,0,0,0.35); }
+    .calc__form { background: linear-gradient(145deg, #1B4257 0%, #0B1E2B 100%); padding: 40px 38px; }
     .calc__field { margin-bottom: 20px; }
     .calc__field label { display: flex; align-items: center; gap: 8px; font-family: var(--sans); font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 8px; }
     .calc__field label svg { width: 16px; height: 16px; }
@@ -133,7 +133,7 @@
     .calc__btn:hover { opacity: 0.9; }
     .calc__err { color: #F0946A; font-family: var(--sans); font-size: 12px; margin-top: 10px; text-align: center; min-height: 14px; }
     /* result side */
-    .calc__result { background: #14110B; padding: 40px 38px; display: flex; flex-direction: column; justify-content: center; text-align: center; position: relative; }
+    .calc__result { background: #0B1E2B; padding: 40px 38px; display: flex; flex-direction: column; justify-content: center; text-align: center; position: relative; }
     .calc__result-locked { color: rgba(255,255,255,0.4); }
     .calc__result-locked svg { width: 40px; height: 40px; stroke: rgba(255,255,255,0.3); fill: none; stroke-width: 1.6; margin: 0 auto 16px; }
     .calc__result-locked p { font-family: var(--sans); font-size: 14px; line-height: 1.7; }
@@ -146,8 +146,8 @@
     .calc__year { font-family: var(--serif); font-size: 30px; font-weight: 700; color: #fff; line-height: 1; }
     .calc__year-u { font-family: var(--sans); font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 5px; }
     .calc__reach { font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 22px; }
-    .calc__apply { display: inline-block; margin-top: 20px; padding: 12px 24px; background: rgba(196,154,85,0.15); border: 1px solid rgba(196,154,85,0.4); color: var(--gold-h); font-family: var(--sans); font-size: 13px; font-weight: 700; border-radius: 8px; transition: all var(--t); }
-    .calc__apply:hover { background: rgba(196,154,85,0.25); }
+    .calc__apply { display: inline-block; margin-top: 20px; padding: 12px 24px; background: rgba(212,73,95,0.15); border: 1px solid rgba(212,73,95,0.4); color: var(--gold-h); font-family: var(--sans); font-size: 13px; font-weight: 700; border-radius: 8px; transition: all var(--t); }
+    .calc__apply:hover { background: rgba(212,73,95,0.25); }
 
     /* ── HOW TO PROMOTE ── */
     .promote { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px 56px; }
@@ -161,7 +161,7 @@
     .promote__item svg { fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
     /* ── CTA BANNER ── */
-    .cta-banner { background: #18160F; text-align: center; }
+    .cta-banner { background: #102B3D; text-align: center; }
     .cta-banner__inner { max-width: 680px; margin: 0 auto; }
     .cta-banner h2 { font-family: var(--serif); font-size: clamp(28px, 4vw, 40px); font-weight: 700; color: #fff; margin-bottom: 16px; line-height: 1.2; }
     .cta-banner p { font-family: var(--sans); font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.75; margin-bottom: 32px; }
@@ -176,7 +176,7 @@
     .footer a:hover { color: #fff; }
 
     /* ── LOGIN MODAL ── */
-    .modal-ov { position: fixed; inset: 0; background: rgba(28,26,23,0.75); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(6px); }
+    .modal-ov { position: fixed; inset: 0; background: rgba(16,43,61,0.75); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(6px); }
     .modal-ov.open { opacity: 1; pointer-events: all; }
     .modal { background: var(--white); border-radius: 20px; padding: 44px 40px; max-width: 420px; width: 100%; position: relative; box-shadow: 0 24px 80px rgba(0,0,0,0.18); }
     .modal__close { position: absolute; top: 18px; right: 20px; font-size: 24px; color: var(--light); background: none; border: none; cursor: pointer; line-height: 1; transition: color var(--t); }
@@ -186,7 +186,7 @@
     .modal__sub { font-family: var(--sans); font-size: 14px; color: var(--muted); margin-bottom: 28px; }
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-family: var(--sans); font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 6px; }
-    .form-group input { width: 100%; padding: 12px 14px; border: 1.5px solid rgba(28,26,23,0.12); border-radius: 8px; font-family: var(--sans); font-size: 14px; color: var(--dark); background: var(--bg); transition: border-color var(--t); outline: none; }
+    .form-group input { width: 100%; padding: 12px 14px; border: 1.5px solid rgba(16,43,61,0.12); border-radius: 8px; font-family: var(--sans); font-size: 14px; color: var(--dark); background: var(--bg); transition: border-color var(--t); outline: none; }
     .form-group input:focus { border-color: var(--gold); }
     .form-submit { width: 100%; padding: 15px; background: var(--gold-grad); color: var(--dark); font-family: var(--sans); font-size: 15px; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; margin-top: 8px; transition: opacity var(--t); }
     .form-submit:hover { opacity: 0.88; }
@@ -215,7 +215,7 @@
 <!-- NAV -->
 <nav class="nav">
   <div class="nav__inner">
-    <a href="index.html" class="nav__logo">MATCHLATINA</a>
+    <a href="index.html" class="nav__logo"><img src="images/matchlatin-logo.png" alt="MatchLatin" style="height:26px;width:auto;display:block"></a>
     <div class="nav__right">
       <a href="index.html" class="nav__link">← Main site</a>
       <button class="btn-gold open-login">Partner Login</button>
@@ -396,7 +396,7 @@
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer__inner">
-    <a href="index.html" class="footer__logo">MATCHLATINA</a>
+    <a href="index.html" class="footer__logo"><img src="images/matchlatin-logo.png" alt="MatchLatin" style="height:26px;width:auto;display:block"></a>
     <span>© 2026 MatchLatina · Affiliate Program</span>
     <a href="index.html">← Back to main site</a>
   </div>

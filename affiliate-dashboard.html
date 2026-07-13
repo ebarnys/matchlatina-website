@@ -7,22 +7,22 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='serif' fill='%23B8922A'>M</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg:        #FAFAF8;
-      --bg-alt:    #F3F1EC;
-      --dark:      #1C1A17;
-      --text:      #1C1A17;
-      --muted:     #4A4640;
-      --light:     #8A8480;
-      --gold:      #C49A55;
-      --gold-h:    #E8AE68;
-      --gold-grad: linear-gradient(135deg, #E8AE68 0%, #A57F60 100%);
+      --bg-alt:    #FBF0F3;
+      --dark:      #102B3D;
+      --text:      #102B3D;
+      --muted:     #52616E;
+      --light:     #94A0AA;
+      --gold:      #D4495F;
+      --gold-h:    #F07A8A;
+      --gold-grad: linear-gradient(135deg, #F07A8A 0%, #D4495F 100%);
       --white:     #FFFFFF;
       --green:     #3E9B5F;
-      --serif:     'Playfair Display', Georgia, serif;
-      --sans:      'Inter', -apple-system, sans-serif;
+      --serif:     'Lilita One', Georgia, serif;
+      --sans:      'Montserrat', -apple-system, sans-serif;
       --t:         0.3s ease;
       --max:       1120px;
     }
@@ -37,7 +37,7 @@
     .nav {
       position: sticky; top: 0; z-index: 1000;
       height: 68px; display: flex; align-items: center; padding: 0 24px;
-      background: rgba(20,17,11,0.92);
+      background: rgba(11,30,43,0.92);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255,255,255,0.07);
     }
@@ -54,12 +54,12 @@
     .greeting { margin-bottom: 32px; }
     .greeting h1 { font-family: var(--serif); font-size: 30px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
     .greeting p { font-family: var(--sans); font-size: 15px; color: var(--muted); }
-    .greeting .tier { display: inline-flex; align-items: center; gap: 6px; font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); background: rgba(196,154,85,0.12); border: 1px solid rgba(196,154,85,0.25); padding: 4px 12px; border-radius: 20px; margin-left: 10px; vertical-align: middle; }
+    .greeting .tier { display: inline-flex; align-items: center; gap: 6px; font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); background: rgba(212,73,95,0.12); border: 1px solid rgba(212,73,95,0.25); padding: 4px 12px; border-radius: 20px; margin-left: 10px; vertical-align: middle; }
 
     /* ── HERO EARNINGS ── */
     .earn-hero {
-      background: linear-gradient(145deg, #252015 0%, #1A1709 100%);
-      border: 1px solid rgba(196,154,85,0.25); border-radius: 24px;
+      background: linear-gradient(145deg, #1B4257 0%, #0B1E2B 100%);
+      border: 1px solid rgba(212,73,95,0.25); border-radius: 24px;
       padding: 40px 40px; margin-bottom: 24px;
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px;
       box-shadow: 0 16px 48px rgba(0,0,0,0.15);
@@ -74,8 +74,8 @@
 
     /* ── STAT CARDS ── */
     .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-    .stat { background: var(--white); border: 1px solid rgba(28,26,23,0.07); border-radius: 18px; padding: 24px; }
-    .stat__icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(196,154,85,0.12); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .stat { background: var(--white); border: 1px solid rgba(16,43,61,0.07); border-radius: 18px; padding: 24px; }
+    .stat__icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(212,73,95,0.12); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
     .stat__icon svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .stat__value { font-family: var(--serif); font-size: 30px; font-weight: 700; color: var(--dark); line-height: 1; margin-bottom: 6px; }
     .stat__label { font-family: var(--sans); font-size: 13px; color: var(--light); }
@@ -84,18 +84,18 @@
     /* ── COLUMNS ── */
     .cols { display: grid; grid-template-columns: 1.6fr 1fr; gap: 24px; align-items: start; }
 
-    .panel { background: var(--white); border: 1px solid rgba(28,26,23,0.07); border-radius: 18px; overflow: hidden; }
+    .panel { background: var(--white); border: 1px solid rgba(16,43,61,0.07); border-radius: 18px; overflow: hidden; }
     .panel__head { padding: 22px 26px; border-bottom: 1px solid var(--bg-alt); display: flex; align-items: center; justify-content: space-between; }
     .panel__title { font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--dark); }
     .panel__body { padding: 26px; }
 
     /* Referral link */
     .link-box { display: flex; gap: 10px; margin-bottom: 20px; }
-    .link-box input { flex: 1; padding: 13px 16px; border: 1.5px solid rgba(28,26,23,0.12); border-radius: 10px; font-family: var(--sans); font-size: 14px; color: var(--dark); background: var(--bg); outline: none; }
+    .link-box input { flex: 1; padding: 13px 16px; border: 1.5px solid rgba(16,43,61,0.12); border-radius: 10px; font-family: var(--sans); font-size: 14px; color: var(--dark); background: var(--bg); outline: none; }
     .link-box button { padding: 13px 22px; background: var(--gold-grad); color: var(--dark); font-family: var(--sans); font-size: 13px; font-weight: 700; border-radius: 10px; white-space: nowrap; transition: opacity var(--t); }
     .link-box button:hover { opacity: 0.88; }
     .share-row { display: flex; gap: 10px; flex-wrap: wrap; }
-    .share-btn { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1.5px solid rgba(28,26,23,0.1); border-radius: 10px; font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--muted); transition: all var(--t); }
+    .share-btn { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1.5px solid rgba(16,43,61,0.1); border-radius: 10px; font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--muted); transition: all var(--t); }
     .share-btn:hover { border-color: var(--gold); color: var(--gold); }
     .share-btn svg { width: 16px; height: 16px; }
 
@@ -118,7 +118,7 @@
     .tbl .amt { font-family: var(--serif); font-weight: 700; color: var(--dark); }
     .pill { display: inline-block; font-family: var(--sans); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; }
     .pill.paid { background: rgba(62,155,95,0.12); color: var(--green); }
-    .pill.pending { background: rgba(196,154,85,0.14); color: #A57F30; }
+    .pill.pending { background: rgba(212,73,95,0.14); color: #B03A4C; }
 
     .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--dark); color: #fff; font-family: var(--sans); font-size: 14px; font-weight: 500; padding: 13px 24px; border-radius: 10px; opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 3000; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -140,7 +140,7 @@
 <!-- NAV -->
 <nav class="nav">
   <div class="nav__inner">
-    <a href="affiliate.html" class="nav__logo">MATCHLATINA</a>
+    <a href="affiliate.html" class="nav__logo"><img src="images/matchlatin-logo.png" alt="MatchLatin" style="height:26px;width:auto;display:block"></a>
     <div class="nav__user">
       <div class="nav__avatar">MR</div>
       <span class="nav__name">María Restrepo</span>
