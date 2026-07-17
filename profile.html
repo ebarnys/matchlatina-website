@@ -161,6 +161,18 @@
     .prof-card__fav.active svg { fill: var(--gold-h); }
     .prof-card__note { text-align: center; font-family: var(--sans); font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 14px; }
 
+    /* attending-tour hook card */
+    .attend-card { background: var(--gold-grad); color: #fff; border-radius: 20px; padding: 20px 22px; margin-bottom: 16px; box-shadow: 0 12px 32px rgba(212,73,95,0.28); }
+    .attend-card__label { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.9; display: flex; align-items: center; gap: 7px; margin-bottom: 8px; }
+    .attend-card__label svg { width: 15px; height: 15px; stroke: #fff; fill: none; stroke-width: 2; }
+    .attend-card__tour { font-family: var(--serif); font-size: 21px; font-weight: 700; line-height: 1.15; margin-bottom: 6px; }
+    .attend-card__sub { font-family: var(--sans); font-size: 13px; opacity: 0.92; line-height: 1.55; margin-bottom: 15px; }
+    .attend-card__btn { width: 100%; background: #fff; color: var(--gold); border: none; padding: 13px; border-radius: 10px; font-family: var(--sans); font-weight: 700; font-size: 13.5px; cursor: pointer; transition: opacity var(--t); }
+    .attend-card__btn:hover { opacity: 0.9; }
+    /* hero attending pill */
+    .prof-hero__attend { display: inline-flex; align-items: center; gap: 7px; margin-top: 14px; font-family: var(--sans); font-size: 13px; font-weight: 700; color: #fff; background: var(--gold-grad); padding: 7px 14px; border-radius: 20px; }
+    .prof-hero__attend svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 2; }
+
     /* progressive signup steps */
     .msteps { display: flex; gap: 8px; margin-bottom: 24px; }
     .msteps__dot { flex: 1; height: 4px; border-radius: 4px; background: var(--bg-alt); transition: background var(--t); }
@@ -307,6 +319,7 @@
 
   <!-- SIDEBAR -->
   <aside class="prof-sidebar">
+    <div class="attend-card" id="attendCard"></div>
     <div class="prof-card">
       <div class="prof-card__top">
         <div class="prof-card__label">Interested?</div>
@@ -554,6 +567,19 @@
     tagsGrid.innerHTML += `<span class="prof-tag">${tag}</span>`;
   });
 
+  // Attending tour (hook) — which tour she's joining
+  const ATTEND = { sofia:'Medellín · November 2026', valentina:'Cali · September 2026', camila:'Cali · October 2026', daniela:'Medellín · November 2026', mariana:'Cali · December 2026', isabella:'Cali · September 2026', lucia:'Medellín · December 2026', andrea:'Cali · October 2026', paola:'Cali · November 2026', natalia:'Medellín · December 2026' };
+  const attendTour = ATTEND[id] || 'Cali · September 2026';
+  const planeSvg = '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2 3 8l6 3-2 4-3 1 1 2 4-2 4 2 2-3-3-3 5-2z"/></svg>';
+  document.getElementById('attendCard').innerHTML = `
+    <div class="attend-card__label">${planeSvg} Attending this tour</div>
+    <div class="attend-card__tour">${attendTour}</div>
+    <div class="attend-card__sub">${p.name} will be at this event. Join the tour and meet her in person.</div>
+    <button class="attend-card__btn" id="attendBtn">Join this tour to meet ${p.name} →</button>`;
+  // hero pill
+  const heroMeta = document.getElementById('heroMeta');
+  heroMeta.insertAdjacentHTML('afterend', `<div class="prof-hero__attend">${planeSvg} Attending: ${attendTour}</div>`);
+
   // Sidebar title + inject girl's name everywhere
   document.getElementById('sidebarTitle').textContent = `Meet ${p.name} on your next tour`;
   document.getElementById('writeName').textContent = p.name;
@@ -594,6 +620,7 @@
   document.getElementById('writeBtn').addEventListener('click', () => openFlow(1));
   document.getElementById('navWrite').addEventListener('click', () => openFlow(1));
   document.getElementById('heroMeet').addEventListener('click', () => openFlow(1));
+  document.getElementById('attendBtn').addEventListener('click', () => openFlow(2));
 
   // favorites — first click prompts account creation (starts flow at contact step)
   const favBtn = document.getElementById('favBtn');
