@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Feed — MatchLatin</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='serif' fill='%23D4495F'>M</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#FAFAF8; --bg-alt:#FBF0F3; --dark:#102B3D; --text:#102B3D; --muted:#52616E; --light:#94A0AA;
+      --gold:#D4495F; --gold-h:#F07A8A; --gold-grad:linear-gradient(135deg,#F07A8A 0%,#D4495F 100%);
+      --white:#FFFFFF; --serif:'Lilita One',Georgia,serif; --sans:'Montserrat',-apple-system,sans-serif;
+      --t:0.3s ease; --max:1200px; --line:rgba(16,43,61,0.09);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;overflow-x:hidden;}
+    body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+    img{max-width:100%;display:block;}
+    a{text-decoration:none;color:inherit;}
+    button,select,input,textarea{font-family:inherit;}
+    button{cursor:pointer;}
+
+    /* NAV */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;padding:0 24px;background:rgba(11,30,43,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.07);}
+    .nav__inner{max-width:var(--max);margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;}
+    .nav__logo img{height:26px;width:auto;display:block;}
+    .nav__back{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:500;color:rgba(255,255,255,0.7);transition:color var(--t);}
+    .nav__back:hover{color:var(--gold-h);}
+    .nav__back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+    .btn-gold{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:var(--gold-grad);color:#fff;font-family:var(--sans);font-size:13px;font-weight:700;border-radius:8px;transition:opacity var(--t);white-space:nowrap;border:none;}
+    .btn-gold:hover{opacity:0.88;}
+
+    /* HEADER */
+    .head{margin-top:72px;background:#102B3D;padding:52px 24px 40px;text-align:center;}
+    .head__label{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold-h);margin-bottom:12px;}
+    .head h1{font-family:var(--serif);font-size:clamp(30px,4vw,44px);font-weight:700;color:#fff;line-height:1.15;margin-bottom:12px;}
+    .head p{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:520px;margin:0 auto;}
+    .head__live{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.8);}
+    .head__live::before{content:'';width:9px;height:9px;border-radius:50%;background:#27AE60;box-shadow:0 0 0 4px rgba(39,174,96,0.2);animation:pulse 2s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.25);opacity:0.7;}}
+
+    /* FEED LAYOUT — single centered column */
+    .feed{max-width:600px;margin:0 auto;padding:32px 16px 90px;display:flex;flex-direction:column;gap:20px;}
+
+    /* POST CARD */
+    .post{background:var(--white);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 4px 20px rgba(16,43,61,0.04);}
+    .post__head{display:flex;align-items:center;gap:12px;padding:16px 18px;}
+    .post__avatar{width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+    .post__avatar--brand{background:var(--gold-grad);display:flex;align-items:center;justify-content:center;font-family:var(--serif);color:#fff;font-size:20px;}
+    .post__who{flex:1;min-width:0;}
+    .post__name{display:flex;align-items:center;gap:6px;font-weight:700;font-size:15px;color:var(--dark);}
+    .post__name svg{width:15px;height:15px;flex-shrink:0;}
+    .post__meta{font-size:12.5px;color:var(--light);}
+    .post__view{font-size:12px;font-weight:600;color:var(--gold);border:1.5px solid rgba(212,73,95,0.3);padding:6px 14px;border-radius:20px;transition:all var(--t);white-space:nowrap;}
+    .post__view:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+    .post__text{padding:0 18px 14px;font-size:15px;color:var(--text);line-height:1.6;}
+    .post__text--big{font-size:20px;line-height:1.45;font-weight:500;padding:6px 18px 20px;}
+    .post__media img,.post__media video{width:100%;display:block;max-height:640px;object-fit:cover;background:#000;}
+    .post__tag{display:inline-flex;align-items:center;gap:6px;margin:0 18px 12px;font-size:12px;font-weight:700;letter-spacing:0.03em;padding:5px 12px;border-radius:20px;}
+    .post__tag--tour{background:rgba(212,73,95,0.1);color:var(--gold);}
+    .post__tag--news{background:rgba(39,174,96,0.12);color:#27AE60;}
+
+    /* ACTION BAR */
+    .post__bar{display:flex;align-items:center;gap:6px;padding:10px 12px;border-top:1px solid var(--line);}
+    .act{display:inline-flex;align-items:center;gap:8px;background:none;border:none;padding:9px 14px;border-radius:10px;font-size:14px;font-weight:600;color:var(--muted);transition:background var(--t),color var(--t);}
+    .act:hover{background:var(--bg-alt);}
+    .act svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s;}
+    .act.liked{color:var(--gold);}
+    .act.liked svg{fill:var(--gold);stroke:var(--gold);transform:scale(1.05);}
+    .act__pop{animation:pop .32s ease;}
+    @keyframes pop{0%{transform:scale(1);}40%{transform:scale(1.35);}100%{transform:scale(1);}}
+    .post__msg{margin-left:auto;}
+    .post__msg.btn-gold{padding:9px 18px;font-size:12.5px;}
+
+    /* COMMENTS */
+    .comments{border-top:1px solid var(--line);padding:14px 18px;display:none;background:#FCFBFA;}
+    .comments.open{display:block;}
+    .cmt{display:flex;gap:10px;margin-bottom:14px;}
+    .cmt__av{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:var(--gold-grad);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;}
+    .cmt__body{background:#fff;border:1px solid var(--line);border-radius:14px;padding:9px 14px;flex:1;}
+    .cmt__name{font-weight:700;font-size:13px;color:var(--dark);}
+    .cmt__text{font-size:14px;color:var(--text);}
+    .cmt__time{font-size:11px;color:var(--light);margin-top:3px;}
+    .cmt-form{margin-top:6px;}
+    .cmt-form textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;font-size:14px;color:var(--text);resize:vertical;min-height:44px;outline:none;transition:border-color var(--t);}
+    .cmt-form textarea:focus{border-color:var(--gold);}
+    .cmt-gate{display:none;gap:10px;margin-top:10px;flex-wrap:wrap;}
+    .cmt-gate.show{display:flex;}
+    .cmt-gate input{flex:1;min-width:140px;border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;font-size:14px;outline:none;transition:border-color var(--t);}
+    .cmt-gate input:focus{border-color:var(--gold);}
+    .cmt-gate .btn-gold{padding:11px 20px;}
+    .cmt-note{font-size:11.5px;color:var(--light);margin-top:8px;}
+    .cmt-thanks{display:none;margin-top:10px;background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.25);border-radius:12px;padding:12px 14px;font-size:13.5px;color:#1e7e46;font-weight:600;}
+    .cmt-thanks.show{display:block;}
+
+    /* CTA banner between posts */
+    .fbanner{background:linear-gradient(135deg,#17384D 0%,#102B3D 100%);border-radius:18px;padding:30px 26px;text-align:center;color:#fff;position:relative;overflow:hidden;}
+    .fbanner::before{content:'';position:absolute;top:-90px;right:-70px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(212,73,95,0.22),transparent 70%);}
+    .fbanner__t{position:relative;font-family:var(--serif);font-size:24px;margin-bottom:8px;}
+    .fbanner__p{position:relative;font-size:14.5px;color:rgba(255,255,255,0.62);margin-bottom:20px;}
+    .fbanner__btn{position:relative;display:inline-block;background:var(--gold-grad);color:#fff;padding:13px 28px;border-radius:14px;font-weight:700;font-size:14px;transition:opacity var(--t);}
+    .fbanner__btn:hover{opacity:0.9;}
+
+    @media (max-width:600px){
+      .nav__back{display:none;}
+      .post__msg span{display:none;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo"><img src="images/matchlatin-logo.png" alt="MatchLatin"></a>
+    <a href="index.html" class="nav__back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Back to home</a>
+    <button class="btn-gold" onclick="location.href='index.html#tours'">Join the Next Tour →</button>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<div class="head">
+  <div class="head__label">Community Feed</div>
+  <h1>See What Our Members Are Up To</h1>
+  <p>Fresh photos, updates and moments from verified women across Colombia. Like, comment and get to know them.</p>
+  <div class="head__live"><span id="liveCount">148</span>&nbsp;members active today</div>
+</div>
+
+<!-- FEED -->
+<div class="feed" id="feed"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  // Verified check badge (Twitter-blue) SVG
+  const BADGE = '<svg viewBox="0 0 24 24" fill="#1D9BF0" stroke="none"><path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z"/></svg>';
+
+  // ---- DATA (all content is created by us / demo) ----
+  // author: {name, city, img, id}  OR {brand:true} for platform posts
+  const W = {
+    sofia:     {name:'Sofia',     city:'Medellín',     img:'images/pipe-gil-cZKRzB3b4BY-unsplash.jpg',           id:'sofia'},
+    valentina: {name:'Valentina', city:'Cartagena',    img:'images/garin-chadwick-1SKjtoZqwBo-unsplash.jpg',      id:'valentina'},
+    camila:    {name:'Camila',    city:'Bogotá',       img:'images/david-gabric-SRJIMp_UKUQ-unsplash.jpg',        id:'camila'},
+    daniela:   {name:'Daniela',   city:'Medellín',     img:'images/joshua-rawson-harris-6PROVhY2Yq4-unsplash.jpg',id:'daniela'},
+    mariana:   {name:'Mariana',   city:'Barranquilla', img:'images/michael-fischer-Z-_pzonptuU-unsplash.jpg',     id:'mariana'},
+    isabella:  {name:'Isabella',  city:'Cartagena',    img:'images/darren-lawrence-VIpDxjeD6xM-unsplash.jpg',     id:'isabella'},
+    lucia:     {name:'Lucía',     city:'Cali',         img:'images/david-gabric-FG8xf4A_ybg-unsplash.jpg',        id:'lucia'},
+    paola:     {name:'Paola',     city:'Medellín',     img:'images/gabriel-porras-j_GgMDWiMJU-unsplash.jpg',      id:'paola'},
+    natalia:   {name:'Natalia',   city:'Cali',         img:'images/carlos-andres-gomez-fEaI7uAYBtM-unsplash.jpg', id:'natalia'},
+  };
+  const BRAND = {brand:true, name:'MatchLatin'};
+
+  const POSTS = [
+    { id:'p1', who:W.sofia, when:'2h', base:87,
+      text:'Weekend trip to Guatapé with my sister 💚 The view from the top was unreal. Who else loves road trips?',
+      img:'images/pipe-gil-cZKRzB3b4BY-unsplash.jpg',
+      comments:[
+        {n:'Michael', t:'That view is incredible! Guatapé is on my list 😍', w:'1h'},
+        {n:'James', t:'You have a beautiful smile Sofia', w:'40m'},
+      ] },
+
+    { id:'p2', who:W.daniela, when:'4h', base:64, type:'question',
+      text:'Serious question for the guys here 👀 — what should I cook for a first date? I make an amazing ajiaco 🇨🇴🍲',
+      comments:[
+        {n:'Robert', t:'Ajiaco sounds perfect. Count me in!', w:'3h'},
+        {n:'Daniel', t:'Anything homemade beats a restaurant 🙌', w:'2h'},
+        {n:'Tom', t:'Now I’m hungry AND want to visit Medellín', w:'1h'},
+      ] },
+
+    { id:'b1', banner:true,
+      t:'Not sure who’s right for you?', p:'Take our 60-second Match Quiz and we’ll shortlist the women who fit you best.',
+      btn:'Take the Match Quiz →', href:'index.html#women' },
+
+    { id:'p3', who:W.valentina, when:'6h', base:112, type:'text',
+      big:true,
+      text:'Practicing my English every single day now 📚 Six months ago I could barely say hello — now I can hold a real conversation. Never too late to grow ✨' },
+
+    { id:'p4', who:W.isabella, when:'8h', base:53, type:'tour',
+      tag:{cls:'tour', label:'📍 Attending a tour'},
+      text:'So excited — I’ll be at the Cali social event this October! Hope to meet some of you there in person 💃',
+      img:'images/cali.jpg',
+      comments:[
+        {n:'William', t:'Just booked the October tour. See you there!', w:'5h'},
+      ] },
+
+    { id:'p5', who:BRAND, when:'10h', base:0, type:'news',
+      tag:{cls:'news', label:'🎉 Success story'},
+      text:'David (🇺🇸) and Ana (🇨🇴) met on our March tour in Medellín — and they just got engaged! Every journey starts with a single hello. Congratulations to the happy couple ❤️',
+      comments:[
+        {n:'George', t:'Congrats! Stories like this are why I signed up 🙌', w:'8h'},
+        {n:'Kevin', t:'Amazing. Gives me hope!', w:'7h'},
+      ] },
+
+    { id:'p6', who:W.camila, when:'12h', base:98,
+      text:'Sunday coffee and a good book ☕📖 Simple mornings are the best mornings. What’s your perfect Sunday?',
+      img:'images/david-gabric-SRJIMp_UKUQ-unsplash.jpg',
+      comments:[
+        {n:'Steve', t:'Coffee, music and good company. You’d fit right in 😊', w:'10h'},
+      ] },
+
+    { id:'p7', who:BRAND, when:'1d', base:0, type:'tour',
+      tag:{cls:'tour', label:'📅 Tour announcement'},
+      text:'Only 3 spots left for the Medellín tour in September! 7 days, hotel included, and social events with 100+ verified single women. Don’t miss it.',
+      btnJoin:true },
+
+    { id:'p8', who:W.mariana, when:'1d', base:71, type:'text', big:true,
+      text:'Family is everything to me 👨‍👩‍👧 One day I’d love to build my own. Looking for someone who feels the same way 🤍' },
+
+    { id:'p9', who:BRAND, when:'1d', base:0, type:'news',
+      tag:{cls:'news', label:'👋 New member'},
+      text:'Say hello to Paola from Medellín, who just joined MatchLatin! Stop by her profile and welcome her to the community.',
+      who2:W.paola,
+      img:'images/gabriel-porras-j_GgMDWiMJU-unsplash.jpg',
+      comments:[
+        {n:'Andrew', t:'Welcome Paola! 👋', w:'20h'},
+      ] },
+
+    { id:'p10', who:W.lucia, when:'2d', base:59,
+      text:'Dance class tonight 💃 In Colombia we say you can tell a lot about a person by how they dance. Do you dance? Be honest 😄',
+      img:'images/david-gabric-FG8xf4A_ybg-unsplash.jpg',
+      comments:[
+        {n:'Paul', t:'Two left feet here but willing to learn for the right partner 😅', w:'1d'},
+        {n:'Chris', t:'Salsa lessons already booked before my tour!', w:'1d'},
+      ] },
+
+    { id:'p11', who:W.natalia, when:'2d', base:44, type:'question',
+      text:'If you visited Cali, what would you want to see first — the salsa clubs, the food, or just the people? 🌴',
+      comments:[
+        {n:'Mark', t:'The people, always. Places are better with the right person 😌', w:'2d'},
+      ] },
+  ];
+
+  // ---- localStorage helpers (likes persist, no email needed) ----
+  const LK = 'ml_feed_likes';
+  const likedSet = () => new Set(JSON.parse(localStorage.getItem(LK) || '[]'));
+  const saveLiked = (s) => localStorage.setItem(LK, JSON.stringify([...s]));
+
+  const feed = document.getElementById('feed');
+  const liked = likedSet();
+
+  const initials = (n) => n.trim().charAt(0).toUpperCase();
+  const avatar = (a) => a.brand
+    ? '<div class="post__avatar post__avatar--brand">M</div>'
+    : `<a href="profile.html?id=${a.id}"><img class="post__avatar" src="${a.img}" alt="${a.name}"></a>`;
+
+  function heartSVG(){ return '<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'; }
+  function cmtSVG(){ return '<svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>'; }
+  function shareSVG(){ return '<svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/></svg>'; }
+
+  function commentHTML(c){
+    return `<div class="cmt"><div class="cmt__av">${initials(c.n)}</div>
+      <div class="cmt__body"><div class="cmt__name">${c.n}</div><div class="cmt__text">${c.t}</div><div class="cmt__time">${c.w} ago</div></div></div>`;
+  }
+
+  function render(){
+    feed.innerHTML = POSTS.map(p => {
+      if (p.banner){
+        return `<div class="fbanner"><div class="fbanner__t">${p.t}</div><div class="fbanner__p">${p.p}</div><a class="fbanner__btn" href="${p.href}">${p.btn}</a></div>`;
+      }
+      const a = p.who;
+      const isLiked = liked.has(p.id);
+      const likeN = p.base + (isLiked ? 1 : 0);
+      const cmts = p.comments || [];
+      const nameLine = a.brand
+        ? `<div class="post__name">MatchLatin ${BADGE}</div><div class="post__meta">Official · ${p.when} ago</div>`
+        : `<div class="post__name">${a.name} ${BADGE}</div><div class="post__meta">${a.city} · ${p.when} ago</div>`;
+      const viewBtn = a.brand
+        ? (p.who2 ? `<a class="post__view" href="profile.html?id=${p.who2.id}">View profile</a>` : '')
+        : `<a class="post__view" href="profile.html?id=${a.id}">View profile</a>`;
+
+      const tag = p.tag ? `<div class="post__tag post__tag--${p.tag.cls}">${p.tag.label}</div>` : '';
+      const textCls = p.big ? 'post__text post__text--big' : 'post__text';
+      const media = p.img ? `<div class="post__media"><img src="${p.img}" alt="" loading="lazy"></div>` : '';
+      const msgBtn = a.brand
+        ? (p.btnJoin ? `<button class="btn-gold post__msg" onclick="location.href='index.html#tours'">Join tour</button>` : '')
+        : `<button class="btn-gold post__msg" onclick="location.href='profile.html?id=${a.id}'"><span>Message </span>${a.name}</button>`;
+
+      return `<article class="post" data-id="${p.id}">
+        <div class="post__head">${avatar(a)}<div class="post__who">${nameLine}</div>${viewBtn}</div>
+        ${tag}
+        <div class="${textCls}">${p.text}</div>
+        ${media}
+        <div class="post__bar">
+          <button class="act like ${isLiked?'liked':''}" data-id="${p.id}">${heartSVG()}<span class="likeN">${likeN}</span></button>
+          <button class="act toggle-cmt" data-id="${p.id}">${cmtSVG()}<span>${cmts.length}</span></button>
+          <button class="act">${shareSVG()}Share</button>
+          ${msgBtn}
+        </div>
+        <div class="comments" id="cmts-${p.id}">
+          <div class="cmt-list">${cmts.map(commentHTML).join('')}</div>
+          <div class="cmt-form">
+            <textarea placeholder="Write a comment..." data-id="${p.id}"></textarea>
+            <div class="cmt-gate" id="gate-${p.id}">
+              <input type="text" placeholder="Your name" data-f="name">
+              <input type="email" placeholder="Your email" data-f="email">
+              <button class="btn-gold post-cmt" data-id="${p.id}">Post comment</button>
+            </div>
+            <div class="cmt-note">Comments are reviewed by our team before they appear.</div>
+            <div class="cmt-thanks" id="thanks-${p.id}">Thanks! Your comment has been sent and is awaiting approval. 💬</div>
+          </div>
+        </div>
+      </article>`;
+    }).join('');
+
+    wire();
+  }
+
+  function wire(){
+    // Likes — anonymous, no email
+    feed.querySelectorAll('.like').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const s = likedSet();
+        const post = POSTS.find(p => p.id === id);
+        const span = btn.querySelector('.likeN');
+        if (s.has(id)){ s.delete(id); btn.classList.remove('liked'); span.textContent = post.base; }
+        else { s.add(id); btn.classList.add('liked'); span.textContent = post.base + 1;
+          const svg = btn.querySelector('svg'); svg.classList.remove('act__pop'); void svg.offsetWidth; svg.classList.add('act__pop'); }
+        saveLiked(s);
+      });
+    });
+
+    // Toggle comments
+    feed.querySelectorAll('.toggle-cmt').forEach(btn => {
+      btn.addEventListener('click', () => document.getElementById('cmts-' + btn.dataset.id).classList.toggle('open'));
+    });
+
+    // Show email gate as soon as the user starts typing a comment
+    feed.querySelectorAll('.cmt-form textarea').forEach(ta => {
+      ta.addEventListener('input', () => {
+        const g = document.getElementById('gate-' + ta.dataset.id);
+        if (ta.value.trim().length > 0) g.classList.add('show'); else g.classList.remove('show');
+      });
+    });
+
+    // Post comment -> goes to admin queue (demo: just confirm "awaiting approval")
+    feed.querySelectorAll('.post-cmt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const wrap = document.getElementById('cmts-' + id);
+        const ta = wrap.querySelector('textarea');
+        const name = wrap.querySelector('[data-f=name]').value.trim();
+        const email = wrap.querySelector('[data-f=email]').value.trim();
+        if (!ta.value.trim()){ ta.focus(); return; }
+        if (!name || !email || !/.+@.+\..+/.test(email)){
+          wrap.querySelector(email ? '[data-f=name]' : '[data-f=email]').focus();
+          return;
+        }
+        // reset the form + show pending-approval confirmation
+        ta.value = '';
+        document.getElementById('gate-' + id).classList.remove('show');
+        document.getElementById('thanks-' + id).classList.add('show');
+        setTimeout(() => document.getElementById('thanks-' + id).classList.remove('show'), 6000);
+      });
+    });
+  }
+
+  render();
+});
+</script>
+</body>
+</html>
