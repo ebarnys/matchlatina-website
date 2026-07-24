@@ -505,11 +505,7 @@
     }
 
     /* ── WOMEN ── */
-    .women { background: var(--bg-alt); padding: 110px 24px; }
-    .women__grid {
-      max-width: 1200px; margin: 0 auto 48px;
-      display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
-    }
+    .women { background: var(--bg-alt); padding: 100px 16px; }
 
     .pcard {
       position: relative; overflow: hidden; border-radius: 12px;
@@ -563,6 +559,18 @@
       color: var(--dark); background: var(--gold-grad);
       padding: 8px 18px; border-radius: 20px; letter-spacing: 0.08em; text-transform: uppercase;
     }
+
+    /* full-width profile wall (static, marquee-like tiles) */
+    .wwall { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin: 0 0 44px; }
+    .wtile { position: relative; display: block; border-radius: 14px; overflow: hidden; aspect-ratio: 4/5; box-shadow: 0 6px 18px rgba(16,43,61,0.12); background: #0a1a25; transition: transform var(--t); }
+    .wtile:hover { transform: translateY(-4px); }
+    .wtile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+    .wtile:hover img { transform: scale(1.06); }
+    .wtile__badge { position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4)); }
+    .wtile__ov { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(8,20,28,0.9) 0%, rgba(8,20,28,0.35) 55%, transparent 100%); padding: 30px 12px 11px; }
+    .wtile__name { font-family: var(--serif); font-size: 15px; font-weight: 700; color: #fff; line-height: 1.1; }
+    .wtile__city { display: flex; align-items: center; gap: 4px; font-family: var(--sans); font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 3px; }
+    .wtile__city svg { width: 11px; height: 11px; stroke: var(--gold-h); fill: none; stroke-width: 2; flex-shrink: 0; }
 
     .women__cta { text-align: center; }
     .women__more { font-family: var(--sans); font-size: 15px; color: var(--muted); margin-top: 16px; }
@@ -773,18 +781,21 @@
 
     .tcard__body { padding: 18px 18px 20px; display: flex; flex-direction: column; flex: 1; }
 
-    /* price */
-    .tcard__price {
-      display: flex; align-items: baseline; gap: 6px; margin-bottom: 14px;
+    /* price gate — hidden until inquiry */
+    .tcard__price-lock {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+      padding: 12px 14px; border-radius: 12px;
+      background: rgba(212,73,95,0.07); border: 1px solid rgba(212,73,95,0.22);
+      transition: all var(--t);
     }
-    .tcard__price-num {
-      font-family: var(--serif); font-size: 28px; font-weight: 700;
-      background: var(--gold-grad); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; background-clip: text;
-      line-height: 1;
+    .tcard__price-lock:hover { background: rgba(212,73,95,0.13); border-color: var(--gold); }
+    .tcard__price-see {
+      font-family: var(--serif); font-size: 19px; font-weight: 700; color: var(--gold);
+      white-space: nowrap;
     }
-    .tcard__price-label {
-      font-family: var(--sans); font-size: 11px; color: var(--light);
+    .tcard__price-hint {
+      font-family: var(--sans); font-size: 12.5px; font-weight: 600; color: var(--muted);
+      line-height: 1.3;
     }
 
     /* dates + duration */
@@ -1052,7 +1063,6 @@
     <ul class="nav__links">
       <li><a href="#why">About</a></li>
       <li><a href="#how">How It Works</a></li>
-      <li><a href="#women">Women</a></li>
       <li><a href="feed.html">Feed</a></li>
       <li><a href="#tours">Tours</a></li>
       <li><a href="#stories">Success Stories</a></li>
@@ -1061,12 +1071,8 @@
     </ul>
     <div class="nav__right">
       <div class="lang-sw">
-        <button class="lang-sw__btn active ls-opt" data-lang="en">
-          <span class="lang-sw__flag">🇺🇸</span> EN
-        </button>
-        <div class="lang-sw__div"></div>
-        <button class="lang-sw__btn ls-opt" data-lang="es">
-          <span class="lang-sw__flag">🇪🇸</span> ES
+        <button class="lang-sw__btn active lang-toggle-btn" data-lang="en" aria-label="Switch language">
+          <span class="lang-sw__flag lg-flag">🇺🇸</span> <span class="lg-code">EN</span>
         </button>
       </div>
       <a href="#women" class="btn-outline-white" style="padding:9px 18px;font-size:13px;border-radius:8px;white-space:nowrap;">Meet the Women →</a>
@@ -1083,15 +1089,13 @@
   <button class="ov-close" id="ovClose">×</button>
   <a href="#why" onclick="document.getElementById('navOverlay').classList.remove('open')">About</a>
   <a href="#how" onclick="document.getElementById('navOverlay').classList.remove('open')">How It Works</a>
-  <a href="#women" onclick="document.getElementById('navOverlay').classList.remove('open')">Women</a>
   <a href="feed.html">Feed</a>
   <a href="#tours" onclick="document.getElementById('navOverlay').classList.remove('open')">Tours</a>
   <a href="#stories" onclick="document.getElementById('navOverlay').classList.remove('open')">Success Stories</a>
   <a href="#faq" onclick="document.getElementById('navOverlay').classList.remove('open')">FAQ</a>
   <a href="women.html">For Women</a>
   <div class="ov-lang">
-    <button class="active ls-opt" data-lang="en"><span>🇺🇸</span> EN</button>
-    <button class="ls-opt" data-lang="es"><span>🇪🇸</span> ES</button>
+    <button class="active lang-toggle-btn" data-lang="en"><span class="lg-flag">🇺🇸</span> <span class="lg-code">EN</span></button>
   </div>
   <a href="#tours" class="btn-gold" style="margin-top:8px;" onclick="document.getElementById('navOverlay').classList.remove('open')">Join the Next Tour →</a>
 </div>
@@ -1100,7 +1104,7 @@
      PROFILE MARQUEE (under nav)
 ════════════════════════════════════════ -->
 <a class="pmarquee pmarquee--top" href="all-women.html" aria-label="Browse all women">
-  <div class="pmarquee__label"><strong>142</strong>&nbsp;members online right now</div>
+  <div class="pmarquee__label"><strong>142</strong>&nbsp;available women online now</div>
   <div class="pmarquee__track" id="pmTrack"></div>
 </a>
 
@@ -1112,7 +1116,7 @@
   <div class="hero__ov"></div>
   <div class="hero__content">
     <div class="hero__label"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.6 5.7 21l2.3-7.2-6-4.4h7.6z"/></svg>With Contact Guarantee</div>
-    <h1>Meet Beautiful,<br>Verified Colombian Women.</h1>
+    <h1>Meet Beautiful Colombian Women.<br>In Person.</h1>
     <p class="hero__sub">The next level of online dating — real introductions, verified profiles and in-person tours in Colombia.</p>
     <div class="hero__btns">
       <a href="#tours" class="btn-gold">Join the Next Tour →</a>
@@ -1276,119 +1280,7 @@
     <h2>Verified Colombian Women</h2>
     <p>Every profile is personally verified by our team in Colombia. Real women, real intentions — open to meaningful connections with the right man.</p>
   </div>
-  <div class="women__grid">
-
-    <a href="profile.html?id=sofia" class="pcard" data-aos="fade-up" data-aos-delay="0">
-      <div class="pcard__img"><img src="images/pipe-gil-cZKRzB3b4BY-unsplash.jpg" alt="Sofia" loading="lazy"></div>
-      <svg class="pcard__badge" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 2.5l3.9 3.3 5.1-.7 1.8 4.8 4.5 2.6-.7 5.1 3.3 3.9-3.3 3.9.7 5.1-4.5 2.6-1.8 4.8-5.1-.7-3.9 3.3-3.9-3.3-5.1.7-1.8-4.8-4.5-2.6.7-5.1L2.5 20l3.3-3.9-.7-5.1 4.5-2.6 1.8-4.8 5.1.7z" fill="#1D9BF0"/><path d="M13 20.5l4.5 4.5 9.5-9.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div class="pcard__overlay">
-        <div class="pcard__name">Sofia, 24</div>
-        <div class="pcard__meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Medellín</div>
-        <div class="pcard__tags"><span class="tag">Bilingual</span><span class="tag">Wants Family</span></div>
-      </div>
-      <div class="pcard__unlock"><span>View Profile</span></div>
-    </a>
-
-    <a href="profile.html?id=valentina" class="pcard" data-aos="fade-up" data-aos-delay="60">
-      <div class="pcard__img"><img src="images/garin-chadwick-1SKjtoZqwBo-unsplash.jpg" alt="Valentina" loading="lazy"></div>
-      <svg class="pcard__badge" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 2.5l3.9 3.3 5.1-.7 1.8 4.8 4.5 2.6-.7 5.1 3.3 3.9-3.3 3.9.7 5.1-4.5 2.6-1.8 4.8-5.1-.7-3.9 3.3-3.9-3.3-5.1.7-1.8-4.8-4.5-2.6.7-5.1L2.5 20l3.3-3.9-.7-5.1 4.5-2.6 1.8-4.8 5.1.7z" fill="#1D9BF0"/><path d="M13 20.5l4.5 4.5 9.5-9.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div class="pcard__overlay">
-        <div class="pcard__name">Valentina, 26</div>
-        <div class="pcard__meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Cartagena</div>
-        <div class="pcard__tags"><span class="tag">Fluent English</span><span class="tag">No Children</span></div>
-      </div>
-      <div class="pcard__unlock"><span>View Profile</span></div>
-    </a>
-
-    <a href="profile.html?id=camila" class="pcard" data-aos="fade-up" data-aos-delay="120">
-      <div class="pcard__img"><img src="images/david-gabric-SRJIMp_UKUQ-unsplash.jpg" alt="Camila" loading="lazy"></div>
-      <svg class="pcard__badge" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 2.5l3.9 3.3 5.1-.7 1.8 4.8 4.5 2.6-.7 5.1 3.3 3.9-3.3 3.9.7 5.1-4.5 2.6-1.8 4.8-5.1-.7-3.9 3.3-3.9-3.3-5.1.7-1.8-4.8-4.5-2.6.7-5.1L2.5 20l3.3-3.9-.7-5.1 4.5-2.6 1.8-4.8 5.1.7z" fill="#1D9BF0"/><path d="M13 20.5l4.5 4.5 9.5-9.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div class="pcard__overlay">
-        <div class="pcard__name">Camila, 29</div>
-        <div class="pcard__meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Bogotá</div>
-        <div class="pcard__tags"><span class="tag">Professional</span><span class="tag">Bilingual</span></div>
-      </div>
-      <div class="pcard__unlock"><span>View Profile</span></div>
-    </a>
-
-    <a href="profile.html?id=daniela" class="pcard" data-aos="fade-up" data-aos-delay="180">
-      <div class="pcard__img"><img src="images/joshua-rawson-harris-6PROVhY2Yq4-unsplash.jpg" alt="Daniela" loading="lazy"></div>
-      <svg class="pcard__badge" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 2.5l3.9 3.3 5.1-.7 1.8 4.8 4.5 2.6-.7 5.1 3.3 3.9-3.3 3.9.7 5.1-4.5 2.6-1.8 4.8-5.1-.7-3.9 3.3-3.9-3.3-5.1.7-1.8-4.8-4.5-2.6.7-5.1L2.5 20l3.3-3.9-.7-5.1 4.5-2.6 1.8-4.8 5.1.7z" fill="#1D9BF0"/><path d="M13 20.5l4.5 4.5 9.5-9.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div class="pcard__overlay">
-        <div class="pcard__name">Daniela, 27</div>
-        <div class="pcard__meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Medellín</div>
-        <div class="pcard__tags"><span class="tag">Wants Family</span><span class="tag">Bilingual</span></div>
-      </div>
-      <div class="pcard__unlock"><span>View Profile</span></div>
-    </a>
-
-    <a href="profile.html?id=mariana" class="pcard" data-aos="fade-up" data-aos-delay="240">
-      <div class="pcard__img"><img src="images/michael-fischer-Z-_pzonptuU-unsplash.jpg" alt="Mariana" loading="lazy"></div>
-      <svg class="pcard__badge" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 2.5l3.9 3.3 5.1-.7 1.8 4.8 4.5 2.6-.7 5.1 3.3 3.9-3.3 3.9.7 5.1-4.5 2.6-1.8 4.8-5.1-.7-3.9 3.3-3.9-3.3-5.1.7-1.8-4.8-4.5-2.6.7-5.1L2.5 20l3.3-3.9-.7-5.1 4.5-2.6 1.8-4.8 5.1.7z" fill="#1D9BF0"/><path d="M13 20.5l4.5 4.5 9.5-9.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div class="pcard__overlay">
-        <div class="pcard__name">Mariana, 31</div>
-        <div class="pcard__meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Barranquilla</div>
-        <div class="pcard__tags"><span class="tag">University</span><span class="tag">Catholic</span></div>
-      </div>
-      <div class="pcard__unlock"><span>View Profile</span></div>
-    </a>
-
-    <a href="profile.html?id=isabella" class="pcard" data-aos="fade-up" data-aos-delay="0">
-      <div class="pcard__img"><img src="images/darren-lawrence-VIpDxjeD6xM-unsplash.jpg" alt="Isabella" loading="lazy"></div>
-      <svg class="pcard__badge" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 2.5l3.9 3.3 5.1-.7 1.8 4.8 4.5 2.6-.7 5.1 3.3 3.9-3.3 3.9.7 5.1-4.5 2.6-1.8 4.8-5.1-.7-3.9 3.3-3.9-3.3-5.1.7-1.8-4.8-4.5-2.6.7-5.1L2.5 20l3.3-3.9-.7-5.1 4.5-2.6 1.8-4.8 5.1.7z" fill="#1D9BF0"/><path d="M13 20.5l4.5 4.5 9.5-9.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div class="pcard__overlay">
-        <div class="pcard__name">Isabella, 25</div>
-        <div class="pcard__meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Barranquilla</div>
-        <div class="pcard__tags"><span class="tag">Open to Relocate</span><span class="tag">Bilingual</span></div>
-      </div>
-      <div class="pcard__unlock"><span>View Profile</span></div>
-    </a>
-
-    <a href="profile.html?id=lucia" class="pcard" data-aos="fade-up" data-aos-delay="60">
-      <div class="pcard__img"><img src="images/david-gabric-FG8xf4A_ybg-unsplash.jpg" alt="Lucia" loading="lazy"></div>
-      <svg class="pcard__badge" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 2.5l3.9 3.3 5.1-.7 1.8 4.8 4.5 2.6-.7 5.1 3.3 3.9-3.3 3.9.7 5.1-4.5 2.6-1.8 4.8-5.1-.7-3.9 3.3-3.9-3.3-5.1.7-1.8-4.8-4.5-2.6.7-5.1L2.5 20l3.3-3.9-.7-5.1 4.5-2.6 1.8-4.8 5.1.7z" fill="#1D9BF0"/><path d="M13 20.5l4.5 4.5 9.5-9.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div class="pcard__overlay">
-        <div class="pcard__name">Lucia, 28</div>
-        <div class="pcard__meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Medellín</div>
-        <div class="pcard__tags"><span class="tag">University</span><span class="tag">Wants Family</span></div>
-      </div>
-      <div class="pcard__unlock"><span>View Profile</span></div>
-    </a>
-
-    <a href="profile.html?id=andrea" class="pcard" data-aos="fade-up" data-aos-delay="120">
-      <div class="pcard__img"><img src="images/christophe-dusabe-x-0a7bB0Ees-unsplash.jpg" alt="Andrea" loading="lazy"></div>
-      <svg class="pcard__badge" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 2.5l3.9 3.3 5.1-.7 1.8 4.8 4.5 2.6-.7 5.1 3.3 3.9-3.3 3.9.7 5.1-4.5 2.6-1.8 4.8-5.1-.7-3.9 3.3-3.9-3.3-5.1.7-1.8-4.8-4.5-2.6.7-5.1L2.5 20l3.3-3.9-.7-5.1 4.5-2.6 1.8-4.8 5.1.7z" fill="#1D9BF0"/><path d="M13 20.5l4.5 4.5 9.5-9.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div class="pcard__overlay">
-        <div class="pcard__name">Andrea, 30</div>
-        <div class="pcard__meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Bogotá</div>
-        <div class="pcard__tags"><span class="tag">Professional</span><span class="tag">No Children</span></div>
-      </div>
-      <div class="pcard__unlock"><span>View Profile</span></div>
-    </a>
-
-    <a href="profile.html?id=paola" class="pcard" data-aos="fade-up" data-aos-delay="180">
-      <div class="pcard__img"><img src="images/gabriel-porras-j_GgMDWiMJU-unsplash.jpg" alt="Paola" loading="lazy"></div>
-      <svg class="pcard__badge" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 2.5l3.9 3.3 5.1-.7 1.8 4.8 4.5 2.6-.7 5.1 3.3 3.9-3.3 3.9.7 5.1-4.5 2.6-1.8 4.8-5.1-.7-3.9 3.3-3.9-3.3-5.1.7-1.8-4.8-4.5-2.6.7-5.1L2.5 20l3.3-3.9-.7-5.1 4.5-2.6 1.8-4.8 5.1.7z" fill="#1D9BF0"/><path d="M13 20.5l4.5 4.5 9.5-9.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div class="pcard__overlay">
-        <div class="pcard__name">Paola, 23</div>
-        <div class="pcard__meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Santa Marta</div>
-        <div class="pcard__tags"><span class="tag">Bilingual</span><span class="tag">Adventurous</span></div>
-      </div>
-      <div class="pcard__unlock"><span>View Profile</span></div>
-    </a>
-
-    <a href="profile.html?id=natalia" class="pcard" data-aos="fade-up" data-aos-delay="240">
-      <div class="pcard__img"><img src="images/carlos-andres-gomez-fEaI7uAYBtM-unsplash.jpg" alt="Natalia" loading="lazy"></div>
-      <svg class="pcard__badge" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 2.5l3.9 3.3 5.1-.7 1.8 4.8 4.5 2.6-.7 5.1 3.3 3.9-3.3 3.9.7 5.1-4.5 2.6-1.8 4.8-5.1-.7-3.9 3.3-3.9-3.3-5.1.7-1.8-4.8-4.5-2.6.7-5.1L2.5 20l3.3-3.9-.7-5.1 4.5-2.6 1.8-4.8 5.1.7z" fill="#1D9BF0"/><path d="M13 20.5l4.5 4.5 9.5-9.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div class="pcard__overlay">
-        <div class="pcard__name">Natalia, 32</div>
-        <div class="pcard__meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Medellín</div>
-        <div class="pcard__tags"><span class="tag">Doctor</span><span class="tag">Fluent English</span></div>
-      </div>
-      <div class="pcard__unlock"><span>View Profile</span></div>
-    </a>
-
-  </div>
+  <div class="wwall" id="wwall"></div>
   <div class="women__cta" data-aos="fade-up">
     <a href="all-women.html" class="btn-outline-gold">I want to see all women →</a>
     <p class="women__more"><strong>+ 1,800</strong> more verified women in our full directory</p>
@@ -1458,6 +1350,9 @@
   </div>
   <div id="toursCalView" style="display:none;">
     <div class="tours__cal" id="toursCal"></div>
+  </div>
+  <div style="text-align:center;margin-top:40px;" data-aos="fade-up">
+    <a href="tours.html" class="btn-outline-gold">See all tours &amp; full schedule →</a>
   </div>
 </section>
 
@@ -1921,8 +1816,9 @@
     <div class="footer__col">
       <h4>Navigate</h4>
       <ul>
-        <li><a href="#women">Women</a></li>
-        <li><a href="#tours">Tours</a></li>
+        <li><a href="all-women.html">Women</a></li>
+        <li><a href="tours.html">Tours</a></li>
+        <li><a href="feed.html">Feed</a></li>
         <li><a href="women.html">For Women</a></li>
         <li><a href="affiliate.html">Affiliate</a></li>
       </ul>
@@ -2161,10 +2057,10 @@
           <div class="tcard__dur">
             ${DURATIONS.map(d => `<button data-dur="${d.key}" class="${d.key === dur ? 'active' : ''}">${d.label}</button>`).join('')}
           </div>
-          <div class="tcard__price">
-            <span class="tcard__price-num">${money(PRICES[dur])}</span>
-            <span class="tcard__price-label">per person</span>
-          </div>
+          <a href="#" class="tcard__price-lock open-modal">
+            <span class="tcard__price-see">🔒 See price</span>
+            <span class="tcard__price-hint">It's cheaper than you think →</span>
+          </a>
           <div class="tcard__note js-note" style="display:none;">${noteText(dur)}</div>
           <div class="tcard__meta">
             <div class="tcard__meta-row">${calSvg}<span class="js-daterange">${scheduleText(t.m, t.start, dur)}</span></div>
@@ -2185,7 +2081,6 @@
         card.dataset.dur = dur;
         card.querySelectorAll('.tcard__dur button').forEach(b => b.classList.toggle('active', b === btn));
         const m = +card.dataset.m, start = +card.dataset.start;
-        card.querySelector('.tcard__price-num').textContent = money(PRICES[dur]);
         card.querySelector('.js-daterange').textContent = scheduleText(m, start, dur);
         const durLabel = DURATIONS.find(d => d.key === dur).label;
         card.querySelector('.js-durrow').textContent = `${durLabel} · ${HOTEL[dur]}`;
@@ -2292,15 +2187,19 @@
     });
   });
 
-  // Language switcher (visual only)
-  document.querySelectorAll('.lang-sw').forEach(sw => {
-    sw.querySelectorAll('.ls-opt').forEach(opt => {
-      opt.style.cursor = 'pointer';
-      opt.addEventListener('click', () => {
-        sw.querySelectorAll('.ls-opt').forEach(o => o.classList.remove('active'));
-        opt.classList.add('active');
-      });
+  // Language toggle (visual only) — one button flips EN <-> ES
+  const LANGS = { en: { flag: '🇺🇸', code: 'EN' }, es: { flag: '🇪🇸', code: 'ES' } };
+  let curLang = 'en';
+  const applyLang = l => {
+    curLang = l;
+    document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
+      btn.dataset.lang = l;
+      const f = btn.querySelector('.lg-flag'); if (f) f.textContent = LANGS[l].flag;
+      const c = btn.querySelector('.lg-code'); if (c) c.textContent = LANGS[l].code;
     });
+  };
+  document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(curLang === 'en' ? 'es' : 'en'));
   });
 
   /* ── PROFILE MARQUEE ── */
@@ -2309,6 +2208,28 @@
     const imgs=['pipe-gil-cZKRzB3b4BY-unsplash.jpg','garin-chadwick-1SKjtoZqwBo-unsplash.jpg','david-gabric-SRJIMp_UKUQ-unsplash.jpg','joshua-rawson-harris-6PROVhY2Yq4-unsplash.jpg','michael-fischer-Z-_pzonptuU-unsplash.jpg','darren-lawrence-VIpDxjeD6xM-unsplash.jpg','david-gabric-FG8xf4A_ybg-unsplash.jpg','christophe-dusabe-x-0a7bB0Ees-unsplash.jpg','gabriel-porras-j_GgMDWiMJU-unsplash.jpg','carlos-andres-gomez-fEaI7uAYBtM-unsplash.jpg'];
     const one=imgs.map(f=>`<div class="pmarquee__item"><img src="images/${f}" alt="" loading="lazy"></div>`).join('');
     track.innerHTML=one+one; // duplicated for seamless loop
+  })();
+
+  /* ── FEATURED WOMEN WALL (full-width, static) ── */
+  (function(){
+    const wall=document.getElementById('wwall'); if(!wall) return;
+    const pin='<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+    const badge='<svg class="wtile__badge" viewBox="0 0 40 40" fill="none"><path d="M20 2.5l3.9 3.3 5.1-.7 1.8 4.8 4.5 2.6-.7 5.1 3.3 3.9-3.3 3.9.7 5.1-4.5 2.6-1.8 4.8-5.1-.7-3.9 3.3-3.9-3.3-5.1.7-1.8-4.8-4.5-2.6.7-5.1L2.5 20l3.3-3.9-.7-5.1 4.5-2.6 1.8-4.8 5.1.7z" fill="#1D9BF0"/><path d="M13 20.5l4.5 4.5 9.5-9.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const W=[
+      {id:'sofia',img:'pipe-gil-cZKRzB3b4BY-unsplash.jpg',n:'Sofia',a:24,c:'Medellín'},
+      {id:'valentina',img:'garin-chadwick-1SKjtoZqwBo-unsplash.jpg',n:'Valentina',a:26,c:'Cartagena'},
+      {id:'camila',img:'david-gabric-SRJIMp_UKUQ-unsplash.jpg',n:'Camila',a:29,c:'Bogotá'},
+      {id:'daniela',img:'joshua-rawson-harris-6PROVhY2Yq4-unsplash.jpg',n:'Daniela',a:27,c:'Medellín'},
+      {id:'mariana',img:'michael-fischer-Z-_pzonptuU-unsplash.jpg',n:'Mariana',a:31,c:'Barranquilla'},
+      {id:'isabella',img:'darren-lawrence-VIpDxjeD6xM-unsplash.jpg',n:'Isabella',a:25,c:'Barranquilla'},
+      {id:'lucia',img:'david-gabric-FG8xf4A_ybg-unsplash.jpg',n:'Lucia',a:28,c:'Medellín'},
+      {id:'andrea',img:'christophe-dusabe-x-0a7bB0Ees-unsplash.jpg',n:'Andrea',a:30,c:'Bogotá'},
+      {id:'paola',img:'gabriel-porras-j_GgMDWiMJU-unsplash.jpg',n:'Paola',a:23,c:'Santa Marta'},
+      {id:'natalia',img:'carlos-andres-gomez-fEaI7uAYBtM-unsplash.jpg',n:'Natalia',a:32,c:'Medellín'},
+    ];
+    // repeat the pool so the wall fills 2–3 full-width rows
+    const tiles=[...W,...W];
+    wall.innerHTML=tiles.map(w=>`<a href="profile.html?id=${w.id}" class="wtile"><img src="images/${w.img}" alt="${w.n}" loading="lazy">${badge}<div class="wtile__ov"><div class="wtile__name">${w.n}, ${w.a}</div><div class="wtile__city">${pin}${w.c}</div></div></a>`).join('');
   })();
 
   /* ── CONSULTATION MODAL ── */
